@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <FreeLunchLabs_ConstantContact>
+            <active>true</active>
+            <codePool>local</codePool>
+        </FreeLunchLabs_ConstantContact>
+    </modules>
+</config>

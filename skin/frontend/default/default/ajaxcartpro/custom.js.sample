@@ -1,0 +1,34 @@
+{
+    miniWishlist: {
+        selectors: ['.block-wishlist'],
+        parentSelector: null
+    },
+    options: {
+        selectors: ['#acp-configurable-block'],
+        parentSelector: null
+    },
+    sidebar: {
+        selectors: null,
+        parentSelector: null
+    },
+    topLinks: {
+        selectors: null,
+        parentSelector: ['.header .quick-access>', '.toplinks-bar']
+    },
+    cart: {
+        selectors: ['.col-main', '#main'],
+        parentSelector: null
+    },
+    wishlist: {
+        selectors: ['.my-account'],
+        parentSelector: null
+    },
+    addProductConfirmation: {
+        selectors: null,
+        parentSelector: null
+    },
+    removeProductConfirmation: {
+        selectors: null,
+        parentSelector: null
+    }
+}

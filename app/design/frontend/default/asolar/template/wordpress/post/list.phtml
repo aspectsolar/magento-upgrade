@@ -1,0 +1,38 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $posts = $this->getPosts() ?>
+
+
+<?php $_columnCount = 4; $i=0; ?>
+
+<div class="post-list">
+
+
+
+<?php if (count($posts) > 0): ?>
+	<?php foreach($posts as $post): ?>
+		 <?php if ($i++%$_columnCount==0): ?>
+		<ul>
+		<?php endif ?>
+			
+				<li class="item<?php if ($post->isSticky()): ?> featured<?php endif; ?> <?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+					<?php echo $this->getPostRenderer($post)->toHtml() ?>
+				</li>
+			
+		<?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+        </ul>
+        <?php endif ?>
+	<?php endforeach; ?>
+		<script type="text/javascript">decorateList($('post-list'));</script>
+		
+	</div>
+	<div class="clear"></div>
+	<?php echo $this->getPagerHtml() ?>
+	<div class="clear"></div>
+<?php endif; ?>

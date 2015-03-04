@@ -1,0 +1,58 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<div class="footer-container">
+	<div class="footer xyzxyz">
+		<div style="float:left;padding-left:9px;margin:0px;width:65%" class="fleft">
+			<?php echo $this->getChildHtml() ?>	
+
+			<div class="clear"></div>
+			<div class="copyright"><address>Copyright &copy; <?php echo date("Y") ?> <?php echo $this->getCopyright() ?></address></div>
+		</div>
+		<div style="width:auto;float:right;text-align:right;margin:0px;width:27%;" class="last fright">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('social_icons_footer')->toHtml() ?>
+			<!-- Google Code for Remarketing Tag -->
+<!--------------------------------------------------
+Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. See more information and instructions on how to setup the tag on: http://google.com/ads/remarketingsetup
+--------------------------------------------------->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 988587913;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/988587913/?value=0&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,22 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<div class="page-title blog-title <?php if (!$this->isFirstPage()): ?>not-<?php endif; ?>first-page<?php if ($this->isFirstPage() && $this->getTagLine()): ?> with-tagline<?php endif; ?>">
+	<span class="cmstitle">Blog</span>
+</div>
+
+<div class="inner-fullwidth blog-home">
+ 
+	<div class="title">
+		<h1>Recent News</h1>
+		
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('block_social_icons')->toHtml() ?>
+	</div>
+	
+	<?php echo $this->getPostListHtml() ?>
+</div>

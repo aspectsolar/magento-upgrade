@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!-- /** * Magento 
+** NOTICE 
+** This source file a part of Kash_Orders2csvpro extension 
+* all rights to this modul belongs to kash.com 
+*
+* @category Kash 
+* @package Kash_Orders2csvpro 
+* @copyright Copyright (c) 2011 kash (http://www.kash.com) 
+*/ -->
+<!--<config>
+	<menu>
+		<kash>
+			<children>
+				<orders2csvpro translate="title" module="orders2csvpro">
+					<title>Orders2CSV PRO</title>
+					<sort_order>900</sort_order>
+					<children>
+						<file translate="title" module="orders2csvpro">
+							<title>File structure setup</title>
+							<sort_order>100</sort_order>
+							<action>orders2csvpro/adminhtml_file</action>
+						</file>
+						<schedule translate="title" module="orders2csvpro">
+							<title>Schedule</title>
+							<sort_order>200</sort_order>
+							<action>orders2csvpro/adminhtml_schedule</action>
+						</schedule>
+						<help translate="title" module="orders2csvpro">
+							<title>Help</title>
+							<sort_order>300</sort_order>
+							<action>orders2csvpro/adminhtml_help</action>
+						</help>
+					</children>
+				</orders2csvpro>
+			</children>
+		</kash>
+	</menu>
+	<acl>
+		<resources>
+			<all>
+				<title>Allow Everything</title>
+			</all>
+			<admin>
+				<children>
+					<kash>
+						<children>
+							<orders2csvpro>
+								<title>Orders2SCV PRO Module</title>
+								<children>
+									<file>
+										<title>File structure setup</title>
+									</file>
+									<schedule>
+										<title>Schedule</title>
+									</schedule>
+									<help>
+										<title>Help</title>
+									</help>
+								</children>
+							</orders2csvpro>
+						</children>
+					</kash>
+					<system>
+						<children>
+							<config>
+								<children>
+									<orders2csvpro translate="title" module="orders2csvpro">
+										<title>kash Orders2CSV PRO section</title>
+									</orders2csvpro>
+								</children>
+							</config>
+						</children>
+					</system>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>-->
+

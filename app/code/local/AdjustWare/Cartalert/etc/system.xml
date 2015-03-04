@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <catalog>
+            <groups>
+                <adjcartalert translate="label comment" module="adjcartalert">
+                    <label>Abandoned Carts Alerts</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>900</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <sending_enabled translate="label">
+                            <label>Send E-mails</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[If set to "No", alert emails will be generated, but won't be sent
+automatically, while manual sending will be allowed]]></comment>
+                        </sending_enabled>
+                        <identity translate="label">
+                            <label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </identity> 
+                        <delay translate="label">
+                            <label>First Delay Period (minutes)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The system will send the first follow up email after the above mentioned amount of minutes upon customer's last activity in the cart. Supported minimum is 10 minutes.]]></comment>
+                        </delay>
+                        <template translate="label">
+                            <label>First Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </template> 
+                        <delay2 translate="label">
+                            <label>Second Delay Period (hours)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The system will send the second follow up email after the above mentioned amount of hours upon customer's last activity in the cart.]]></comment>
+                        </delay2>
+                        <template2 translate="label">
+                            <label>Second Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </template2> 
+                        <delay3 translate="label">
+                            <label>Third Delay Period (hours)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The system will send the third follow up email after the above mentioned amount of hours upon customer's last activity in the cart.]]></comment>
+                        </delay3>
+                        <template3 translate="label">
+                            <label>Third Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </template3> 
+                        <stop_after_order translate="label">
+                            <label>Stop alerts sending once the recipient makes a purchase</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </stop_after_order>
+                        <stop_after_visit translate="label">
+                            <label>Stop alerts sending once the recipient clicks a link in an email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </stop_after_visit>
+                        <coupon_step translate="label">
+                            <label>Include coupon in</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adjcartalert/source_step</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </coupon_step>
+                        <coupon_type translate="label">
+                            <label>Discount type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adjcartalert/source_discount</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </coupon_type>
+                        <coupon_amount translate="label">
+                            <label>Discount amount</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </coupon_amount>
+                        <coupon_days translate="label">
+                            <label>Expire coupon in (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </coupon_days>
+                        <bcc>
+                            <label>BCC Email</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </bcc>
+                        <send_customer_group translate="label">
+                            <label>Disable sending for customer groups:</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </send_customer_group>
+                        <unsubscribe translate="label">
+                            <label>Unsubscribe action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adjcartalert/source_unsubscribe</source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </unsubscribe>
+                        <stchooser>
+                            <label>Choose order status</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>adjcartalert/system_config_source_status</source_model>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <comment><![CDATA[Orders with this status only will be used for sending alerts is delay period is reached.]]></comment>
+                        </stchooser>
+                        <timeout_order translate="label">
+                            <label>Period For Order To Considered As Abandoned (hours)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>175</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The system will send alerts if order has the selected status for this time.]]></comment>
+                        </timeout_order>
+                        <order_template translate="label">
+                            <label>First Abandoned Order Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_template> 
+                        <delay_order translate="label">
+                            <label>First Delay Period (hours)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The system will send the first follow up email after the above mentioned amount of hours upon last change in the order.]]></comment>
+                        </delay_order>
+                        <order_template2 translate="label">
+                            <label>Second Abandoned Order Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_template2> 
+                        <delay_order2 translate="label">
+                            <label>Second Delay Period (hours)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The system will send the second follow up email after the above mentioned amount of hours upon last change in the order.]]></comment>
+                        </delay_order2>
+                        <order_template3 translate="label">
+                            <label>Third Abandoned Order Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_template3> 
+                        <delay_order3 translate="label">
+                            <label>Third Delay Period (hours)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[The system will send the third follow up email after the above mentioned amount of hours upon last change in the order.]]></comment>
+                        </delay_order3>
+                    </fields>
+                </adjcartalert>
+            </groups>
+        </catalog>
+    </sections>
+</config>
+<!--
+/**
+ * Abandoned Carts Alerts Pro
+ *
+ * @category:    AdjustWare
+ * @package:     AdjustWare_Cartalert
+ * @version      3.3.1
+ * @license:     lMnQrjiQcxfPlbdwpFhsKslnzVPfVqO45IEZa4tVHs
+ * @copyright:   Copyright (c) 2014 AITOC, Inc. (http://www.aitoc.com)
+ */
+-->

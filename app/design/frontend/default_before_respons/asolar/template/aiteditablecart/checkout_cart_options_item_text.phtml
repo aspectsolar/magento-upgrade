@@ -1,0 +1,61 @@
+<?php
+/**
+ * Shopping Cart Editor
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aiteditablecart
+ * @version      2.1.2
+ * @license:     sJyHIXeWlUU1XYytqPDfVrCdIMO1jSQ6obarjJbRep
+ * @copyright:   Copyright (c) 2013 AITOC, Inc. (http://www.aitoc.com)
+ */
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_option = $this->getOption() ?>
+<dt><label><?php echo  $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire()): ?><span class="required">&nbsp;*</span><?php endif; ?></label>
+    <?php echo $this->getFormatedPrice() ?></dt>
+<dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
+
+<?php if ($_option->getItemId()) $iCurrentItemId = $_option->getItemId(); else $iCurrentItemId = uniqid('cart_item'); ?>
+
+<?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_FIELD): ?>
+<?php /* START AITOC COMMENTING 
+        <input type="text" onchange="opConfig.reloadPrice()" id="options_<?php echo $_option->getId() ?>_text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option" name="options[<?php echo $_option->getId() ?>]" value="<?php echo $_option->getCartValue() // aitoccc ?>" />
+FINISH AITOC COMMENTING */ ?>        
+
+        <input type="text" onchange="opConfig<?php echo $iCurrentItemId ?>.reloadPrice()" id="options_<?php echo $_option->getId() ?>_text" class="input-text<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option-<?php echo $iCurrentItemId ?>" name="cart[<?php echo $iCurrentItemId ?>][cart_options][<?php echo $_option->getId() ?>]" value="<?php echo $_option->getCartValue() // aitoc code ?>" />
+<?php elseif ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_AREA): ?>
+<?php /* START AITOC COMMENTING 
+        <textarea id="options_<?php echo $_option->getId() ?>_text" onchange="opConfig.reloadPrice()" class="<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option" name="options[<?php echo $_option->getId() ?>]" rows="5" cols="25"></textarea>
+FINISH AITOC COMMENTING */ ?>        
+        <textarea id="options_<?php echo $_option->getId() ?>_text" onchange="opConfig<?php echo $iCurrentItemId ?>.reloadPrice()" class="<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option-<?php echo $iCurrentItemId ?>" name="cart[<?php echo $iCurrentItemId ?>][cart_options][<?php echo $_option->getId() ?>]" rows="5" cols="25"><?php echo $_option->getCartValue() // aitoc code ?></textarea>
+<?php endif; ?>
+<?php if ($_option->getMaxCharacters()): ?>
+<p class="no-margin"><?php echo Mage::helper('catalog')->__('Maximum number of characters')?>: <strong><?php echo $_option->getMaxCharacters() ?></strong></p>
+<?php endif; ?>
+
+<input type="hidden" name="cart[<?php echo $iCurrentItemId ?>][cart_product_id]" value="<?php echo $_option->getProductId() ?>">        
+
+</dd>

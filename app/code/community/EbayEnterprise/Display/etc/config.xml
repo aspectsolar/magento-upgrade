@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2014 eBay Enterprise, Inc.
+
+  NOTICE OF LICENSE
+
+  This source file is subject to the eBay Enterprise
+  Magento Extensions End User License Agreement
+  that is bundled with this package in the file LICENSE.md.
+  It is also available through the world-wide-web at this URL:
+  http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.pdf
+
+  @copyright   Copyright (c) 2014 eBay Enterprise, Inc. (http://www.ebayenterprise.com/)
+  @license     http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.pdf  eBay Enterprise Magento Extensions End User License Agreement
+
+-->
+<config>
+	<modules>
+		<EbayEnterprise_Display>
+			<version>1.0.0.0</version>
+		</EbayEnterprise_Display>
+	</modules>
+	<default>
+		<marketing_solutions>
+			<eems_display>
+				<!-- This value can be changed in admin interface: -->
+				<product_feed_buffer>1024</product_feed_buffer>
+				<!-- These are values you can change in the admin interface: -->
+				<!-- Disabled by default: -->
+				<enabled>0</enabled>
+				<!-- Site Id provided by EEMS Display -->
+				<site_id />
+				<!-- Feed values you cannot change in the admin interface: -->
+				<feed>
+				<!-- Path is relative to Mage::getBase('var'); -->
+					<file_path>eems_display</file_path>
+					<image>
+						<!-- As per spec, 150x150: -->
+						<height>150</height>
+						<width>150</width>
+						<!-- 1 = do not distort, 150x150 is a constraint: -->
+						<keep_aspect_ratio>1</keep_aspect_ratio>
+					</image>
+				</feed>
+				<!-- Installation Email -->
+				<install_email>
+					<name>dl-ebayent-displaysupport@ebay.com</name>
+					<email>dl-ebayent-displaysupport@ebay.com</email>
+				</install_email>
+			</eems_display>
+		</marketing_solutions>
+	</default>
+	<global>
+		<template>
+			<email>
+				<eems_display_installed module="eems_display">
+					<file>eemsdisplay_installed.html</file>
+					<type>html</type>
+				</eems_display_installed>
+			</email>
+		</template>
+		<blocks>
+			<eems_display>
+				<class>EbayEnterprise_Display_Block</class>
+			</eems_display>
+		</blocks>
+		<helpers>
+			<eems_display>
+				<class>EbayEnterprise_Display_Helper</class>
+			</eems_display>
+		</helpers>
+		<models>
+			<eems_display>
+				<class>EbayEnterprise_Display_Model</class>
+			</eems_display>
+		</models>
+	</global>
+	<frontend>
+		<layout>
+			<updates>
+				<eems_display>
+					<file>eems_display.xml</file>
+				</eems_display>
+			</updates>
+		</layout>
+		<routers>
+			<eems_display>
+				<use>standard</use>
+				<args>
+					<module>EbayEnterprise_Display</module>
+					<!--
+						The frontName isn't particularly important.
+						The Product Feed Url displayed for the End User to provide
+						to EEMS Display comes here to figure it out.
+						This is the only place you need to specify it.
+					 -->
+					<frontName>eems-dpf</frontName>
+				</args>
+			</eems_display>
+		</routers>
+	</frontend>
+	<crontab>
+		<jobs>
+			<eems_display_products_feed>
+				<schedule><cron_expr>0 */3 * * *</cron_expr>
+				</schedule>
+				<run><model>eems_display/products::export</model></run>
+			</eems_display_products_feed>
+		</jobs>
+	</crontab>
+	<phpunit>
+		<suite>
+			<modules>
+				<EbayEnterprise_Display/>
+			</modules>
+		</suite>
+	</phpunit>
+</config>

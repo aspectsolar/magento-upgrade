@@ -1,0 +1,21 @@
+<?php
+/**
+ * Shopping Cart Editor
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aiteditablecart
+ * @version      2.1.2
+ * @license:     sJyHIXeWlUU1XYytqPDfVrCdIMO1jSQ6obarjJbRep
+ * @copyright:   Copyright (c) 2013 AITOC, Inc. (http://www.aitoc.com)
+ */
+if(Mage::getStoreConfig('checkout/sce/ajax_mode')): ?>
+<script type="text/javascript">
+//<![CDATA[
+    cart = new AitocCart('.product-options', '.qty', '<?php echo $this->getUrl('aiteditablecart/cart/updatePost', array('_secure'=>false)) ?>');
+//]]>
+</script>
+    
+<div id="loading-mask" style="display: none;">
+<p class="loader" id="loading_mask_loader"><img src="<?php echo $this->getSkinUrl('images/aitoc-aiteditablecart-ajax-loader.gif')?>" alt="Loading..."><br>Please wait...</p>
+</div>
+<?php endif; ?>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<config>
+	<menu>
+		    <newsletter>
+                <children>
+                    <adjcartalert translate="title" module="adjcartalert">
+                        <title>Abandoned Carts Alerts</title>
+                        <sort_order>100</sort_order>
+                        <children>
+                            <alerts translate="title" module="adjcartalert">
+                                <title>Pending Alerts</title>
+                                <action>adjcartalert/adminhtml_cartalert</action>
+                            </alerts>
+                            <history translate="title" module="adjcartalert">
+                                <title>History</title>
+                                <action>adjcartalert/adminhtml_history</action>
+                            </history>
+                            <stoplist translate="title" module="adjcartalert">
+                                <title>Stoplist</title>
+                                <action>adjcartalert/adminhtml_stoplist</action>
+                            </stoplist>
+                        </children>
+                    </adjcartalert>
+                </children>
+            </newsletter>
+		</menu>
+		
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+            		    <newsletter>
+                            <children>
+                                <adjcartalert translate="title">
+                                    <title>Abandoned Carts Alerts</title>
+                                    <sort_order>100</sort_order>
+                                    <children>
+                                        <alerts translate="title" module="adjcartalert">
+                                            <title>Pending Alerts</title>
+                                        </alerts>
+                                        <history translate="title" module="adjcartalert">
+                                            <title>History</title>
+                                        </history>
+                                        <stoplist translate="title" module="adjcartalert">
+                                            <title>Stoplist</title>
+                                        </stoplist>
+                                    </children>
+                                </adjcartalert>
+                            </children>
+                        </newsletter>
+                    </children>
+                </admin>
+            </resources>
+        </acl> 
+</config>
+
+<!--
+/**
+ * Abandoned Carts Alerts Pro
+ *
+ * @category:    AdjustWare
+ * @package:     AdjustWare_Cartalert
+ * @version      3.3.1
+ * @license:     lMnQrjiQcxfPlbdwpFhsKslnzVPfVqO45IEZa4tVHs
+ * @copyright:   Copyright (c) 2014 AITOC, Inc. (http://www.aitoc.com)
+ */
+-->

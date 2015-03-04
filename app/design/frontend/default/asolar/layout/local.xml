@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+	<default>
+	
+		 <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+			
+			<reference name="head">
+				<action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
+				<action method="addCss"><stylesheet>css/epicslider.css</stylesheet></action>
+			
+				
+				
+				<action method="addCss"><stylesheet>css/udt_shortcodes.css</stylesheet></action>
+				<action method="addCss"><stylesheet>css/jquery.fancybox-1.3.4.css</stylesheet></action>
+				<action method="addCss"><stylesheet>css/jquery.selectBox.css</stylesheet></action>
+				 <action method="addCss"><stylesheet>js/mobilemenu/css/jquery.mmenu.all.css</stylesheet></action> 
+			
+				
+				<action method="addItem"><type>skin_js</type><name>js/jquery.1.7.1.min.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.ui.1.8.9.min.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.mobile-touch-swipe-1.0.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.epicslider.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.flexslider-min.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.ajaxloading.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.lazyload.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/waypoints.min.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.parallax-1.1.3.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/onepage.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/accordion.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.selectBox.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.fancybox-1.3.4.pack.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/common.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.bxslider.min.js</name></action>
+				<action method="addItem"><type>skin_js</type><name>js/jquery.backgroundSize.js</name></action>
+				 <action method="addItem"><type>skin_js</type><name>js/mobilemenu/js/jquery.mmenu.min.all.js</name></action>
+				  <action method="addItem"><type>skin_js</type><name>js/jquery.backstretch.min.js</name></action>
+			
+		
+				<action method="addCss"><stylesheet>js/zozotabs/css/zozo.tabs.min.css</stylesheet></action>
+				<action method="addItem"><type>skin_js</type><name>js/zozotabs/js/zozo.tabs.min.js</name></action>
+				
+				<action method="addItem"><type>skin_js</type><name>js/jquery.cookie.js</name></action>
+		
+
+				<action method="addItem"><type>skin_js</type><name>js/jquery.tubeplayer.min.js</name></action>  
+				 
+ 
+			</reference>
+			
+			<reference name="header">
+				<block type="core/text_list" name="top.menumobile" as="topMenumobile" translate="label">
+					<block type="page/html_topmenu" name="catalog.topnavmenu" template="page/html/topmenu-mobile.phtml"/>
+				</block>
+			</reference>
+
+
+		</reference>
+
+		
+		
+		
+		<reference name="right">
+			<action method="unsetChild"><name>catalog.compare.sidebar</name></action>
+			<action method="unsetChild"><name>wishlist_sidebar</name></action>
+			<action method="unsetChild"><name>right.poll</name></action>
+			<action method="unsetChild"><name>right.permanent.callout</name></action>
+			<action method="unsetChild"><name>cart_sidebar</name></action>
+			<remove name="right.reports.product.viewed" />
+			<remove name="paypal.partner.right.logo" />
+			
+			
+		</reference>
+		
+		
+		
+		<reference name="left">
+        </reference>
+
+
+	
+		 
+		<remove name="footer_links"/>
+		
+		
+		
+		<reference name="catalog_category_default">
+			 <reference name="root">
+				<action method="setTemplate"><template>page/1column-shoppage.phtml</template></action>
+			</reference>
+		</reference>
+		
+		<reference name="catalog_category_layered">
+			 <reference name="root">
+				<action method="setTemplate"><template>page/1column-shoppage.phtml</template></action>
+			</reference>
+		</reference>
+    </default>
+	
+	<catalog_product_view>
+			<reference name="root">
+				<action method="setTemplate"><template>page/1column-shoppage.phtml</template></action>
+			</reference>
+			
+			<reference name="right">
+				<action method="unsetChild">
+					<block>catalog.product.related</block>
+				</action>
+			</reference>
+			
+			<reference name="content">
+				<remove name="product_tag_list"/>
+				<remove name="product.description"/>
+
+			    <block type="core/template" name="product_review_list.count" template="review/product/view/count.phtml" />
+                <block type="review/product_view_list" name="product.info.product_additional_data" as="product_reviews" template="review/product/view/list.phtml">
+                    <block type="review/form" name="product.review.form" as="review_form"/>
+                </block> 
+				
+				 <block type="catalog/product_list_related" name="catalog.product.related" as="related" after="product.info" template="catalog/product/list/related.phtml"/>
+	
+			</reference>
+		
+		
+	</catalog_product_view>
+	
+	<checkout_cart_index>
+		<reference name="root">
+				<action method="setTemplate"><template>page/1column.phtml</template></action>
+			</reference>
+	
+	</checkout_cart_index>
+	
+		
+	<customer_logged_in>
+			<reference name="top.links">
+				<action method="addLink" translate="label title" module="customer"><label>My Account</label><url helper="customer/getAccountUrl"/><title>My Account</title><prepare/><urlParams/><position>70	</position></action>
+			</reference>
+	</customer_logged_in>
+	
+	<customer_account>
+		<reference name="root">
+				<action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+			</reference>
+			
+		<reference name="right">
+			<block type="customer/account_navigation" name="customer_account_navigation" before="-" template="customer/account/navigation.phtml">
+				<action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
+				<action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
+				<action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
+				<action method="addLink" translate="label" module="sales"><name>orders</name><path>sales/order/history/</path><label>My Orders</label></action>
+			</block>
+			<remove name="tags_popular"/>
+        </reference>
+	
+	</customer_account>
+	
+
+	<customer_account_index>
+		<reference name="root">
+				<action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+			</reference>
+	</customer_account_index>
+	
+	
+	<sales_order_history>
+		<reference name="my.account.wrapper">
+			<remove name="customer.account.link.back"/>
+		</reference>
+    </sales_order_history>
+	
+	
+
+	
+	
+	<wordpress_default>
+		<reference name="right">
+				<block type="cms/block" name="social_icons" before="-">
+					<action method="setBlockId"><block_id>block_social_icons</block_id></action>
+				</block>
+		</reference>
+		
+		
+		<reference name="content">
+
+		</reference>
+	</wordpress_default>
+	
+	<wordpress_index_index>
+		<reference name="right">
+		</reference>
+		
+		<reference name="content">
+			<block type="wordpress/sidebar" name="wordpress_sidebar_right" as="wp.sidebar.right" before="-">
+				<action method="setWidgetArea"><area>sidebar-1</area></action>
+			</block>
+		</reference>
+	</wordpress_index_index>
+
+	
+	<checkout_onepage_success>
+	<reference name="root">
+				<action method="setTemplate"><template>page/1column.phtml</template></action>
+			</reference>
+	
+	</checkout_onepage_success>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- Full responsive pages: -->
+		<cms_index_index>
+			<reference name="head">
+				<action method="addCss"><stylesheet>css/responsive.css</stylesheet></action> 
+
+				<block type="core/text" name="blockname">
+					<action method="setText">
+						<text>
+							<![CDATA[<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />]]>
+						</text>
+					</action>
+				</block>
+			</reference>
+		</cms_index_index> 
+		
+		<catalog_category_default>
+			<reference name="head">
+				<action method="addCss"><stylesheet>css/responsive.css</stylesheet></action> 
+
+				<block type="core/text" name="blockname">
+					<action method="setText">
+						<text>
+							<![CDATA[<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />]]>
+						</text>
+					</action>
+				</block>
+			</reference>
+		</catalog_category_default>
+		
+		<catalog_category_layered>
+			<reference name="head">
+				<action method="addCss"><stylesheet>css/responsive.css</stylesheet></action> 
+
+				<block type="core/text" name="blockname">
+					<action method="setText">
+						<text>
+							<![CDATA[<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />]]>
+						</text>
+					</action>
+				</block>
+			</reference>  
+		</catalog_category_layered>
+		
+		<catalog_product_view>
+			<reference name="head">
+				<action method="addCss"><stylesheet>css/responsive.css</stylesheet></action> 
+
+				<block type="core/text" name="blockname">
+					<action method="setText">
+						<text>
+							<![CDATA[<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />]]>
+						</text>
+					</action>
+				</block>
+			</reference>
+		</catalog_product_view>
+		
+		<checkout_cart_index>
+			<reference name="head">
+				<action method="addCss"><stylesheet>css/responsive.css</stylesheet></action> 
+
+				<block type="core/text" name="blockname">
+					<action method="setText">
+						<text>
+							<![CDATA[<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />]]>
+						</text>
+					</action>
+				</block>
+			</reference>  
+		</checkout_cart_index>
+		
+		<checkout_onepage_index>
+			<reference name="head">
+				<action method="addCss"><stylesheet>css/responsive.css</stylesheet></action> 
+
+				<block type="core/text" name="blockname">
+					<action method="setText">
+						<text>
+							<![CDATA[<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />]]>
+						</text>
+					</action>
+				</block>
+			</reference>  
+		</checkout_onepage_index>
+	
+	
+	
+	
+	 <catalogsearch_result_index>
+		 <reference name="root">
+				<action method="setTemplate"><template>page/1column-shoppage.phtml</template></action>
+			</reference>
+	 
+	 </catalogsearch_result_index>
+	
+	
+	
+
+
+</layout>

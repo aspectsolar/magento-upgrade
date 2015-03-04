@@ -1,0 +1,91 @@
+
+						<span>STAY PLUGGED IN</span>
+						<div onclick="window.open('https://www.facebook.com/AspectSolarMedia','_blank');" class="fb"></div>
+						<div onclick="window.open('https://plus.google.com/+AspectSolarHQ','_blank');" class="google"></div>
+						<div onclick="window.open('https://twitter.com/aspectsolar','_blank');" class="twitter"></div>
+						<div onclick="window.open('http://www.youtube.com/aspectsolarhq','_blank');" class="youtube last"></div>
+
+						
+					
+		<script type="text/javascript">
+						//<![CDATA[
+							jQuery(document).ready(function(){
+							   jQuery(".footer .fb").hover(function() {
+									jQuery(this).animate({opacity: 0}, 120, function() {				
+										jQuery(this)
+											.css({'background-image': 'url(<?php echo $this->getSkinUrl('images/icon_fb-hover.png'); ?>)'})
+											.animate({opacity: 1}, 120);
+									});
+								}, function() {
+								
+										jQuery(this).animate({opacity: 0}, 0, function() {				
+										jQuery(this)
+											.css({'background-image': 'url(<?php echo $this->getSkinUrl('images/icon_fb.png'); ?>)'})
+											.animate({opacity: 1}, 0);
+									});
+								});
+								
+								jQuery(".footer .google").hover(function() {
+									jQuery(this).animate({opacity: 0}, 120, function() {				
+										jQuery(this)
+											.css({'background-image': 'url(<?php echo $this->getSkinUrl('images/icon_google-hover.png'); ?>)'})
+											.animate({opacity: 1}, 120);
+									});
+								}, function() {
+								
+										jQuery(this).animate({opacity: 0}, 0, function() {				
+										jQuery(this)
+											.css({'background-image': 'url(<?php echo $this->getSkinUrl('images/icon_google.png'); ?>)'})
+											.animate({opacity: 1}, 0);
+									});
+								});
+								
+								jQuery(".footer .linkedin").hover(function() {
+									jQuery(this).animate({opacity: 0}, 120, function() {				
+										jQuery(this)
+											.css({'background-image': 'url(<?php echo $this->getSkinUrl('images/icon_linkedin-hover.png'); ?>)'})
+											.animate({opacity: 1}, 120);
+									});
+								}, function() {
+								
+										jQuery(this).animate({opacity: 0}, 0, function() {				
+										jQuery(this)
+											.css({'background-image': 'url(<?php echo $this->getSkinUrl('images/icon_linkedin.png'); ?>)'})
+											.animate({opacity: 1}, 0);
+									});
+								});
+								
+								jQuery(".footer .twitter").hover(function() {
+									jQuery(this).animate({opacity: 0}, 120, function() {				
+										jQuery(this)
+											.css({'background-image': 'url(<?php echo $this->getSkinUrl('images/icon_twitter-hover.png'); ?>)'})
+											.animate({opacity: 1}, 120);
+									});
+								}, function() {
+								
+										jQuery(this).animate({opacity: 0}, 0, function() {				
+										jQuery(this)
+											.css({'background-image': 'url(<?php echo $this->getSkinUrl('images/icon_twitter.png'); ?>)'})
+											.animate({opacity: 1}, 0);
+									});
+								});
+								
+								jQuery(".footer .youtube").hover(function() {
+									jQuery(this).animate({opacity: 0}, 120, function() {				
+										jQuery(this)
+											.css({'background-image': 'url(<?php echo $this->getSkinUrl('images/icon_youtube-hover.png'); ?>)'})
+											.animate({opacity: 1}, 120);
+									});
+								}, function() {
+								
+										jQuery(this).animate({opacity: 0}, 0, function() {				
+										jQuery(this)
+											.css({'background-image': 'url(<?php echo $this->getSkinUrl('images/icon_youtube.png'); ?>)'})
+											.animate({opacity: 1}, 0);
+									});
+								});
+							});
+						//]]>
+						</script>				
+				
+						

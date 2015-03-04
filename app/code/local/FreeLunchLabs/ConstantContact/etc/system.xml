@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <constantcontact translate="label" module="constantcontact">
+            <class>separator-top</class>
+            <label>Constant Contact Configuration</label>
+            <tab>customer</tab>
+            <sort_order>110</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <username translate="label comment">
+                            <label>Username</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Your Constant Contact Username</comment>
+                        </username>
+                        <password translate="label comment">
+                            <label>Password</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Your Constant Contact Password</comment>
+                        </password>
+                        <listid translate="label comment">
+                            <label>List</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>constantcontact/listids</source_model>d
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The Constant Contact list where customers will be synced.</comment>
+                        </listid>
+                        <sync translate="label comment">
+                            <label>Auto Sync List</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>If set to yes, this will perform batch syncronization of your list at 1:00am every night. You must have CRON set up on your store for this feature to work.</comment>
+                        </sync>
+                        <url translate="label comment">
+                            <label>API URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </url>
+                        <apikey translate="label comment">
+                            <label>API Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Your Constant Contact Key. Constant Contact Recommends that you use our api key: "6e2bbbd8-1255-41bc-9ec0-0cc1ac55335f"</comment>
+                        </apikey>
+                        <emails translate="">
+                            <label>Enable Default Emails</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>If set to yes, this will enable the Magento "Subscription Success", "Subscription Confirmation", and the "Unsubscription Confirmation" emails. Constant Contact will send these emails for you.</comment>
+                        </emails>
+                    </fields>
+                </general>
+                <!--
+<subscribe>
+ 					<label>Subscribe options</label>
+	                    <frontend_type>text</frontend_type>
+	                    <sort_order>2</sort_order>
+	                    <show_in_default>1</show_in_default>
+	                    <show_in_website>0</show_in_website>
+	                    <show_in_store>0</show_in_store>
+	                    <fields>
+	                        <interests translate="label comment">
+	                            <label>Interests</label>
+	                            <frontend_type>text</frontend_type>
+	                            <sort_order>1</sort_order>
+	                            <show_in_default>0</show_in_default>
+	                            <show_in_website>0</show_in_website>
+	                            <show_in_store>0</show_in_store>
+	                            <comment>Set Interest Groups that contains a comma delimited list of Interest Groups to add.</comment>
+	                        </interests>
+	                        <opt-in translate="label comment">
+	                            <label>Opt-in</label>
+	                            <frontend_type>text</frontend_type>
+	                            <sort_order>2</sort_order>
+	                            <show_in_default>0</show_in_default>
+	                            <show_in_website>0</show_in_website>
+	                            <show_in_store>0</show_in_store>
+	                            <comment>Set the Opt-in IP fields.</comment>
+	                        </opt-in>
+	                        <email_type translate="label">
+	                            <label>Email type</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>constantcontact/emailtype</source_model>
+	                            <sort_order>3</sort_order>
+   	                            <show_in_default>0</show_in_default>
+	                            <show_in_website>0</show_in_website>
+	                            <show_in_store>0</show_in_store>
+	                            <comment>Email type preference for the email</comment>
+	                        </email_type>
+	                        <double_optin translate="label">
+	                            <label>Double optin</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>4</sort_order>
+   	                            <show_in_default>0</show_in_default>
+	                            <show_in_website>0</show_in_website>
+	                            <show_in_store>0</show_in_store>
+	                            <comment>Flag to control whether a double opt-in confirmation message is sent</comment>
+	                        </double_optin>
+	                        <update_existing translate="label">
+	                            <label>Update existing</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>5</sort_order>
+   	                            <show_in_default>0</show_in_default>
+	                            <show_in_website>0</show_in_website>
+	                            <show_in_store>0</show_in_store>
+	                            <comment>Flag to control whether a existing subscribers should be updated instead of throwing and error</comment>
+	                        </update_existing>
+
+
+	                    </fields>
+				</subscribe>-->
+                <unsubscribe>
+                    <label>Unsubscribe options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>3</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <delete_member translate="label">
+                            <label>Delete members</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Flag to remove the member from your list instead of unsubscribing</comment>
+                        </delete_member>
+	                        <!--
+<send_goodbye translate="label">
+	                            <label>Send goodbye</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>1</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>0</show_in_store>
+	                            <comment>Flag to send the goodbye email to the email address</comment>
+	                        </send_goodbye>
+	                        <send_notify translate="label">
+	                            <label>Send notify</label>
+	                            <frontend_type>select</frontend_type>
+	                            <source_model>adminhtml/system_config_source_yesno</source_model>
+	                            <sort_order>1</sort_order>
+	                            <show_in_default>1</show_in_default>
+	                            <show_in_website>1</show_in_website>
+	                            <show_in_store>0</show_in_store>
+	                            <comment>Flag to send the unsubscribe notification email to the address defined in the list email notification settings</comment>
+	                        </send_notify>
+-->
+                    </fields>
+                </unsubscribe>
+
+            </groups>
+        </constantcontact>
+    </sections>
+</config>

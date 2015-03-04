@@ -1,0 +1,46 @@
+
+/**
+ * Shopping Cart Editor
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aiteditablecart
+ * @version      2.1.2
+ * @license:     n/a
+ * @copyright:   Copyright (c) 2013 AITOC, Inc. (http://www.aitoc.com)
+ */
+.cart .product-options .qty-disabled {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    color: #000000;
+    padding: 3px;
+}
+
+#loading-mask {
+    color: #D85909;
+    font-size: 1.1em;
+    font-weight: bold;
+    opacity: 0.6;
+    position: fixed;
+    text-align: center;
+    z-index: 500;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    top: 0;
+    background-color: #FFFFFF;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+    filter: alpha(opacity=60);
+}
+p#loading_mask_loader {
+    background: none repeat scroll 0 0 #FFF4E9;
+    border: 2px solid #F1AF73;
+    color: #D85909;
+    font-weight: bold;
+    left: 43%;
+    padding: 15px 30px;
+    position: fixed;
+    text-align: center;
+    top: 45%;
+    width: 120px;
+    z-index: 1000;
+}

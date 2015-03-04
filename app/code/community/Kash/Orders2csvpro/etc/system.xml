@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*
+ * Kash Orders2csvpro Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to Henrik Kier <info@kash.com> so we can send you a copy immediately.
+ *
+ * @category   Kash
+ * @package    Kash_Orders2csvpro
+ * @copyright  Copyright (c) 2012 Kash (http://kash.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Genevieve Eddison, Jonathan Feist <sales@kash.com>
+ * */ -->
+<config>
+	<sections>
+		<orders2csvpro translate="label" module="orders2csvpro">
+        	<label>Orders2csvpro</label>
+	        <tab>kash</tab>
+	        <frontend_type>text</frontend_type>
+	        <sort_order>90</sort_order>
+	        <show_in_default>1</show_in_default>
+	        <show_in_website>1</show_in_website>
+	        <show_in_store>1</show_in_store>
+	        <groups>
+	        	<settings translate="label">
+	        		<label>General Settings</label>
+			        <frontend_type>text</frontend_type>
+			        <sort_order>10</sort_order>
+			        <show_in_default>1</show_in_default>
+			        <show_in_website>1</show_in_website>
+			        <show_in_store>1</show_in_store>
+                	<fields>
+                    	<is_active translate="label">
+                            <label>Is modul active</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </is_active>
+                        <file translate="label">
+                            <label>File structure - Order</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>kash_orders2csvpro_model_source_optionfiles</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </file>
+                        <file_invoice translate="label">
+                            <label>File structure - Invoice</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>kash_orders2csvpro_model_source_invoicefiles</source_model>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </file_invoice>
+                        <file_shipment translate="label">
+                            <label>File structure - Shipment</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>kash_orders2csvpro_model_source_shipmentfiles</source_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </file_shipment>
+                        <file_creditmemo translate="label">
+                            <label>File structure - Creditmemo</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>kash_orders2csvpro_model_source_creditmemofiles</source_model>
+                            <sort_order>18</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </file_creditmemo>
+                        <license_code translate="label">
+							<label>License code</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</license_code>
+						<order_id translate="label comment">
+							<label>Order id for preview</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment><![CDATA[Please suply an order id that can be used for help pages]]></comment>
+						</order_id>
+						<order_product_id translate="label comment">
+							<label>Product in order for help</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment><![CDATA[Please suply an product id that can be used for help pages (product must exist in above order)]]></comment>
+						</order_product_id>
+						<order_productbundle_id translate="label comment">
+							<label>Bundle product in order for help</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment><![CDATA[Please suply an bundle product id that can be used for help pages (product must exist in above order)]]></comment>
+						</order_productbundle_id>
+						<invoice_id translate="label comment">
+							<label>Invoice number for preview</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment><![CDATA[Please suply an invoice number that can be used for preview function and help pages]]></comment>
+						</invoice_id>
+						<invoice_product_id translate="label comment">
+							<label>Product in invoice for help page</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>70</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment><![CDATA[Please suply an product number that can be used for help pages (product must exist in above invoice)]]></comment>
+						</invoice_product_id>
+						<shipping_id translate="label comment">
+							<label>Shipping number for preview</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>80</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment><![CDATA[Please suply an shipping number that can be used for preview function and help pages]]></comment>
+						</shipping_id>
+						<shipping_product_id translate="label comment">
+							<label>Product in shipment for help page</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>90</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment><![CDATA[Please suply an product number that can be used for help pages (product must exist in above shipment)]]></comment>
+						</shipping_product_id>
+						<creditmemo_id translate="label comment">
+							<label>Creditmemo number for preview</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>100</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment><![CDATA[Please suply an creditmemo number that can be used for preview function and help pages - NOTE this must be the id and not incremental id, look at the url in view creditmemo.]]></comment>
+						</creditmemo_id>
+						<creditmemo_product_id translate="label comment">
+							<label>Product in creditmemo for help page</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>110</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment><![CDATA[Please suply an product number that can be used for help pages (product must exist in above creditmemo)]]></comment>
+						</creditmemo_product_id>
+					</fields>
+				</settings>
+        	</groups>
+    	</orders2csvpro>
+	</sections>
+</config>

@@ -1,0 +1,256 @@
+
+#product-options-wrapper,.selectinfo {display:none}
+.ajaxcartpro-box-show #product-options-wrapper,.ajaxcartpro-box-show .selectinfo {display:block}
+.ajaxcartpro-box-show #product-options-wrapper dt{clear:both}
+.ajaxcartpro-box-show #product-options-wrapper .price-box {display:none}
+
+
+#ajaxcartpro-progress{
+    border: 1px #999999 solid;
+    position: fixed;
+    text-align: center;
+    padding: 10px;
+    background-color: #ffffff;
+    z-index: 9999;
+    color: black;
+    overflow:  auto;
+    min-height: 50px;
+    min-width: 260px;
+
+    /*position:absolute;*/
+    /*top: expression(parseInt(document.documentElement.scrollTop, 10) +window.ACPTop+ "px");*/
+}
+
+
+
+#ajaxcartpro-add-confirm,
+#ajaxcartpro-remove-confirm{
+    position: fixed;
+    border: 1px #999999 solid;
+    text-align: center !important;
+    padding: 10px;
+    background-color: #ffffff;
+    z-index: 9999;
+    color: black;
+    overflow:  auto;
+    min-height:20px;
+    min-width: 260px;
+    width: auto;
+    height: auto;
+    /*position:absolute;*/
+    /*top: expression(parseInt(document.documentElement.scrollTop, 10) +200+ "px");*/
+}
+
+.ajaxcartpro-box-hide{
+   display:none;
+}
+
+.ajaxcartpro-box-show{
+    display:block;
+}
+
+#ajaxcartpro-add-confirm p,
+#ajaxcartpro-remove-confirm p{
+    width: 260px;
+}
+
+.acp-msg-block{
+    font-weight:bold;
+    background-image: none;
+    padding:0!important;
+    min-height:0!important;
+    font-size: 12px !important;
+    text-align: center;
+}
+
+.aw-acp-continue, .aw-acp-continue:hover{
+  
+}
+
+.aw-acp-continue, .aw-acp-continue:hover{
+  
+}
+
+
+.aw-acp-checkout, .aw-acp-checkout:hover{
+   height:33px;margin-top:23px;padding-left:80px !important;font-size:20px;font-weight:bold;padding-right:39px !important;padding-top:16px !important;padding-bottom:0px;background:#00ca00 url('../../../asolar/images/icon_btnproceed.png') no-repeat 26px 11px !important;color:#fff !important;line-height:16px !important;
+}
+
+#acp-configurable-block #bundle-product-wrapper
+{
+    z-index: 1000;
+}
+
+#acp-configurable-block dl
+{
+    text-align: left;
+    padding-left: 10px;
+}
+
+#acp-configurable-block .price
+{
+    font-size: 14px;
+}
+
+#acp-configurable-block .product-name
+{
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#acp-overlay
+{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:#000;
+    -moz-opacity: 0.6;
+    opacity:.60;
+    filter: alpha(opacity=60);
+    z-index: 100;
+}
+#acp-overlay[id]{ /* IE6 and below Can't See This */
+    position:fixed;
+}
+
+#acp-product-options
+{
+	overflow:hidden !important;
+    min-width: 400px;
+    position: absolute;
+    overflow:  auto;
+    z-index:1000;
+    background-color: white;
+    width: auto;
+    height: auto;
+    /*position:absolute;*/
+    /*top: expression(parseInt(document.documentElement.scrollTop, 10) +window.ACPTop+ "px");*/
+}
+
+#acp-product-options .aw-acp-continue,
+#acp-product-options .aw-acp-checkout{
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+#acp-product-options .aw-acp-btn-container{
+    margin: 5px auto 5px auto;
+    padding-left: 20px;
+	clear:both
+}
+
+#acp-product-options .giftcard-send-form{
+    margin: 0;
+}
+
+#acp-product-options .product-options dt label.required em {
+    color: #EB340A;
+    margin-left: 5px;
+}
+
+#acp-product-options #product-options-wrapper
+{
+    margin:0;
+ 
+}
+.map-popup
+{
+    z-index: 1001 !important;
+}
+#acp-product-options .popupwarranty {margin-top:20px;display:block;margin-bottom:18px;text-transform:uppercase;text-align:center;color:#373737;font-size:14px;font-family:Century Gothic, Arial, Helvetica, sans-serif;}
+
+#acp-product-options #product-options-wrapper dt label {font-weight:bold;color:#606163;font-size:20px;font-family:Century Gothic, Arial, Helvetica, sans-serif;}
+#acp-product-options #product-options-wrapper dl {margin:0;padding:0;}
+#acp-product-options #product-options-wrapper dd {text-align:center;margin:35px 0px 0px 0px;padding:0px;width:410px;height:108px;}
+#acp-product-options #product-options-wrapper .popuptable {margin-bottom:20px;background:url('../images/bkg_warrantypopup-item.gif');width:767px;height:144px;}
+
+#acp-product-options .popuptable dt label{display:block !important;text-transform:none}
+#acp-product-options .warrantyleft .warrantyimage {margin-right:20px;float:left;display:block;width:140px;height:90px;background:url('../images/bkg_warrantyimage.gif');}
+#acp-product-options .warrantyleft .warrantyimage img {padding:2px}
+#acp-product-options .warrantyleft {border-right:1px solid #ebebeb;padding-left:10px;padding-top:7px;margin-top:11px;margin-left:1px;display:block;width:340px;height:101px;float:left}
+#acp-product-options .warrantyleft label{padding-top:13px;}
+#acp-product-options .warrantyinfopopup {display:inline-block;}
+#acp-product-options .warrantyinfopopup img{margin-bottom:-4px;margin-left:7px;}
+
+
+#acp-configurable-block #acp-product-options {top:20px !important;width:810px !important}
+#acp-configurable-block #acp-product-options #product-options-wrapper {width:810px !important}
+
+
+
+
+
+
+
+@media only screen and (max-width: 767px) {
+
+	#acp-product-options .product-name {font-size:16px !important}
+	#acp-product-options {height:100% !important;max-height:99999px !important;max-width:100% !important;width:auto !important;}
+	.warrantyimage {border:0px !important;background:none !important;text-align:center !important;float:none !important;width:auto !important;margin:0 auto !important;max-width:100% !important}
+	.warrantyimage img {border:1px solid #bcbcbc !important;padding:2px !important}
+
+	.popupwarranty {max-width:100% !important;width:auto !important;}
+	.warrantyleft {float:none !important;border:0px !important;height:auto !important;width:100% !important;padding:0px !important;margin:0px !important;}
+	#acp-product-options #product-options-wrapper .popuptable {border-bottom:10px solid #e5e5e5;margin:0 auto 20px auto !important;background:none !important;width:300px !important;height:auto !important;padding-bottom:20px !important;display:block !important;}
+		#acp-product-options #product-options-wrapper,#acp-product-options #product-options-wrapper.product-options  {width:100% !important;}
+		#acp-product-options #product-options-wrapper div{text-align:center !important;}
+	#acp-product-options .product-options,#acp-product-options  {top:100px !important;width:100% !important;}
+	.block500 {max-width:100% !important;width:auto !important;max-height:99999px !important;overflow:hidden !important;}
+	#acp-overlay {width:100% !important;}
+	#acp-product-options {top:100px !important;max-width:400px !important;width:auto !important;height:auto !important;max-height:99999px !important;min-width:auto !important}
+	.pleaseinfo{font-size:14px !important;}
+
+.block600 {float:none !important;margin:0 auto !important}
+.block600 .btn-continue{padding-left:20px !important;}
+.block400 {max-width:400px !important;width:auto !important;}
+.selectBox-label {max-width:100% !important;width:auto !important;}
+
+#acp-configurable-block #acp-product-options {top:130px !important;width:100% !important}
+#acp-configurable-block #acp-product-options #product-options-wrapper {width:100% !important}
+	#acp-product-options #product-options-wrapper dt , #acp-product-options #product-options-wrapper dd {width:300px !important;padding-top:0px !important;margin:0px auto !important;float:none !important;height:auto !important;}
+	#acp-configurable-block #acp-product-options span.label{max-width:98% !important;width:auto !important;float:none !important;margin:0 auto !important;display:block !important}
+
+	
+	#acp-configurable-block select{height:35px !important;width:100% !important;z-index:9999 !important;}
+
+
+	a.selectBox-dropdown {width:auto !important;max-width:100% !important}
+
+	.warrantyleft label {margin-bottom:10px !important}
+	#fancybox-wrap,#fancybox-outer, #fancybox-content div ,#fancybox-content {height:auto !important;max-width:100% !important;width:auto !important}
+
+
+ }
+ 
+ 
+ 
+ 
+ 
+ @media only screen and (max-width: 479px) {
+
+
+
+	
+
+
+	#acp-product-options {max-width:100% !important;min-width:200px !important;width:100% !important;overflow:hidden !important;left:0px !important}
+	#acp-product-options .btn-continue {padding-left:5px !important}
+	#acp-product-options #product-options-wrapper .popuptable {width:200px !important;}
+
+.block400 {width:100% !important;text-align:center;max-width:100% !important}
+
+	#acp-product-options #product-options-wrapper dt , #acp-product-options #product-options-wrapper dd {width:80% !important;}
+	.block400 .product-name {float:none !important;width:100%}
+.btn-continue {width:100%;float:none !important;margin:0 auto !important;display:inline}
+#warrantyinfotextpopup_3 {padding:3px 3px 3px 10px !important}
+.titles td {padding:2px !important;font-size:11px !important}
+.table1 table td {font-size:11px !important;line-height:13px}
+#fancybox-close {position:absolute;right:0px;top:0px}
+.wartitle {padding:0px 28px;margin-bottom:8px !important;font-size:13px !important;text-align:center;float:none}
+#fancybox-content {margin-top:90px !important;width:auto !important !important;max-width:98% !important;min-width:200px !important;}
+#fancybox-wrap {left:2px !important}
+ }

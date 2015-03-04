@@ -1,0 +1,103 @@
+<?php
+/**
+ * Remove or Change Displayed States and Regions
+ *
+ * LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE_OSL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@eltrino.com so we can send you a copy immediately.
+ *
+ * @category   Eltrino
+ * @package    Eltrino_Region
+ * @subpackage Adminhtml
+ * @copyright  Copyright (c) 2012 Eltrino LLC. (http://www.eltrino.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<fieldset>
+    <?php echo $this->getChildHtml('add_button') ?>
+</fieldset>
+<div id="region-configuration">
+    <?php foreach ($this->getCountriesDisabledRegions() as $configuration): ?>
+        <div class="region-configuration-container"><?php echo $configuration->toHtml(); ?></div>
+    <?php endforeach; ?>
+</div>
+<script type="text/javascript">
+    function newCountryConfigurationAction() {
+        var cfgCount = $$('.region-configuration-container');
+        new Ajax.Request('<?php echo $this->getUrl('*/configuration/loadCountryConfiguration', array('_secure' => true)); ?>', {
+            method: 'post',
+            parameters: {cfgCount:cfgCount.length},
+            onSuccess: function(transport) {
+                var containerElm = $('region-configuration');
+                try {
+                    if (transport.responseJSON && containerElm) {
+                        var response = transport.responseJSON;
+                        if (response.error == 0 && response.html != '') {
+                            containerElm.insert('<div class="region-configuration-container">' + response.html + '</div>');
+                        } else if (response.error == 1) {
+                            alert(response.msg);
+                        } else {
+                            alert('Error occurs during country configuration.');
+                        }
+
+                    }
+                } catch (e) {
+                    alert('Error occurs during country configuration.');
+                }
+            }
+        });
+    }
+    function countryChanged(countryElm) {
+        var countryCode = countryElm.value;
+        new Ajax.Request('<?php echo $this->getUrl('*/configuration/loadRegionConfiguration', array('_secure' => true)); ?>', {
+            method: 'post',
+            parameters: {countryCode: countryCode},
+            onSuccess: function(transport) {
+                var commonSettingsElm = countryElm.up('dd').down('td#common-settings');
+                var disabledRegionsElm = countryElm.up('dd').down('td#disabled-regions');
+                try {
+                    if (transport.responseJSON && commonSettingsElm && disabledRegionsElm) {
+                        var response = transport.responseJSON;
+                        if (response.common_settings) {
+                            commonSettingsElm.update(response.common_settings);
+                        }
+                        if (response.disabled_regions) {
+                            var countryLabel = (countryElm.options[countryElm.selectedIndex]).label;
+                            countryElm.up('dd').previous('dt').down('a').update('Region Configuration (' + countryLabel + ')');
+                            disabledRegionsElm.update(response.disabled_regions);
+                        }
+                    }
+                } catch (e) {
+                    alert('Error occurs during loading region configuration.');
+                }
+            }
+        });
+    }
+    function commonSettingsChanged(settingsElm) {
+        var regionIds = (settingsElm.options[settingsElm.selectedIndex].value).split(',');
+        var disabledRegionsElm = settingsElm.up('dd').down('td#disabled-regions').down('select');
+
+        for (var i = 0; i < disabledRegionsElm.options.length; i++) {
+            disabledRegionsElm.options[i].selected = false;
+        }
+        for (var i = 0; i < disabledRegionsElm.options.length; i++) {
+            for (var j = 0; j < regionIds.length; j++) {
+                if (disabledRegionsElm.options[i].value == regionIds[j]) {
+                    disabledRegionsElm.options[i].selected = "selected";
+                }
+            }
+        }
+    }
+    function regionsChanged(regionsElm) {
+        var commonSettingsElm = regionsElm.up('dd').down('td#common-settings').down('select');
+        if (commonSettingsElm) {
+            commonSettingsElm.options[0].selected = true;
+        }
+    }
+</script>

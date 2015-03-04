@@ -1,0 +1,8 @@
+#home_video_preview {position:relative; cursor:pointer;}
+#home_video_preview .hvp_play {cursor:pointer;position:absolute; top:90px; left:100px; width:67px; height:67px; background:url('../../../images/auguria/video/videoplay.png') no-repeat;}
+
+#messages_video_list {}.table_window table,.table_window table td, .table_window table tr,.table_window html,.table_window body    {}
+#messages_video_list li {position:relative; float: left; }
+#messages_video_list li .hvp_play {cursor:pointer;position:absolute; top:58px; left:132px; width:67px; height:67px; background:url('../../../images/auguria/video/videoplay.png') no-repeat;}
+
+.catalog-product-view #messages_video_list li  {margin-left:0px;padding-left:0px;}

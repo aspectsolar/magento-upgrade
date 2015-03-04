@@ -1,0 +1,89 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $posts = $this->getPosts() ?>
+<?php if (count($posts) > 0): ?>
+	<div class="block-blog block-recent-posts">
+		<?php if ($title = $this->getTitle()): ?>
+			<div class="block-title">
+				<strong><span><?php echo $this->__($title) ?></span></strong>
+			</div>
+		<?php endif; ?>
+		<div class="block-content">
+			<ul id="<?php echo $this->getListId() ?>">
+			<?php $i=0; ?>
+			
+			<?php foreach($posts as $post): ?>
+				
+				<?php if ( $i<3 ) { ?>
+				<li class="item">
+					<div class="recenttop"></div>
+					
+					<div class="recentcontent">
+				
+						<div class="featured-image">
+							<div class="post-meta details">
+							<?php echo stripslashes($this->__('<span class="postdate">%s</span>',$post->getPostDate())) ?>
+							</div>
+							<?php if ($featuredImage = $post->getFeaturedImage()): ?>
+								
+									<a href="<?php echo $post->getPermalink() ?>" title="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"><img src="<?php echo $featuredImage->getAvailableImage() ?>" alt="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"/></a>
+								
+							<?php endif; ?>
+							</div>
+					
+						<div class="cntn">
+						
+							<?php $posttitle = $this->htmlEscape($post->getPostTitle()); ?>
+								<?php if (strlen((string)$posttitle) > 40) { ?>
+									<?php $stringCutprev = substr($posttitle, 0, 40); ?>
+									<?php $stringtitle = substr($stringCutprev, 0, strrpos($stringCutprev, ' ')).'...';?>
+									
+									
+								<?php } else { ?>
+									<?php $stringtitle = $this->escapeHtml($post->getPostTitle());
+								} ?>
+							
+							<h2><a href="<?php echo $post->getPermalink() ?>" title="<?php echo $this->htmlEscape($post->getPostTitle()) ?>"><?php echo $stringtitle; ?></a></h2>
+				
+				
+					
+							
+								<?php $postcontent = $post->getPostContent(); ?>
+								<?php if (strlen((string)$postcontent) > 140) { ?>
+									<?php $stringCutprev = substr($postcontent, 0, 140); ?>
+									<?php $string = substr($stringCutprev, 0, strrpos($stringCutprev, ' ')).'...';?>
+								<?php echo '<div class="smallcontent">'.$string.'</div>'; ?>
+								<?php } else { ?>
+									<?php echo '<div class="smallcontent">'.$post->getPostContent().'</div>'; 
+									
+									} ?>
+							
+							<button onclick="setLocation('<?php echo $post->getPermalink() ?>')" class="blogcontinue">continue reading</button>
+							
+						</div>
+						<div class="clear"></div>
+					</div>
+					
+					<div class="recentbottom"></div>
+				</li>
+				<div class="clear"></div>
+				<?php } ?>
+				
+				<?php $i++; ?>
+			<?php endforeach; ?>
+			</ul>
+			<script type="text/javascript">decorateList('<?php echo $this->getListId() ?>')</script>
+		</div>
+	</div>
+<?php endif; ?>
+
+
+
+
+

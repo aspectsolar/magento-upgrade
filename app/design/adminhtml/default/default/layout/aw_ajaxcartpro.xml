@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>aw_ajaxcartpro/js/preview.js</name>
+            </action>
+        </reference>
+    </adminhtml_system_config_edit>
+    <ajaxcartpro_admin_adminhtml_promo_index>
+        <reference name="content">
+            <block type="ajaxcartpro/adminhtml_promo" name="ajaxcartpro.admin.promo"/>
+        </reference>
+    </ajaxcartpro_admin_adminhtml_promo_index>
+    <ajaxcartpro_admin_adminhtml_promo_edit>
+        <update handle="editor"/>
+        <reference name="head">
+            <action method="setCanLoadRulesJs"><flag>1</flag></action>
+            <action method="setCanLoadTinyMce"><flag>1</flag></action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>aw_ajaxcartpro/js/preview.js</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="ajaxcartpro/adminhtml_promo_edit" name="ajaxcartpro.promo.edit" />
+        </reference>
+        <reference name="left">
+            <block type="ajaxcartpro/adminhtml_promo_edit_tabs" name="ajaxcartpro.promo.edit.tabs">
+                <block type="ajaxcartpro/adminhtml_promo_edit_tab_general" name="general"/>
+                <block type="ajaxcartpro/adminhtml_promo_edit_tab_conditions" name="conditions"/>
+                <block type="ajaxcartpro/adminhtml_promo_edit_tab_action_add" name="add_action"/>
+                <block type="ajaxcartpro/adminhtml_promo_edit_tab_action_remove" name="remove_action"/>
+                <action method="addTab"><name>ajaxcartpro_promo_tabs_general</name><block>general</block></action>
+                <action method="addTab"><name>ajaxcartpro_promo_tabs_conditions</name><block>conditions</block></action>
+                <action method="addTab"><name>ajaxcartpro_promo_tabs_add_action</name><block>add_action</block></action>
+                <action method="addTab"><name>ajaxcartpro_promo_tabs_remove_action</name><block>remove_action</block></action>
+            </block>
+        </reference>
+    </ajaxcartpro_admin_adminhtml_promo_edit>
+</layout>

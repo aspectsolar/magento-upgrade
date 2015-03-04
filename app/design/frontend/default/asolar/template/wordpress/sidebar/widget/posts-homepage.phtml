@@ -1,0 +1,71 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $posts = $this->getPosts() ?>
+<?php if (count($posts) > 0): ?>
+
+
+		
+		<ul id="<?php echo $this->getListId() ?>">
+			<?php $i=0; ?>
+			
+			<?php foreach($posts as $post): ?>
+				
+				<?php if ( $i<3 ) { ?>
+				<li class="column_one_third video">
+					<div class="fvid">
+						<?php /*
+						<div class="featured-image">
+							<div class="post-meta details">
+							<?php echo stripslashes($this->__('<span class="postdate">%s</span>',$post->getPostDate())) ?>
+							</div>
+							<?php if ($featuredImage = $post->getFeaturedImage()): ?>
+								
+									<a href="<?php echo $post->getPermalink() ?>" title="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"><img src="<?php echo $featuredImage->getAvailableImage() ?>" alt="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"/></a>
+								
+							<?php endif; ?>
+						
+						</div>
+						*/ ?>
+					
+					
+							<a style="width:100%;display:block" class="blogt" href="<?php echo $post->getPermalink() ?>" title="<?php echo $this->htmlEscape($post->getPostTitle()) ?>"><?php echo $this->htmlEscape($post->getPostTitle()) ?></a>
+							
+							
+								
+								<?php $postcontent1 = $post->getPostContent();
+						  $postcontent =strip_tags($postcontent1);?>
+						  
+								<?php if (strlen((string)$postcontent) > 140) { ?>
+									<?php $stringCutprev = substr($postcontent, 0, 140); ?>
+									<?php $string = substr($stringCutprev, 0, strrpos($stringCutprev, ' ')).'...';?>
+								<?php echo '<div class="smallcontent">'.$string.'</div>'; ?>
+								<?php } else { ?>
+									<?php echo '<div class="smallcontent">'.$postcontent.'</div>'; 
+									
+									} ?>
+							
+						
+							<a class="cont" href="<?php echo $post->getPermalink() ?>">CONTINUE READING</a>
+						
+					
+					</div>
+				</li>
+				
+				<?php } ?>
+				
+				<?php $i++; ?>
+			<?php endforeach; ?>
+		</ul>
+		<script type="text/javascript">decorateList('<?php echo $this->getListId() ?>')</script>
+<?php endif; ?>
+
+
+
+
+

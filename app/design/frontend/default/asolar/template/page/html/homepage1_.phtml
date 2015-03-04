@@ -1,0 +1,824 @@
+<!--start homepage-->
+
+    <div id="homepage" class="homepage section">
+			
+			
+			<div class="textcontent">
+				<p class="h1">Solar Power Pack Pro 60</p>
+				<h2><span class="codeinfo">Get $75 off this package</span><a href="<?php echo $this->getUrl(); ?>solar-power-pack-pro-60.html"><span class="codetext">BUY NOW</span></a></h2>
+			</div>
+			
+			
+			<img class="prodimage" src="<?php echo $this->getSkinUrl(); ?>images/solar-power-pack-pro-60.png" alt="" title="" /> </li>
+      </div>
+	 <!--end homepage-->
+
+
+			<script>
+
+				jQuery(function() {
+			 jQuery("#homepage").backstretch("<?php echo $this->getSkinUrl(); ?>images/bkg5.jpg");
+				});
+			</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+
+<div id="packages" class="catalog-category-view page odd section">
+<div style="padding:40px 0px;" class="content">
+
+<h1 class="h1title">Solar Chargers & Portable Solar Panels</h1>
+
+<div class="category-products">
+        <ul class="products-grid">
+			<?php  $obj = Mage::getModel('catalog/product'); ?>
+			<?php $_product = $obj->load(18); ?>
+            <li class="item first">
+				 <h2 class="product-name pirulen">
+					<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
+
+						 <?php $_name2 = $_product->getResource()->getAttribute('name2')->getFrontend()->getValue($_product); ?>
+
+						<p class="name1">
+
+						<?php $pname = $_product->getResource()->getAttribute('name')->getFrontend()->getValue($_product); ?>
+						<?php if ( $pname == 'Power Package Pro' ) { ?>
+							Power <span class="highl">Pro</span>
+						<?php } else if ( $pname == 'Power Package Plus' ) { ?>
+							Power <span class="highl">Plus</span>
+						<?php } else if ( $pname == 'Power Package' ) { ?>
+							Power
+						<?php } else {
+							echo $pname;
+						} ?>
+
+
+						</p>
+						<p class="name2"><?php echo $_name2; ?></p>
+					</a>
+				</h2>
+
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+				<div onclick="setLocation('<?php echo $_product->getProductUrl() ?>')" class="itemhover"></div>
+				<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(325,180); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+
+                <?php if($_product->getRatingSummary()): ?>
+                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                <?php endif; ?>
+
+				
+				<?php /*
+                <div class="actions">
+                    <?php if($_product->isSaleable()): ?>
+						<a href="<?php echo $_product->getProductUrl() ?>" title="" class="linkbutton buyitnow"><span>buy it now</span></a>
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
+
+					<div class="price-box">
+						<div class="regular-price">
+							<span class="price"><?php echo '$'.$_product->getFinalPrice() ?></span>
+						</div>
+
+					</div>
+
+                </div>
+				*/ ?>
+
+				<div class="clear"></div>
+
+				 <div class="shortdesc">
+                        <?php echo $_product->getResource()->getAttribute('short_description')->getFrontend()->getValue($_product); ?>
+						<?php $_freeshipping = $_product->getResource()->getAttribute('free_shipping')->getFrontend()->getValue($_product); ?>
+						<?php if ( $_freeshipping == 'Yes' ) { echo '<span style="font-weight:bold;color:#f2c126">FREE SHIPPING!</span>'; } ?>
+
+                 </div>
+            </li>
+
+
+			<?php  $obj = Mage::getModel('catalog/product'); ?>
+			<?php $_product = $obj->load(16); ?>
+            <li class="item">
+				 <h2 class="product-name pirulen">
+					<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
+
+						 <?php $_name2 = $_product->getResource()->getAttribute('name2')->getFrontend()->getValue($_product); ?>
+
+						<p class="name1">
+
+						<?php $pname = $_product->getResource()->getAttribute('name')->getFrontend()->getValue($_product); ?>
+						<?php if ( $pname == 'Power Package Pro' ) { ?>
+							Power <span class="highl">Pro</span>
+						<?php } else if ( $pname == 'Power Package Plus' ) { ?>
+							Power <span class="highl">Plus</span>
+						<?php } else if ( $pname == 'Power Package' ) { ?>
+							Power
+						<?php } else {
+							echo $pname;
+						} ?>
+
+
+						</p>
+						<p class="name2"><?php echo $_name2; ?></p>
+					</a>
+				</h2>
+
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+				<div onclick="setLocation('<?php echo $_product->getProductUrl() ?>')" class="itemhover"></div>
+				<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(325,180); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+
+                <?php if($_product->getRatingSummary()): ?>
+                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                <?php endif; ?>
+
+				<?php /*
+                <div class="actions">
+                    <?php if($_product->isSaleable()): ?>
+						<a href="<?php echo $_product->getProductUrl() ?>" title="" class="linkbutton buyitnow"><span>buy it now</span></a>
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
+
+					<div class="price-box">
+						<div class="regular-price">
+							<span class="price"><?php echo '$'.$_product->getFinalPrice() ?></span>
+						</div>
+
+					</div>
+
+                </div>
+				*/ ?>
+
+				<div class="clear"></div>
+
+				 <div class="shortdesc">
+                        <?php echo $_product->getResource()->getAttribute('short_description')->getFrontend()->getValue($_product); ?>
+						<?php $_freeshipping = $_product->getResource()->getAttribute('free_shipping')->getFrontend()->getValue($_product); ?>
+						<?php if ( $_freeshipping == 'Yes' ) { echo '<span style="font-weight:bold;color:#f2c126">FREE SHIPPING!</span>'; } ?>
+
+                 </div>
+            </li>
+
+
+
+
+
+
+			<?php  $obj = Mage::getModel('catalog/product'); ?>
+			<?php $_product = $obj->load(17); ?>
+            <li class="item last">
+				 <h2 class="product-name pirulen">
+					<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
+
+						 <?php $_name2 = $_product->getResource()->getAttribute('name2')->getFrontend()->getValue($_product); ?>
+
+						<p class="name1">
+
+						<?php $pname = $_product->getResource()->getAttribute('name')->getFrontend()->getValue($_product); ?>
+						<?php if ( $pname == 'Power Package Pro' ) { ?>
+							Power <span class="highl">Pro</span>
+						<?php } else if ( $pname == 'Power Package Plus' ) { ?>
+							Power <span class="highl">Plus</span>
+						<?php } else if ( $pname == 'Power Package' ) { ?>
+							Power
+						<?php } else {
+							echo $pname;
+						} ?>
+
+
+						</p>
+						<p class="name2"><?php echo $_name2; ?></p>
+					</a>
+				</h2>
+
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+				<div onclick="setLocation('<?php echo $_product->getProductUrl() ?>')" class="itemhover"></div>
+				<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(325,180); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+
+                <?php if($_product->getRatingSummary()): ?>
+                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                <?php endif; ?>
+
+				<?php /*
+                <div class="actions">
+                    <?php if($_product->isSaleable()): ?>
+						<a href="<?php echo $_product->getProductUrl() ?>" title="" class="linkbutton buyitnow"><span>buy it now</span></a>
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
+
+					<div class="price-box">
+						<div class="regular-price">
+							<span class="price"><?php echo '$'.$_product->getFinalPrice() ?></span>
+						</div>
+
+					</div>
+
+                </div>
+				*/ ?>
+
+				<div class="clear"></div>
+
+				 <div class="shortdesc">
+                        <?php echo $_product->getResource()->getAttribute('short_description')->getFrontend()->getValue($_product); ?>
+						<?php $_freeshipping = $_product->getResource()->getAttribute('free_shipping')->getFrontend()->getValue($_product); ?>
+						<?php if ( $_freeshipping == 'Yes' ) { echo '<span style="font-weight:bold;color:#f2c126">FREE SHIPPING!</span>'; } ?>
+
+                 </div>
+            </li>
+
+
+
+
+        </ul>
+
+</div>
+
+<div class="hpshopall">
+	<a href="<?php echo $this->getUrl(); ?>products.html">SHOP ALL PRODUCTS</a>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+<div id="advantage" class="page odd section">
+	 <div class="content clearfix">
+	 
+	 
+	  <h2>The Aspect Advantage</h2>
+	  
+	  <p class="h3">Power - Portability - Safety - Value</p>
+	  
+	  <div class="cntn">
+	  
+
+		<div id="tabbed-nav">
+		  <ul>
+			<li class="tab1"><a><span class="tabicon"></span><span class="tabtext">Green Battery</span></a></li>
+			<li class="tab2"><a><span class="tabicon"></span><span class="tabtext">Sun Tracking Technology</span></a></li>
+			<li class="tab3"><a><span class="tabicon"></span><span class="tabtext">Solar Panels</span></a></li>                           
+			<li class="tab4"><a><span class="tabicon"></span><span class="tabtext">Portability Without Limitations</span></a></li>
+		  </ul>
+		  <div>
+			<div>
+				<h4>GREEN BATTERY TECHNOLOGY:</h4>
+				<p>Safe, clean, and recycleable LiFePO4 and LiPO batteries power all our devices. These long lasting, cutting edge batteries will keep you fully charged for years to come.</p>
+			</div>
+			<div>
+				<h4>SUN TRACKING TECHNOLOGY:</h4>
+				<p>Our panels feature exclusive SolTrax<sup>TM </sup>and Maxiumum Power Point Tracking technology - allowing your solar panels to catch every solar ray, no matter where the sun is.</p>
+			</div>
+			<div>
+				<h4>SOLAR PANELS:</h4>
+				<p>Monocrystalline Solar Cells with up to 22% Efficiency Rating, and Monocrystalline Silicon Panels with 22% Efficiency Rating - double your standard solar panels!</p>			
+			</div>
+			<div>
+				<h4>PORTABILITY WITHOUT LIMITATIONS:</h4>
+				<p>AspectSolar products weigh up to 50% lighter than other products, and come ready to charge. Setup, plug in, and you've got the freedom to be fully charged in your hands!</p>			
+			</div>         
+		  </div>
+		</div>
+
+		
+
+		<script> 
+		jQuery(document).ready(function ($) {
+			$("#tabbed-nav").zozoTabs({
+				theme: "white",
+				style: "clean",
+				 mobileNav: false ,
+				animation: {
+					duration: 400,
+					effects: "fade"
+				}
+			})
+		});
+		</script>
+
+		</div>
+
+
+	 
+	 </div>
+
+
+</div>
+
+<div id="increase" class="page odd section">
+	
+	<div class="inctop">
+	
+		<div class="f-left">
+			<img class="inc1" src="<?php echo $this->getSkinUrl(); ?>images/img_increase-1.jpg" alt="" title="" />
+		</div>
+
+		<div class="f-right">
+			<div class="cont">
+				<div>
+				<h3>INCREASE YOUR CHARGE WITH<br/>POWER PACKAGES</h3>
+				<p>Find your freedom with a lightweight solar<br/>recharging package. Bundle and save today!</p>
+
+				<a href="<?php echo $this->getUrl(); ?>products.html">SHOP ALL</a>
+				</div>
+			</div>
+		</div>
+			<div class="clear"></div>
+	</div>
+		
+	
+	<div class="clear"></div>
+	
+	<div class="incbtm">
+	
+		<div class="f-left">
+			<div class="cont">
+				<div>
+				<p>Aspect Solar encourages you to go outside, travel uncharted territory, find new adventures, and discover yourself.</p><p>Our products are built to follow you from a day in the park to the mountains of Everest. We put the power in your hands to stay charged in any environment.</p>
+				
+				<a href="<?php echo $this->getUrl(); ?>our-story">learn more about our story</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="f-right">
+			<img class="inc2" src="<?php echo $this->getSkinUrl(); ?>images/img_increase-2.jpg" alt="" title="" />
+		
+		</div>
+		
+		<div class="clear"></div>
+	
+	</div>
+
+		
+
+
+</div>
+
+
+	 <!---- ENERGYBAR INFO -->
+
+	 <?php /*
+     <div id="energybarinfo" class="page odd section">
+         <img style="position:absolute;left:0px;" class="energybarbk" src="<?php echo $this->getSkinUrl(); ?>images/bkg_energybarinfo.jpg" alt="" title="" />
+
+        <div class="content clearfix">
+
+
+				<div style="width:617px;margin-right:10px;padding-right:0px;height:500px;display:block;" class="spacerdiv column_one_half">
+
+
+				</div>
+
+
+
+            <div style="width:510px;" class="column_one_half last box11">
+				<div style="width:505px; " class="energybartext">
+					<h2>Featured Product:</h2>
+					<h1 style="margin-bottom:0px;" class="pirulen">EnergyBar<span style="font-weight:bold;font-family:Century Gothic;font-size:12px;position: relative; bottom: 3.5ex;">TM</span> 250</h1>
+
+						<strong>2.0 x 16.5 x 6.3 in.  |  8 lbs.</strong>
+
+						<p class="sinfo">The EnergyBar 250 contains massive portable solar power that can be charged from solar panels, solar generators, wall sockets, and car lighter adapters.</p>
+
+						<div class="column_one_half">
+							<h2>overview</h2>
+							<p>The lightest high-capacity battery pack available. Stop searching for outlets; bring your own.</p>
+							<p>Discover the freedom to roam with portable power that fits in your backpack, overhead compartment, or with your gear. Power domestic or international electronic equipment up to 100 watts with the universal AC outlet, 12V lighter socket, or four USB sockets.</p>
+						</div>
+
+						<div class="column_one_half last">
+							<h2>how it works</h2>
+							<p style="overflow: visible !important; ">The EnergyBar 250 uses advanced Lithium Iron Phosphate (LiFePO4) battery technology, and is three times lighter and lasts twice as long as an equivalent lead-acid battery.</p>
+
+							<p>The 20Ah (250Wh) battery can sit idle for years and only self-discharge at a minor 0-2% power per month, making it ideal for anyone from the weekend camper to the outdoors professional.</p>
+						</div>
+
+						<div class="clearfix"></div>
+
+						<div class="actions">
+
+								<a style="margin-left:20px;" class="linkbutton learnmore" href="<?php echo $this->getUrl(); ?>products/energybar250-power-inverter-battery.html"><span>learn more</span></a>
+
+
+
+								<a class="linkbutton buyitnow" href="<?php echo $this->getUrl(); ?>products/energybar250-power-inverter-battery.html"><span style="">buy it now</span> <span class="enprice" style="margin-left:20px;font-size:28px;color:#3c3c3c;font-weight:normal;">$329.99</span></a>
+
+
+
+
+
+						</div>
+				</div>
+          </div>
+
+
+
+
+   	   </div>
+
+
+
+
+
+
+     </div>
+
+	  */ ?>
+
+	  
+	  <?php /*
+	 <div id="teaser-1" class="teaser" style="background-image: url(<?php echo $this->getSkinUrl(); ?>images/bkg2.jpg);"></div>
+	 <img class="teaser-1-mobile" alt="" src="<?php echo $this->getSkinUrl(); ?>images/bkg2.jpg"/>
+	 */ ?>
+<!--end energybarinfo content-->
+
+
+
+
+
+
+
+<div id="products3" class="page odd section">
+	<div style="padding-bottom:0px !important" class="content">
+
+
+			<div style="margin-bottom:0px" class="column_one_third product product1">
+				<div class="pcontent">
+					<h3 class="pirulen"><span style="font-size:32px;">S</span>un<span style="font-size:32px;">S</span>ocket</h3>
+					<h4 class="pirulen">solar generator</h4>
+					<div class="image">
+					<img src="<?php echo $this->getSkinUrl(); ?>images/product-sunsocket.jpg" alt="SunSocket" />
+					</div>
+
+					<a class="mobilecircle" href="<?php echo $this->getUrl(); ?>products/sunsocket-solar-generator.html"><img src="<?php echo $this->getSkinUrl(); ?>images/mobile-circle-learnmore.jpg" alt="portable solar generators" /></a>
+
+				</div>
+			</div>
+
+			<div style="margin-bottom:0px" class="column_one_fourth product product2 ">
+				<div class="pcontent">
+					<h3 class="pirulen">duo-flex</h3>
+					<h4 style="line-height:20px;" class="pirulen">solar panel<br/>+ battery</h4>
+					<div class="image">
+					<img style="margin-top:-10px;" src="<?php echo $this->getSkinUrl(); ?>images/product-duo-flex-hp.jpg" alt="Duo-Flex Solar Panel + Battery" />
+					</div>
+
+					<a class="mobilecircle" href="<?php echo $this->getUrl(); ?>products/duo-flex-solar-charger.html"><img src="<?php echo $this->getSkinUrl(); ?>images/mobile-circle-learnmore.jpg" alt="" /></a>
+				</div>
+			</div>
+
+			<div style="margin-bottom:0px" class="column_one_third last product product3">
+				<div class="pcontent">
+					<h3 class="pirulen"><span style="font-size:32px;">E</span>nergy<span style="font-size:32px;">B</span>ar 250</h3>
+					<h4 class="pirulen">battery pack</h4>
+					<div class="image">
+					<img style="padding-top:22px" src="<?php echo $this->getSkinUrl(); ?>images/product-energybar250.jpg" alt="EnergyBar 250 Solar Battery Pack" />
+					</div>
+
+					<a class="mobilecircle" href="<?php echo $this->getUrl(); ?>products/energybar250-power-inverter-battery.html"><img src="<?php echo $this->getSkinUrl(); ?>images/mobile-circle-learnmore.jpg" alt="" /></a>
+				</div>
+			</div>
+
+			<div class="clear"></div>
+
+
+	</div>
+
+	<div id="teaser-2" class="teaser fixed" style="background-image: url(<?php echo $this->getSkinUrl(); ?>images/bkg3.jpg);">
+	<img class="teaser-2-mobile" alt="" src="<?php echo $this->getSkinUrl(); ?>images/bkg3.jpg"/>
+
+		<div style="position:relative;z-index:9999;" class="content threec">
+
+				<a href="<?php echo $this->getUrl(); ?>products/sunsocket-solar-generator.html"><img class="circlehover1" alt="" src="<?php echo $this->getSkinUrl(); ?>images/bkg_circle-transpr.png" /></a>
+				<a href="<?php echo $this->getUrl(); ?>products/duo-flex-solar-charger.html"><img class="circlehover2" alt="" title="2" src="<?php echo $this->getSkinUrl(); ?>images/bkg_circle-transpr.png" /></a>
+				<a href="<?php echo $this->getUrl(); ?>products/energybar250-power-inverter-battery.html"><img class="circlehover3" alt="" title="3" src="<?php echo $this->getSkinUrl(); ?>images/bkg_circle-transpr.png" /></a>
+
+				<img style="margin-left:-947px;border-left:1000px solid #fff;border-right:1000px solid #fff;" class="circles3" alt="" src="<?php echo $this->getSkinUrl(); ?>images/bkg_3circles.png" />
+				<img style="margin-left:-1000px;border-left:1000px solid #fff;border-right:1000px solid #fff;" class="circles3other" alt="" src="<?php echo $this->getSkinUrl(); ?>images/bkg_3circles2.png" />
+
+				<script type="text/javascript">
+				jQuery(document).ready(function(){
+						jQuery('#teaser-2 img.circlehover1').mouseover(function(){
+							jQuery('#teaser-2 img.circles3').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles-hover1.png');
+							jQuery('#teaser-2 img.circles3other').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles2-hover1.png');
+						}).mouseout(function(){
+							jQuery('#teaser-2 img.circles3').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles.png');
+							jQuery('#teaser-2 img.circles3other').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles2.png');
+						});
+
+						jQuery('#teaser-2 img.circlehover2').mouseover(function(){
+							jQuery('#teaser-2 img.circles3').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles-hover2.png');
+							jQuery('#teaser-2 img.circles3other').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles2-hover2.png');
+						}).mouseout(function(){
+							jQuery('#teaser-2 img.circles3').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles.png');
+							jQuery('#teaser-2 img.circles3other').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles2.png');
+						});
+
+						jQuery('#teaser-2 img.circlehover3').mouseover(function(){
+							jQuery('#teaser-2 img.circles3').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles-hover3.png');
+							jQuery('#teaser-2 img.circles3other').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles2-hover3.png');
+						}).mouseout(function(){
+							jQuery('#teaser-2 img.circles3').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles.png');
+							jQuery('#teaser-2 img.circles3other').attr('src', '<?php echo $this->getSkinUrl(); ?>images/bkg_3circles2.png');
+						});
+				});
+				</script>
+
+
+
+
+
+
+
+		</div>
+
+
+
+			<?php echo $this->getLayout()->createBlock('newsletter/subscribe')->setTemplate('newsletter/homepage-subscribe.phtml')->toHtml(); ?>
+
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- start aboutus -->
+     <div id="aboutus" class="page odd section">
+
+        <div class="content clearfix">
+			<div class="column_one_third aspectlogo">
+				<img src="<?php echo $this->getSkinUrl(); ?>images/aspect-solar-logo2.png" alt="Aspect Solar" />
+			</div>
+
+			<div class="column_two_thirds last abouttext">
+				<div class="abouttextc">
+					<p><span class="mediumstrong">Smart enough to bring technology along for the ride,</span><br/>and not let it get in the way.</span></p>
+
+					<p class="small">AspectSolar is a pioneer of <a href="http://www.aspectsolar.com/ep-60-portable-solar-panels.html">portable solar energy panels</a> and <a href="http://www.aspectsolar.com/sunsocket-solar-generator.html">solar power generators</a>, providing lifestyle solutions to the rest of the pioneers out there. Our products help people stay connected while getting away. Everything warmed by the light of the sun was put here for us to explore. AspectSolar supports the pioneers, the nomads, and the discoverers by removing the boundaries that keep them from going further.</p>
+
+					<div class="actions">
+						<a class="linkbutton learnmore" href="<?php echo $this->getUrl(); ?>learn/how-it-works/"><span>learn more</span></a>
+					</div>
+				</div>
+			</div>
+
+			<div class="clear"></div>
+
+			<div class="videos">
+
+
+
+				<div class="column_one_third video video1">
+
+
+
+
+
+
+
+
+				<?php
+				/* USER-AGENTS
+				================================================== */
+				function check_user_agent ( $type = NULL ) {
+						$user_agent = strtolower ( $_SERVER['HTTP_USER_AGENT'] );
+						if ( $type == 'bot' ) {
+								// matches popular bots
+								if ( preg_match ( "/googlebot|adsbot|yahooseeker|yahoobot|msnbot|watchmouse|pingdom\.com|feedfetcher-google/", $user_agent ) ) {
+										return true;
+								}
+						} else if ( $type == 'browser' ) {
+								if ( preg_match ( "/mozilla\/|opera\//", $user_agent ) ) {
+										return true;
+								}
+						} else if ( $type == 'mobile' ) {
+								if ( preg_match ( "/android/i", $user_agent ) ) {
+										return true;
+								}
+								}
+						return false;
+				}
+
+				?>
+
+
+					<a class="fancyboxvideoimg fancyboxvideo iframe" href="http://www.youtube.com/embed/P1umuZfFMkk"><img src="<?php echo $this->getSkinUrl(); ?>images/video1.jpg" alt="energybar solar battery features" /></a>
+
+
+
+
+					<?php
+					$isandroid = check_user_agent('mobile');
+					if($isandroid) {
+							?>
+
+							<div class="youtube-player" id='youtube-player-container-P1umuZfFMkk'> </div>
+
+							<script type="text/javascript">
+								jQuery("#youtube-player-container-P1umuZfFMkk").tubeplayer({
+									width: 330, // the width of the player
+									height: 174, // the height of the player
+									allowFullScreen: "true", // true by default, allow user to go full screen
+									wmode: "transparent", // note: transparent maintains z-index, but disables GPU acceleration
+									swfobjectURL: "http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js",
+									loadSWFObject: true, // if you include swfobject, set to false
+									iframed: false,
+									theme: "light", // possible options: "dark" or "light"
+									color: "white",
+									autoHide: false,
+									modestbranding: false,
+									initialVideo: "P1umuZfFMkk", // the video that is loaded into the player
+									preferredQuality: "default"// preferred quality: default, small, medium, large, hd720,
+
+								});
+
+								jQuery(document).ready(function(){
+									jQuery(".video .playbutton").remove();
+									jQuery(".video .fancyboxvideoimg").remove();
+									jQuery(".product-view .videoimg").remove();
+								});
+							</script>
+
+							<?php
+						}
+					?>
+
+
+
+					<a class="videoview fancyboxvideo iframe" href="http://www.youtube.com/embed/P1umuZfFMkk"><span>EnergyBar 250</span></a>
+					<a class="playbutton fancyboxvideo iframe" href="http://www.youtube.com/embed/P1umuZfFMkk"></a>
+
+				</div>
+
+				<div class="column_one_third video video2">
+
+
+					<a class="fancyboxvideoimg fancyboxvideo iframe" href="http://www.youtube.com/embed/LpEAIBFIm9E"><img src="<?php echo $this->getSkinUrl(); ?>images/video2.jpg" alt="sunsocket in action" /></a>
+
+
+
+
+					<?php
+					$isandroid = check_user_agent('mobile');
+					if($isandroid) {
+							?>
+
+							<div class="youtube-player" id='youtube-player-container-LpEAIBFIm9E'> </div>
+
+							<script type="text/javascript">
+							jQuery("#youtube-player-container-LpEAIBFIm9E").tubeplayer({
+								width: 330, // the width of the player
+								height: 174, // the height of the player
+								allowFullScreen: "true", // true by default, allow user to go full screen
+								wmode: "transparent", // note: transparent maintains z-index, but disables GPU acceleration
+								swfobjectURL: "http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js",
+								loadSWFObject: true, // if you include swfobject, set to false
+								iframed: false,
+								theme: "light", // possible options: "dark" or "light"
+								color: "white",
+								autoHide: false,
+								modestbranding: false,
+								initialVideo: "LpEAIBFIm9E", // the video that is loaded into the player
+								preferredQuality: "default"// preferred quality: default, small, medium, large, hd720,
+
+							});
+							</script>
+
+							<?php
+						}
+					?>
+
+
+
+
+
+					<a class="videoview fancyboxvideo iframe" href="http://www.youtube.com/embed/LpEAIBFIm9E"><span>Sun-tracking Technology</span></a>
+					<a class="playbutton fancyboxvideo iframe" href="http://www.youtube.com/embed/LpEAIBFIm9E"></a>
+				</div>
+
+				<div class="column_one_third last video video3">
+					<a class="fancyboxvideoimg fancyboxvideo iframe" href="http://www.youtube.com/embed/qEFzyVTCibY"><img src="<?php echo $this->getSkinUrl(); ?>images/video3.jpg" alt="our energy bar in action" /></a>
+
+
+
+
+
+					<?php
+					$isandroid = check_user_agent('mobile');
+					if($isandroid) {
+							?>
+
+							<div class="youtube-player" id='youtube-player-container-qEFzyVTCibY'> </div>
+
+							<script type="text/javascript">
+							jQuery("#youtube-player-container-qEFzyVTCibY").tubeplayer({
+								width: 330, // the width of the player
+								height: 174, // the height of the player
+								allowFullScreen: "true", // true by default, allow user to go full screen
+								wmode: "transparent", // note: transparent maintains z-index, but disables GPU acceleration
+								swfobjectURL: "http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js",
+								loadSWFObject: true, // if you include swfobject, set to false
+								iframed: false,
+								theme: "light", // possible options: "dark" or "light"
+								color: "white",
+								autoHide: false,
+								modestbranding: false,
+								initialVideo: "qEFzyVTCibY", // the video that is loaded into the player
+								preferredQuality: "default"// preferred quality: default, small, medium, large, hd720,
+
+
+							});
+							</script>
+
+							<?php
+						}
+					?>
+
+
+
+
+
+					<a class="videoview fancyboxvideo iframe" href="http://www.youtube.com/embed/qEFzyVTCibY"><span>The EnergyBar 250 in Action</span></a>
+					<a class="playbutton fancyboxvideo iframe" href="http://www.youtube.com/embed/qEFzyVTCibY"></a>
+				</div>
+
+				<div class="clear"></div>
+
+
+
+
+
+
+
+			</div>
+
+			<div class="abouttitle">
+				<h2>freedom is being fully <span class="yellow">charged</span></h2>
+			</div>
+
+
+     	</div>
+
+     </div>
+<!-- end aboutus -->
+
+
+
+
+    <div id="teaser-3" class="teaser" style="background-image: url(<?php echo $this->getSkinUrl(); ?>images/bkg4.jpg);">
+
+	 <div id="footervid" class="page" style="background:transparent !important;overflow:visible !important;height:auto">
+		 <div class="content clearfix">
+				<div class="videos">
+
+
+				<?php
+					print $this->getLayout()
+					 ->createBlock("wordpress/sidebar_widget_posts")
+					 ->setTemplate("wordpress/sidebar/widget/posts-homepage.phtml")
+					 ->toHtml();
+				 ?>
+
+
+
+					<div class="clear"></div>
+				</div>
+		 </div>
+
+
+	 </div>
+
+
+     </div>

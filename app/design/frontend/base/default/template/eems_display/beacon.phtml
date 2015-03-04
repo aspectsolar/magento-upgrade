@@ -1,0 +1,34 @@
+<?php
+/**
+ * Copyright (c) 2014 eBay Enterprise, Inc.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the eBay Enterprise
+ * Magento Extensions End User License Agreement
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.pdf
+ *
+ * @copyright   Copyright (c) 2014 eBay Enterprise, Inc. (http://www.ebayenterprise.com/)
+ * @license     http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.pdf  eBay Enterprise Magento Extensions End User License Agreement
+ *
+ */
+?>
+
+<?php if ($this->showBeacon()):?>
+	<script>
+		(function (d,i) {
+			i=d.createElement('iframe');
+			i.width=i.height=1;
+			i.frameBorder=i.marginheight=i.marginwidth=0;
+			i.scrolling='no';
+			i.frameBorder=0;
+			i.src="<?php echo $this->getBeaconUrl()?>";
+			d.body.appendChild(i);
+		}(document));
+	</script>
+	<noscript>
+		<iframe src='<?php echo $this->getBeaconUrl() ?>' scrolling='no' width='1' height='1' marginheight='0' marginwidth='0' frameborder='0'></iframe>
+	</noscript>
+<?php endif?>

@@ -1,0 +1,25 @@
+"There is no defined renderer for ""%s"" option type","Es gibt keine bestimmte Renderer fuer Optionstyp ""%s"""
+"Incl. Tax","Inklusiv steuer"
+"Choose option...","Option auswaehlen"
+AM,AM
+PM,PM
+-,-
+"-- Please Select --","Bitte auswaehlen"
+None,Nichts
+"Choose an Option...","Waehlen Sie eine Option"
+"No options of this product are available.","Keine Optionen sind zugaenglich"
+sample,Muster
+"Aitoc Shopping Cart Editor","Aitoc Shopping Cart Editor"
+"Please specify the product required option(s)","Bitte bestimmen Sie die erforderlichen Optionen"
+"The file you uploaded is larger than %s Megabytes allowed by server","Der File, den Sie herunterladen mowchten, ist mehr als %s Megabytes, was ist vom Server nicht erlaubt ist"
+"File upload failed","Dateiherunterladung ist missgelungen"
+"The file '%s' for '%s' has an invalid extension","Der File '%s' fuer '%s' hat ungueltige Erweiterung"
+"Maximum allowed image size for '%s' is %sx%s px.","Maximale erlaubte Groesse fuer '%s' ist %sx%s px."
+"The file '%s' you uploaded is larger than %s Megabytes allowed by server","Der File '%s', den Sie herunterladen, ist mehr als %s, was vom Server erlaubt ist"
+Qty:,Qty:
+"Choose a selection...","Waehlen Sie die Sektion"
+"Allowed file extensions to upload","Erlaubte Dateiformat"
+"Maximum image width","Maximale Bildbreite"
+px.,px.
+"Maximum image height","Maximale Bildhoehe"
+"Maximum number of characters","Maximale Zahl der Symbole"

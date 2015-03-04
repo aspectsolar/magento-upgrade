@@ -1,0 +1,22 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<div class="page-title blog-title <?php if (!$this->isFirstPage()): ?>not-<?php endif; ?>first-page<?php if ($this->isFirstPage() && $this->getTagLine()): ?> with-tagline<?php endif; ?>">
+	<h1>inspire</h1>
+</div>
+
+<div class="inner-fullwidth blog-home">
+ 
+	<div class="title">
+		<h2>Aspect Solar Culture</h2>
+		
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('block_social_icons')->toHtml() ?>
+	</div>
+	
+	<?php echo $this->getPostListHtml() ?>
+</div>

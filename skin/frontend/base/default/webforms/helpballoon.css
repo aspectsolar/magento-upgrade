@@ -1,0 +1,15 @@
+.HelpBalloon{ text-align: left}
+
+.HelpBalloon-title{		
+	color      : black;
+	font-size  : 14px;
+	font-weight: bold;
+	font-family: 'Verdana';
+}
+
+.HelpBalloon-content{
+	font-size  : 11px;
+	font-weight: normal;
+	color      : black;
+	font-family: 'Verdana';
+}

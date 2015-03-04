@@ -1,0 +1,126 @@
+
+ <div class="block-subscribe">
+ 
+        <h2><?php echo $this->__('Join The #SunTribe') ?></h2>
+		<h3>Receive solar news, product updates, and Promotions</h3>
+
+	<div style="height:16px;margin-bottom:2px;">
+		<div class="news-loader" id="news-loader" style="text-align:center; display:none;">
+				<img src="<?php echo $this->getSkinUrl('images/loader.gif'); ?>" />
+		</div>	
+	</div>
+	<div id="feedback" style="display:none" class="mini-newsletter">
+    Thank you for subscribing to our newsletter! 
+	</div>
+	
+	<form name="newsletter-form" onsubmit="return myfunc(this);" id="newsletter-form" method="post"> 
+       
+	   <div class="nlform">
+			<label><?php echo $this->__('STAY CHARGED:') ?></label>
+			<div class="input-box">
+               <input value="enter your email address" type="text" name="email" id="newsletter" title="<?php echo $this->__('Sign up for our newsletter') ?>" class="input-text required-entry" onfocus="if (this.value=='<?php echo $this->__('enter your email address') ?>') {this.value=''};" onblur="if (this.value=='') {this.value='<?php echo $this->__('enter your email address') ?>'};"/>
+				 
+            </div>
+			
+            <button type="button" title="<?php echo $this->__('submit') ?>" onclick="myfunc();" class="button"><?php echo $this->__('submit') ?></button>
+			
+		
+		</div>
+		<div class="error-news-msg" id="error-news-msg" style="display:none;">Please insert a valid email address.</div>		
+	
+     
+    </form>	
+</div>         
+<script type="text/javascript">
+    
+        
+		function myfunc()
+		{	
+			var newsletterSubscriberFormDetail = new VarienForm('newsletter-form');
+			var form_email = $('newsletter').getValue();
+			var params_form = $('newsletter-validate-detail');
+			//alert(params_form);
+			new Validation('newsletter');
+			if(echeck(form_email))
+			{
+			//alert(form_email);
+			//alert(Form.serialize($('newsletter-validate-detail')));
+			new Ajax.Updater({ success: 'newsletter-form' }, '<?php echo $this->getUrl('newsletter/subscriber/new') ?>', {
+				asynchronous:true, evalScripts:false,
+				parameters: { email: form_email },
+				onComplete:function(request, json){Element.hide('newsletter-form'); Element.hide('news-loader'); Element.show('feedback');},
+				onLoading:function(request, json){Element.show('news-loader');},
+				
+			});
+
+				 
+				 
+			}
+			else
+			{
+			//alert(form_email);
+				return false;
+			}
+			return false;
+		}	
+		
+		
+		
+function echeck(str) {
+
+		var at="@"
+		var dot="."
+		var lat=str.indexOf(at)
+		var lstr=str.length
+		var ldot=str.indexOf(dot)
+		if (str.indexOf(at)==-1){
+		   //alert("Invalid E-mail ID")
+		   goProcedural()
+		   return false
+		}
+
+		if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+		   //alert("Invalid E-mail ID")
+		   goProcedural()
+		   return false
+		}
+
+		if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+		    //alert("Invalid E-mail ID")
+		    goProcedural()
+		    return false
+		}
+
+		 if (str.indexOf(at,(lat+1))!=-1){
+		    //alert("Invalid E-mail ID")
+		    goProcedural()
+		    return false
+		 }
+
+		 if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+		    //alert("Invalid E-mail ID")
+		    goProcedural()
+		    return false
+		 }
+
+		 if (str.indexOf(dot,(lat+2))==-1){
+		    //alert("Invalid E-mail ID")
+		    goProcedural()
+		    return false
+		 }
+		
+		 if (str.indexOf(" ")!=-1){
+		    //alert("Invalid E-mail ID")
+		    goProcedural()
+		    return false
+		 }
+
+ 		 return true					
+	}
+function goProcedural()
+{
+  Element.show('error-news-msg');
+  Element.hide.delay(5, 'error-news-msg');
+}
+
+</script>

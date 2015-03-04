@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Aitoc_Aiteditablecart>
+            <version>2.1.2</version>
+        </Aitoc_Aiteditablecart>
+    </modules>
+    
+    <frontend>
+	    <routers>
+			<aiteditablecart>
+				<use>standard</use>
+				<args>
+					<module>Aitoc_Aiteditablecart</module>
+					<frontName>aiteditablecart</frontName>
+				</args>
+			</aiteditablecart>
+        </routers>
+        <translate>
+           <modules>
+               <Aitoc_Aiteditablecart>
+                   <files>
+                       <default>Aitoc_Aiteditablecart.csv</default>
+                   </files>
+               </Aitoc_Aiteditablecart>
+           </modules>
+        </translate>
+        <layout>
+            <updates>
+                <aiteditablecart>
+                    <file>aiteditablecart.xml</file>
+                </aiteditablecart>
+            </updates>
+        </layout>
+    </frontend>
+    
+    <default>
+    	<config_vars></config_vars>
+   	</default>
+    
+    <global>
+        <models>
+            <aiteditablecart>
+                <class>Aitoc_Aiteditablecart_Model</class>
+            </aiteditablecart>
+            
+            <catalog>
+                <rewrite>
+                        <product_type_configurable>Aitoc_Aiteditablecart_Model_Rewrite_FrontCatalogProductTypeConfigurable</product_type_configurable>
+                </rewrite>
+            </catalog>
+            
+            <catalog>
+                <rewrite>
+                        <product_option_type_file>Aitoc_Aiteditablecart_Model_Rewrite_FrontCatalogProductOptionTypeFile</product_option_type_file>
+                </rewrite>
+            </catalog>
+            
+            <bundle>
+                <rewrite>
+                        <product_type>Aitoc_Aiteditablecart_Model_Rewrite_FrontBundleProductType</product_type>
+                </rewrite>
+            </bundle>
+            <cataloginventory>
+                <rewrite>
+                        <observer>Aitoc_Aiteditablecart_Model_Rewrite_CatalogInventoryObserver</observer>
+                </rewrite>
+            </cataloginventory>
+        </models>
+        
+        
+        <resources>
+            <aiteditablecart_setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </aiteditablecart_setup>
+        
+            <aiteditablecart_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </aiteditablecart_write>
+            
+            <aiteditablecart_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </aiteditablecart_read>
+        </resources>        
+        
+        <blocks>
+            <aiteditablecart>
+                <class>Aitoc_Aiteditablecart_Block</class>
+            </aiteditablecart>
+            
+            <checkout>
+                <rewrite>
+                        <cart>Aitoc_Aiteditablecart_Block_Rewrite_FrontCheckoutCart</cart>
+                </rewrite>
+            </checkout>
+            
+            <downloadable>
+                <rewrite>
+                        <checkout_cart_item_renderer>Aitoc_Aiteditablecart_Block_Rewrite_FrontDownloadableCheckoutCartItemRenderer</checkout_cart_item_renderer>
+                </rewrite>
+            </downloadable>
+            
+            <checkout>
+                <rewrite>
+                        <cart_item_renderer_configurable>Aitoc_Aiteditablecart_Block_Rewrite_FrontCheckoutCartItemRendererConfigurable</cart_item_renderer_configurable>
+                </rewrite>
+            </checkout>
+            
+            <checkout>
+                <rewrite>
+                        <cart_item_renderer>Aitoc_Aiteditablecart_Block_Rewrite_FrontCheckoutCartItemRenderer</cart_item_renderer>
+                </rewrite>
+            </checkout>
+            
+            <bundle>
+                <rewrite>
+                        <checkout_cart_item_renderer>Aitoc_Aiteditablecart_Block_Rewrite_FrontBundleCheckoutCartItemRenderer</checkout_cart_item_renderer>
+                </rewrite>
+            </bundle>
+        </blocks>
+        
+        <helpers>
+            <aiteditablecart>
+                <class>Aitoc_Aiteditablecart_Helper</class>
+            </aiteditablecart>
+        </helpers>
+        
+        <events>
+          <checkout_cart_update_items_before>
+            <observers>
+              <aitoc_aiteditablecart_model_observer>
+                <type>singleton</type>
+                <class>Aitoc_Aiteditablecart_Model_Observer</class>
+                <method>processCartUpdateBefore</method>
+              </aitoc_aiteditablecart_model_observer>
+            </observers>
+          </checkout_cart_update_items_before>
+          
+          <checkout_cart_remove_items_before>
+            <observers>
+              <aitoc_aiteditablecart_model_rewrite_observer>
+                <class>cataloginventory/observer</class>
+                <method>onRemoveItems</method>
+              </aitoc_aiteditablecart_model_rewrite_observer>
+            </observers>
+          </checkout_cart_remove_items_before>
+          
+        </events>
+        
+    </global>
+    <adminhtml>
+        <translate>
+           <modules>
+               <Aitoc_Aiteditablecart>
+                   <files>
+                       <default>Aitoc_Aiteditablecart.csv</default>
+                   </files>
+               </Aitoc_Aiteditablecart>
+           </modules>
+        </translate>
+    </adminhtml>
+    
+</config>
+<!--
+/**
+ * Shopping Cart Editor
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aiteditablecart
+ * @version      2.1.2
+ * @license:     sJyHIXeWlUU1XYytqPDfVrCdIMO1jSQ6obarjJbRep
+ * @copyright:   Copyright (c) 2013 AITOC, Inc. (http://www.aitoc.com)
+ */
+-->

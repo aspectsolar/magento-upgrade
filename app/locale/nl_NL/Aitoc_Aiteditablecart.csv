@@ -1,0 +1,25 @@
+"There is no defined renderer for ""%s"" option type","Er is geen gedefinieerd renderer voor ""%s"" optie soort"
+"Incl. Tax","Incl. Belasting"
+"Choose option...","Kies optie..."
+AM,AM
+PM,PM
+-,-
+"-- Please Select --","-- Selecteer Alstublieft --"
+None,Geen
+"Choose an Option...","Kies een Optie..."
+"No options of this product are available.","Er zijn geen opties beschikbaar voor dit product."
+sample,sample
+"Aitoc Shopping Cart Editor","Aitoc Winkelwagen Editor"
+"Please specify the product required option(s)","Geef alstublieft aan de product verplichte opties"
+"The file you uploaded is larger than %s Megabytes allowed by server","Het bestand die u hebt geupload is groter dan %s Megabytes toegestaan ​​door de server"
+"File upload failed","Bestand uploaden mislukt"
+"The file '%s' for '%s' has an invalid extension","Het bestand '%s' voor '%s' heeft een ongeldige extensie"
+"Maximum allowed image size for '%s' is %sx%s px.","De maximaal toegestane grootte voor '%s' is %sx%s px."
+"The file '%s' you uploaded is larger than %s Megabytes allowed by server","Het bestand '%s' die u hebt geupload is groter dan %s Megabytes toegestaan ​​door de server"
+Qty:,Hoeveelheid:
+"Choose a selection...","Kies een selectie..."
+"Allowed file extensions to upload","Toegestaan ​​Bestand extensies te uploaden"
+"Maximum image width","Maximale afbeelding breedte"
+px.,px.
+"Maximum image height","Maximale afbeelding hoogte"
+"Maximum number of characters","Maximum aantal tekens"

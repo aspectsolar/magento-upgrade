@@ -1,0 +1,160 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product media data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ */
+?>
+<?php
+    $_product = $this->getProduct();
+    $_helper = $this->helper('catalog/output');
+?>
+<img id="loaderdiv" src="<?php echo $this->getSkinUrl('images/loader.gif'); ?>"/>
+<p class="product-image">
+    <?php
+        $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(474,366).'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
+        echo $_helper->productAttribute($_product, $_img, 'image');
+    ?>
+</p>
+
+
+<?php if (count($this->getGalleryImages()) > 0): ?>
+<div class="more-views">
+    <span><?php echo $this->__('additional images:') ?></span>
+    <ul>
+    <?php foreach ($this->getGalleryImages() as $_image): ?>
+        <li>
+       
+		  
+		  	<a href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $_image->getFile()); ?>" title="<?php echo $_product->getName();?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" height="47" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>  
+			
+			
+			
+        </li>
+    <?php endforeach; ?>
+	
+	<script type="text/javascript">
+			jQuery(document).ready(function(){
+				jQuery('.more-views li').click(function() {
+				
+						jQuery('.active').removeClass('active');
+						jQuery(this).addClass('active');
+						var mainImage = jQuery(this).find("a").attr('href');
+						
+						jQuery("#loaderdiv").css('display','block');
+							jQuery(".product-view .product-essential .product-image img")
+							.fadeOut(200, function() {
+								jQuery(".product-view .product-essential .product-image img").load(function() { jQuery(".product-view .product-essential .product-image img").fadeIn('200'); }); 
+								jQuery(".product-view .product-essential .product-image img").attr('src',mainImage);
+								
+							});
+						
+					
+						
+						
+						
+						return false;
+				});	
+			});
+			</script>
+    </ul>
+</div>
+<?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php $_youtubevideo1title = $_product->getResource()->getAttribute('youtube_video_1_title')->getFrontend()->getValue($_product); ?>
+<?php $_youtubevideo1id = $_product->getResource()->getAttribute('youtube_video_1_id')->getFrontend()->getValue($_product); ?>
+<?php if ( $_youtubevideo1id != '' ) { 
+?>
+<div id="messages_video_list">
+							<div id="video-player-container" style="display:none">
+								<iframe id="video-player" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+							</div>
+							
+							<div class="video-list">
+								<ul>
+									<li class="link" >
+										<div id="videoimg-<?php echo $_youtubevideo1id; ?>" class="videoimg">
+											<div class="hvp_play"></div>
+											<img src="http://img.youtube.com/vi/<?php echo $_youtubevideo1id; ?>/0.jpg" alt="Title" /> 
+										</div>
+
+										<script type="text/javascript">
+										//<![CDATA[
+											Event.observe('videoimg-<?php echo $_youtubevideo1id; ?>', 'click', function(event) {
+												videoPlayer = new Window({
+												className:'magento',
+												title:'<?php echo $_youtubevideo1title; ?>',
+												content:$('video-player'),
+												width:560,
+												height:320,
+												minimizable:false,
+												maximizable:false,
+												showEffectOptions:{duration:0.4},
+												hideEffectOptions:{duration:0.4},
+												onClose:function(event) { $('video-player').src=""; }
+												});
+												
+												videoPlayer.setZIndex(100);
+												videoPlayer.showCenter(true);
+												$('video-player').src="http://www.youtube.com/v/<?php echo $_youtubevideo1id; ?>&hl=fr&autoplay=1";
+												videoPlayer.getContent().update($('video-player'));
+											});
+										//]]> 
+										</script>
+									</li>
+
+									</ul>
+							</div>
+					</div>
+
+
+<?php
+
+
+ } 
+
+
+
+
+
+
+

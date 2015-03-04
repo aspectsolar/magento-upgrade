@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<!-- 
+ * Kash Orders2csvpro Module
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to Henrik Kier <info@kash.com> so we can send you a copy immediately.
+ *
+ * @category   Kash
+ * @package    Kash_Orders2csvpro
+ * @copyright  Copyright (c) 2012 Kash (http://kash.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     Henrik Kier <info@kash.com>
+ * 
+--> 
+<config>
+	<modules>
+		<Kash_Orders2csvpro>
+			<version>1.2.0.0</version>
+		</Kash_Orders2csvpro>
+	</modules>
+    <admin>
+         <routers>
+            <orders2csvpro>
+				<use>admin</use>
+				<args>
+					<module>Kash_Orders2csvpro</module>
+					<frontName>orders2csvpro</frontName>
+				</args>
+			</orders2csvpro>
+			<adminhtml>
+                <args>
+                    <modules>
+                        <Kash_Orders2csvpro before="Mage_Adminhtml">Kash_Orders2csvpro</Kash_Orders2csvpro>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+    	<layout>
+			<updates>
+				<orders2csvpro>
+					<file>orders2csvpro.xml</file>
+				</orders2csvpro>
+			</updates>
+		</layout>
+		<events>
+            <core_block_abstract_prepare_layout_after>
+                <observers>
+                    <orders2csvpromass>
+                        <type>singleton</type>
+                        <class>Kash_Orders2csvpro_Model_Gridobserver</class>
+                        <method>massaction</method>
+                    </orders2csvpromass>
+                </observers>
+            </core_block_abstract_prepare_layout_after>
+        </events>
+		<translate>
+            <modules>
+                <Kash_Orders2csvpro>
+                    <files>
+                        <default>Kash_Orders2csvpro.csv</default>
+                    </files>
+                </Kash_Orders2csvpro>
+            </modules>
+        </translate>
+    </adminhtml>
+	<global>
+        <models>
+            <orders2csvpro>
+                <class>Kash_Orders2csvpro_Model</class>
+				<resourceModel>orders2csvpro_mysql4</resourceModel>
+            </orders2csvpro>
+	        <orders2csvpro_mysql4>
+				<class>Kash_Orders2csvpro_Model_Mysql4</class>
+				<entities>
+					<file>
+						<table>orders2csv_file</table>
+					</file>
+					<column>
+						<table>orders2csv_column</table>
+					</column>
+					<schedule>
+						<table>orders2csv_schedule</table>
+					</schedule>
+					<runs>
+						<table>orders2csv_runs</table>
+					</runs>
+				</entities>
+			</orders2csvpro_mysql4>
+	    </models>
+	    <helpers>
+        	<orders2csvpro>
+            	<class>Kash_Orders2csvpro_Helper</class>
+        	</orders2csvpro>
+    	</helpers>
+    	<resources>
+			<orders2csvpro_setup>
+				<setup>
+					<module>Kash_Orders2csvpro</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</orders2csvpro_setup>
+			<orders2csvpro_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</orders2csvpro_write>
+			<orders2csvpro_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</orders2csvpro_read>
+		</resources>
+         <blocks>
+            <orders2csvpro>
+				<class>Kash_Orders2csvpro_Block</class>
+			</orders2csvpro>
+            
+        </blocks>
+    </global>
+    <default>
+       	<orders2csvpro>
+       		<settings>
+				<is_active>0</is_active>
+				<license_code>0</license_code>
+				<order_id>100000001</order_id>
+				<order_product_id>1</order_product_id>
+				<order_productbundle_id>1</order_productbundle_id>
+				<invoice_id>100000001</invoice_id>
+				<invoice_product_id>1</invoice_product_id>
+				<shipping_id>100000001</shipping_id>
+				<shipping_product_id>1</shipping_product_id>
+				<creditmemo_id>1</creditmemo_id>
+				<creditmemo_product_id>1</creditmemo_product_id>
+			</settings>
+       	</orders2csvpro>
+    </default>
+    <crontab>
+        <jobs>
+            <kash_orders2csvpro>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>orders2csvpro/orders2csvpro::cronRun</model></run>
+            </kash_orders2csvpro>
+        </jobs>
+    </crontab>
+</config>

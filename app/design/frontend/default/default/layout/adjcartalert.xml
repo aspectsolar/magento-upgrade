@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+    <adjcartalert_unsubscribe_cart>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="adjcartalert/unsubscribe" name="adjcartalert.unsubscribe" template="adjcartalert/unsubscribe.phtml"/>
+        </reference>
+    </adjcartalert_unsubscribe_cart>
+</layout>
+<!--
+/**
+ * Abandoned Carts Alerts Pro
+ *
+ * @category:    AdjustWare
+ * @package:     AdjustWare_Cartalert
+ * @version      3.3.1
+ * @license:     lMnQrjiQcxfPlbdwpFhsKslnzVPfVqO45IEZa4tVHs
+ * @copyright:   Copyright (c) 2014 AITOC, Inc. (http://www.aitoc.com)
+ */
+-->

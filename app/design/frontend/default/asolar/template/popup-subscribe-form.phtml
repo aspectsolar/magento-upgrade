@@ -1,0 +1,157 @@
+	
+	<div id="feedback" style="display:none" class="success-text">
+    Thank you for subscribing to our newsletter! 
+	</div>
+	
+	<form name="popup-form" onsubmit="return myfuncp(this);" id="popup-form" style="position:relative" method="post"> 
+	
+		<div class="news-loader" id="news-loader" style="display:none">
+					<img src="<?php echo $this->getSkinUrl('images/loader.gif'); ?>" />
+			</div>
+			
+		<div class="fieldset">
+			<ul class="form-list no-list">
+				<li class="fields">
+					<div class="field">
+			
+						
+						   <input value="enter your email address" type="text" name="email" id="popupinput" title="<?php echo $this->__('Sign up for our newsletter') ?>" class="input-text required-entry" onfocus="if (this.value=='<?php echo $this->__('enter your email address') ?>') {this.value=''};" onblur="if (this.value=='') {this.value='<?php echo $this->__('enter your email address') ?>'};"/>
+						   <div class="error-popup-msg" id="error-popup-msg" style="display:none;">Please enter a valid email address.</div>
+							 
+					</div>	
+						
+						
+					
+				</li>
+			</ul>
+		</div>
+		
+		<button type="button" title="<?php echo $this->__('Sign Up') ?>" onclick="myfuncp();" class="button"><span><span>GET THE OFFER</span></span></button>
+		
+		
+						
+		<div class="clear"></div>
+			
+		
+    </form>	
+	
+	
+	
+	<div class="clear"></div>
+		
+	
+	
+      
+<script type="text/javascript">
+    
+       
+		function myfuncp()
+		{	
+			var newsletterSubscriberFormDetail = new VarienForm('popup-form');
+			var form_email = $('popupinput').getValue();
+			var params_form = $('newsletter-validate-detail');
+			//alert(params_form);
+			new Validation('popupinput');
+			if(echeck2(form_email))
+			{
+			//alert(form_email);
+			//alert(Form.serialize($('newsletter-validate-detail')));
+			new Ajax.Updater({ success: 'popup-form' }, '<?php echo $this->getUrl('newsletter/subscriber/new') ?>', {
+				asynchronous:true, evalScripts:false,
+				parameters: { email: form_email },
+				onComplete:function(request, json){
+					Element.hide('popup-form'); 
+					Element.hide('news-loader'); 
+					Element.show('feedback');
+					
+					// Send email to subscriber:
+					jQuery.post("<?php echo $this->getUrl(); ?>popup-newsletter-send.php",
+						{ 
+							email: form_email
+
+													
+						},
+					function(data){
+						if(data){  
+							
+						}
+						else{  }
+												
+													
+					});
+					
+				},      
+				onLoading:function(request, json){Element.show('news-loader');},
+				
+			});
+
+				 
+			}
+			else
+			{
+			//alert(form_email);
+				return false;
+			}
+			return false;
+		}	
+		
+		
+		
+function echeck2(str) {
+
+		var at="@"
+		var dot="."
+		var lat=str.indexOf(at)
+		var lstr=str.length
+		var ldot=str.indexOf(dot)
+		if (str.indexOf(at)==-1){
+		   //alert("Invalid E-mail ID")
+		   goProcedural2()
+		   return false
+		}
+
+		if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+		   //alert("Invalid E-mail ID")
+		   goProcedural2()
+		   return false
+		}
+
+		if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+		    //alert("Invalid E-mail ID")
+		    goProcedural2()
+		    return false
+		}
+
+		 if (str.indexOf(at,(lat+1))!=-1){
+		    //alert("Invalid E-mail ID")
+		    goProcedural2()
+		    return false
+		 }
+
+		 if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+		    //alert("Invalid E-mail ID")
+		    goProcedural2()
+		    return false
+		 }
+
+		 if (str.indexOf(dot,(lat+2))==-1){
+		    //alert("Invalid E-mail ID")
+		    goProcedural2()
+		    return false
+		 }
+		
+		 if (str.indexOf(" ")!=-1){
+		    //alert("Invalid E-mail ID")
+		    goProcedural2()
+		    return false
+		 }
+
+ 		 return true					
+	}
+function goProcedural2()
+{
+  Element.show('error-popup-msg');
+  //Element.hide.delay(5, 'error-news-msg');
+}
+
+</script>

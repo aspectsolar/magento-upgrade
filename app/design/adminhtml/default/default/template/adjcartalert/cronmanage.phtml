@@ -1,0 +1,91 @@
+<?php
+/**
+ * Abandoned Carts Alerts Pro
+ *
+ * @category:    AdjustWare
+ * @package:     AdjustWare_Cartalert
+ * @version      3.3.1
+ * @license:     lMnQrjiQcxfPlbdwpFhsKslnzVPfVqO45IEZa4tVHs
+ * @copyright:   Copyright (c) 2014 AITOC, Inc. (http://www.aitoc.com)
+ */
+?>
+<div class="entry-edit" <?php if($this->getIsBusy()): ?>style="display: none;"<?php endif;?> id="create-task">
+    <div class="entry-edit-head">
+    <h4 class="icon-head head-edit-form fieldset-legend">Recollect Statistic</h4>
+    <div class="form-buttons"></div>
+</div>
+    <div id="adjcartalert_cronmanagement" class="fieldset ">
+    <div class="hor-scroll">
+
+<?php echo $this->__('From') ?>:     
+<input type="text" name="cal_date_from" id="cal_date_from" value="" /> 
+<img title="Select date" id="cal_date_from_trig" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/images/grid-cal.gif'; ?>"  class="v-middle"/>    
+
+<?php echo $this->__('To') ?>:     
+<input type="text" name="cal_date_to" id="cal_date_to" value="" /> 
+<img title="Select date" id="cal_date_to_trig" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/images/grid-cal.gif'; ?>"  class="v-middle"/>        
+<button style="" onclick="recollect();" class="scalable " type="button" title="Recollect Statistic" id="recollect_button"><span><span><span>Recollect Statistic</span></span></span></button>
+            </div>
+        </div>
+</div>
+<script type="text/javascript">// <![CDATA[
+    Calendar.setup({
+        inputField : 'cal_date_from',
+        ifFormat : '%Y-%m-%e',
+        button : 'cal_date_from_trig',
+        align : 'Bl',
+        singleClick : true
+    });
+    Calendar.setup({
+        inputField : 'cal_date_to',
+        ifFormat : '%Y-%m-%e',
+        button : 'cal_date_to_trig',
+        align : 'Bl',
+        singleClick : true
+    });    
+    
+    function recollect()
+    {
+        var from = $('cal_date_from').value;
+        var to   = $('cal_date_to').value;
+        if(!from || !to)
+        {
+            alert('<?php echo $this->__('Both fields should be filled in before continue.'); ?>');
+            return false;
+        }
+        
+        new Ajax.Request('<?php echo $this->getUrl('*/*/cronmanage'); ?>',
+        {
+            method:'post',
+            parameters: {from: from, to: to},
+            onSuccess: function(transport){
+                var response = transport.responseText;
+                if(response=='1')
+                {
+                    $('create-task').hide();
+                    $('create-task-unavailible').show();
+                    alert('<?php echo $this->__('The job is successfully set up.'); ?>');
+                }
+                else
+                {
+                    alert('<?php echo $this->__('Something went wrong. Please try again later.'); ?>')
+                }
+            },
+            onFailure: function(){ alert('<?php echo $this->__('Something went wrong. Please try again later.'); ?>') }
+        });        
+        
+    }
+    
+// ]]></script>
+
+<div class="entry-edit" <?php if(!$this->getIsBusy()): ?>style="display: none;"<?php endif;?>  id="create-task-unavailible">
+    <div class="entry-edit-head">
+    <h4 class="icon-head head-edit-form fieldset-legend">Recollect Statistic</h4>
+    <div class="form-buttons"></div>
+</div>
+    <div id="adjcartalert_cronmanagement" class="fieldset ">
+    <div class="hor-scroll">
+<?php echo $this->__('Currently the recollecting stat job is set up. Please wait for its finish, before creating a new one'); ?>
+            </div>
+        </div>
+</div>

@@ -1,0 +1,125 @@
+<div class="inner-fullwidth">
+	<div class="title">
+		<h2>videos</h2>
+		
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('learnmenu')->toHtml() ?>
+	
+			<div class="clear"></div>
+	</div>
+		
+	
+	<div class="contentbox">
+	
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('block_social_icons')->toHtml() ?>
+		 
+
+			
+			
+			
+			
+			<?php
+					/**
+					 * @category   Auguria
+					 * @package    Auguria_Video
+					 * @author     Auguria
+					 * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+					 */
+					 ?>
+
+					<div id="messages_video_list">
+						<div id="messages_video_msg"><?php echo $this->getMessagesBlock()->getGroupedHtml(); ?></div>
+						
+						<?php
+							$_videos = $this->getVideos();
+
+							if ($_videos && $_videos->count()>0):
+						?>
+							<div id="video-player-container" style="display:none">
+								<iframe id="video-player" width="<?php echo  Mage::getStoreConfig('auguria_video/sizes/video_player_width'); ?>" height="<?php echo  Mage::getStoreConfig('auguria_video/sizes/video_player_height'); ?>" src="" frameborder="0" allowfullscreen></iframe>
+								
+								
+							</div>
+							
+							<div class="video-list">
+							
+							<?php $_columnCount = 3; $i=0; ?>
+							
+						<?php
+								foreach ($_videos as $_item):
+						?>
+
+							<?php if ($i++%$_columnCount==0): ?>
+								<ul>
+							<?php endif ?>
+						<?php
+								// if ($this->getItemImage($_item)!=false):
+						?>
+		
+									<li class="link <?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>" id="li-<?php echo $_item->getId(); ?>">
+										
+										
+										
+										
+										
+										<div id="videoimg-<?php echo $_item->getId(); ?>" class="videoimg">
+											<div class="hvp_play"></div>
+											<img src="http://img.youtube.com/vi/<?php echo $_item->getImageIdentifier(); ?>/0.jpg" alt="<?php echo $_item->getTitle(); ?>" /> 
+										</div>
+										
+										<div class="videotitle"><?php echo $_item->getTitle(); ?></div>
+										
+										<div class="description"><?php echo $_item->getDescription(); ?></div>
+
+										<script type="text/javascript">
+										//<![CDATA[
+											Event.observe('videoimg-<?php echo $_item->getId(); ?>', 'click', function(event) {
+												videoPlayer = new Window({
+													className:'magento',
+													title:'<?php echo $_item->getTitle(); ?>',
+													content:$('video-player'),
+													width:<?php echo  Mage::getStoreConfig('auguria_video/sizes/video_player_width'); ?>,
+													height:<?php echo  Mage::getStoreConfig('auguria_video/sizes/video_player_height')+5; ?>,
+													minimizable:false,
+													maximizable:false,
+													showEffectOptions:{duration:0.4},
+													hideEffectOptions:{duration:0.4},
+													onClose:function(event) { $('video-player').src=""; }
+												});
+												videoPlayer.setZIndex(100);
+												videoPlayer.showCenter(true);
+												$('video-player').src="http://www.youtube.com/v/<?php echo $_item->getImageIdentifier(); ?>&hl=fr&autoplay=1";
+												videoPlayer.getContent().update($('video-player'));
+											});
+										//]]>
+										</script>
+									</li>
+								
+								
+								<?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+									</ul>
+									<div class="clear"></div>
+								<?php endif ?> 
+								
+								<?php endforeach; ?>
+								
+								<script type="text/javascript">decorateList($('video-list'));</script>
+							</div>
+						<?php
+							else:
+						?>
+							<p id="no-video"><?php echo $this->__('There is no available video.'); ?></p>
+						<?php
+						  endif;
+						?>
+					</div>
+
+
+
+
+
+			
+		
+			
+
+	</div>
+</div>

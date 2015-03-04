@@ -1,0 +1,135 @@
+<?php
+/**
+  *
+  *
+  */
+?>
+<?php $_session = Mage::getSingleton('admin/session') ?>
+<?php
+
+	try {
+		$hasValidAcl = $_session->isAllowed(
+			$_session->getData('acl')->get("admin/system/config/wordpress")->getResourceId()
+		);
+	}
+	catch (Exception $e) {
+		$hasValidAcl = false;
+	}
+
+?>
+<?php if ($this->getRequest()->getParam('section') !== 'wordpress' || !Mage::helper('wordpress')->isEnabled()): ?>
+	<?php return ?>
+<?php endif; ?>
+<?php if ($hasValidAcl): ?>
+	<div id="wp-update-msg" class="wp-update-msg" style="display:none;">
+		<ul class="messages">
+			<li class="notice-msg">
+				<ul>
+					<li>
+						<span>
+							<?php echo $this->__('Magento WordPress Integration extension update available.') ?> <?php echo $this->__('Update to version %s', '<span id="wp-version"></span>') ?>
+						</span>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>		
+<?php endif; ?>		
+<div class="content-header" style="margin-bottom: 10px;">
+	<table cellspacing="0">
+		<tbody>
+			<tr>
+				<td>
+					<h3><?php echo $this->__('Magento WordPress Integration') ?></h3>
+				</td>
+				<td class="form-buttons">
+					<button style="" onclick="configForm.submit()" class="scalable save" type="button" title="<?php echo $this->__('Save Config') ?>"><span><span><span><?php echo $this->__('Save Config') ?></span></span></span></button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div id="fp-integration-test-results">
+	<?php if (!$hasValidAcl): ?>
+		<div id="messages">
+			<ul class="messages">
+				<li class="notice-msg">
+					<ul>
+						<li>
+							<span><?php echo $this->__("To finish installing Fishpig's Magento WordPress integration extension, log out of Magento and log back in.") ?></span>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	<?php else: ?>
+		<?php if ($errors = Mage::helper('wordpress/system')->getIntegrationTestResults()): ?>
+			<div class="grid" style="padding-bottom:10px;">
+				<table cellspacing="0" class="data" style="border-left: 0px none;">
+						<colgroup>
+							<col width="30px" />
+							<col />
+							<col />
+						</colgroup>
+						<tbody>
+							<?php foreach($errors as $it => $error): ?>
+								<tr class="<?php if ($it%2===0): ?>odd<?php else: ?>even<?php endif; ?>">
+									<td class="a-center" style="border-color:<?php echo $error->getBgColour() ?>;background-color:<?php echo $error->getBgColour() ?>;">
+										<span>&nbsp;</span>
+									</td>
+									<td style="vertical-align: middle !important;">
+										<strong><?php echo $this->__($error->getTitle()) ?></strong>
+									</td>
+									<td style="vertical-align: middle !important;">
+										<span><?php echo $error->getMessage() ?></span>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+			</div>
+		<?php endif; ?>
+	<?php endif; ?>
+</div>
+<div id="wp-addons">
+	<ul>
+		<li class="item">
+			<div class="pad">
+				<a href="http://fishpig.co.uk/magento/extensions/bolt-full-page-cache/?utm_source=mage-admin&utm_medium=addon&utm_term=Fishpig_Bolt&utm_campaign=Fishpig_Wordpress" class="image">
+					<img src="<?php echo $this->getSkinUrl('wordpress/images/addons/bolt.png') ?>" alt="" />
+				</a>
+				<h2>
+					<a href="http://fishpig.co.uk/magento/extensions/bolt-full-page-cache/?utm_source=mage-admin&utm_medium=addon&utm_term=Fishpig_Bolt&utm_campaign=Fishpig_Wordpress" target="_blank">
+						<strong>Bolt</strong> <span>Full Page Cache</span>
+					</a>
+				</h2>
+				<p>Add enterprise level caching to Magento community with Bolt, Magento's fastest Full Page Cache extension.</p>
+			</div>
+		</li>
+		<li class="item last">
+			<div class="pad">
+				<a href="http://fishpig.co.uk/magento/extensions/seo-internal-links/?utm_source=mage-admin&utm_medium=addon&utm_term=Fishpig_Crosslink&utm_campaign=Fishpig_Wordpress" class="image">
+					<img src="<?php echo $this->getSkinUrl('wordpress/images/addons/crosslink.png') ?>" alt="" />
+				</a>
+				<h2>
+					<a href="http://fishpig.co.uk/magento/extensions/seo-internal-links/?utm_source=mage-admin&utm_medium=addon&utm_term=Fishpig_Crosslink&utm_campaign=Fishpig_Wordpress" target="_blank">
+						<strong>Crosslink</strong> <span>SEO Internal Links</span>
+					</a>
+				</h2>
+				<p>Automatically cross link your products, categories, splash pages, CMS pages, blog posts and categories using Crosslinks.</p>
+			</div>
+		</li>
+	</ul>
+</div>
+<style type="text/css">
+#wp-addons { margin: 0 0 10px; }
+#wp-addons ul { height: 1%; overflow: hidden;  }
+#wp-addons li.item  { width: 50%; float: left; }
+#wp-addons li.item .pad {padding: 1%; height: 1%; overflow: hidden; border:1px solid #ddd; margin: 0 5px 0 0; }
+#wp-addons li.item.last .pad { margin: 0 0 0 5px; }
+#wp-addons a.image { float: left; display: block; margin-right: 10px; }
+#wp-addons a.image img { max-height: 60px; display: block; }
+#wp-addons h2 { font-size: 1.4em; font-family: Tahoma, Verdana, Arial; line-height: 1em; margin: 5px 0 0; }
+#wp-addons h2 a { color: #000; text-decoration: none; }
+#wp-addons p { margin-bottom: 0; }
+</style>

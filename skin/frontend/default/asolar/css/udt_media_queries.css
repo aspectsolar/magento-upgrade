@@ -1,0 +1,118 @@
+/*------------------------------------------------------
+
+	Theme Name: ... - version 1.0
+	Type: Responsive framework
+	Author: unlimitDesign
+	Author URI: http://themeforest.net/user/udfrance
+
+------------------------------------------------------*/
+
+/*Desktop Layout+
+
+-----------------------------------------------*/
+
+
+@media only screen and (min-height: 1199px)  {
+.energybar {bottom:0%}
+}
+
+
+
+@media only screen and (max-height: 720px)  {
+.energybar {bottom:2%;width:800px;}
+}
+
+@media only screen and (max-height: 767px)  {
+.energybar {bottom:5%;width:950px;}
+}
+
+@media only screen and (max-height: 800px)  {
+.energybar {bottom:0%;}
+}
+
+@media only screen and (max-height: 960px)  {
+.energybar {bottom:-3%;}
+}
+
+@media only screen and (min-width: 1199px)  {
+
+	/*----------------------------
+	ii.-- Header
+	-----------------------------*/
+	
+		/* main menu
+		----------------------------*/
+
+		.header ul.navigation{display:table !important;}
+}
+
+@media only screen and (min-width: 960px) and (max-width: 1199px) {
+
+	/*----------------------------
+	i.-- Page
+	-----------------------------*/
+	
+	.homepage,.page{position: inherit;}
+	.page .content{max-width:870px;margin:auto;position:relative;}
+	.page .teaser{background-attachment:scroll; background-position:center center;}
+	
+	/*----------------------------
+	ii.-- Header
+	-----------------------------*/
+
+	/*homepage*/
+	.logo-homepage {background-attachment: inherit; position:absolute;}
+
+	/*inner pages*/
+	.header {display:block;}
+	.header .inner{max-width:870px;margin:auto;}
+	
+	
+		/* main menu
+		----------------------------*/
+
+		.header ul.navigation{display:table !important;}
+	
+
+	/*----------------------------
+	ii.-- Content
+	-----------------------------*/	
+
+	/*portfolio
+	----------------------------*/
+
+	/*navigation*/
+	#folio-navigation{width:1010px;height:40px;position:absolute;margin:auto; top:50%;left:50%;margin:-20px 0 0 -505px;}
+	
+	/*project-display*/
+	#ajaxpage{width:870px;}
+	.project-display {width:600px;}
+	
+		/*media & info*/
+		.project-display img, .project-display .flexslider,.project-display .flexslider img{width:600px !important;height:422px!important;}
+		.project-display .video{width:600px !important;height:337px !important;}
+		.project-info{width:225px;}
+		.project-display.fullwidth img, .project-display.fullwidth .flexslider, .project-display.fullwidth .flexslider img{width:870px !important;height:421px !important;}
+		.project-display.fullwidth .video{width:870px !important;height:489px !important;}
+
+	
+	/*blog
+	----------------------------*/
+	
+	.blog-inner-left{width:610px;}
+	.blog-inner-right{width:610px;}
+		.blog-post-content, .blog-post-content .blog-post-media{width:520px;}
+		.blog-post-content .blog-post-media .video{width:520px !important;height:290px !important;}
+
+	
+	/*epic slider nav
+	-----------------------------*/
+	
+	.epicSlider.theme-default #epic-navigation{position:absolute;}
+	
+	/*positioning & widths*/
+	.epicSlider.theme-default .epic-caption{position:absolute;}
+
+
+
+}

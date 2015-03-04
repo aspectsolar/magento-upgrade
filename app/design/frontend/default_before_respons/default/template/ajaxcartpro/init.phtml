@@ -1,0 +1,53 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/AW-LICENSE.txt
+ *
+ * =================================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * =================================================================
+ * This software is designed to work with Magento community edition and
+ * its use on an edition other than specified is prohibited. aheadWorks does not
+ * provide extension support in case of incorrect edition use.
+ * =================================================================
+ *
+ * @category   AW
+ * @package    AW_Ajaxcartpro
+ * @version    3.2.0
+ * @copyright  Copyright (c) 2010-2012 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/AW-LICENSE.txt
+ */
+?><script type="text/javascript">
+//<![CDATA[
+    var AWACP_CONFIG = {
+        mageVersion: '<?php echo Mage::getVersion();?>',
+        useProgress : <?php echo intval($this->helper('ajaxcartpro/config')->getGeneralShowProgressAnimation()) ?>,
+        addProductConfirmationEnabled : <?php echo intval($this->helper('ajaxcartpro/config')->getAddProductConfirmationEnabled()) ?>,
+        removeProductConfirmationEnabled : <?php echo intval($this->helper('ajaxcartpro/config')->getRemoveProductConfirmationEnabled()) ?>,
+        dialogsVAlign: '<?php echo $this->helper('ajaxcartpro/config')->getGeneralProgressAnimation() ?>',
+        cartAnimation: '<?php echo $this->helper('ajaxcartpro/config')->getGeneralCartAnimation() ?>',
+        addProductCounterBeginFrom : <?php echo intval($this->helper('ajaxcartpro/config')->getAddProductConfirmationCountdown()) ?>,
+        removeProductCounterBeginFrom : <?php echo intval($this->helper('ajaxcartpro/config')->getRemoveProductConfirmationCountdown()) ?>,
+
+        <?php $customJsFilePath = Mage::getDesign()->getFilename('ajaxcartpro/custom.js', array('_type' => 'skin')); ?>
+        <?php if (file_exists($customJsFilePath)) : ?>
+            custom : <?php @readfile($customJsFilePath); ?>,
+        <?php endif; ?>
+
+        hasFileOption : <?php echo Mage::helper('ajaxcartpro')->hasFileOption() ? 'true' : 'false' ?>
+    };
+
+    Event.observe(document, 'dom:loaded', function(){
+        AW_AjaxCartPro.init(AWACP_CONFIG);
+    });
+
+//]]>
+</script>
+
+

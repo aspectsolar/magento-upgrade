@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Red2Black SubscriptionNotify
+ *
+ * Magento extension
+ *
+ * NOTICE OF LICENSE
+ * Magento is subject to the Open Software License (OSL 3.0)
+ *
+ * @author      Andre Nickatina<andre@r2bconcepts.com>
+ * @category    Red2Black
+ * @package     Red2Black_SubscriptionNotify
+ * @copyright   R2Bconcepts.com 2011
+ * @link        http://www.r2bconcepts.com Red2Black Concepts
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version     0.1.0
+ */
+-->
+<config>
+    <translate>
+        <modules>
+            <Red2Black_SubscriptionNotify>
+                <files>
+                    <default>Red2Black_SubscriptionNotify.csv</default>
+                </files>
+            </Red2Black_SubscriptionNotify>
+        </modules>
+    </translate>
+    
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <newsletter>
+                                        <children>
+                                            <subscriptionnotify translate="title" module="subscriptionnotify">
+                                            <title>Subscription Notifications</title>
+                                            </subscriptionnotify>
+                                        </children>
+                                    </newsletter>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <newsletter>
+                        <children>
+                            <subscriptionnotify translate="title" module="subscriptionnotify">
+                                <title>Subscription Notifications</title>
+                                <sort_order>999</sort_order>
+                            </subscriptionnotify>
+                        </children>
+                    </newsletter>
+               </children>
+           </admin>
+       </resources>
+    </acl>
+</config>

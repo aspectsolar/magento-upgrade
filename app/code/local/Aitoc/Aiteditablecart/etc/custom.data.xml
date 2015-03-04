@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <template>
+        <frontend>
+            <!--<file path="design--frontend--base--default--template--checkout--cart--item--default"></file>
+            <file path="design--frontend--base--default--template--downloadable--checkout--cart--item--default"></file>-->
+        </frontend>
+    </template>
+</config>
+<!--
+/**
+ * Shopping Cart Editor
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aiteditablecart
+ * @version      2.1.2
+ * @license:     sJyHIXeWlUU1XYytqPDfVrCdIMO1jSQ6obarjJbRep
+ * @copyright:   Copyright (c) 2013 AITOC, Inc. (http://www.aitoc.com)
+ */
+-->

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Auguria
+ * @package    Auguria_Video
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<layout version="0.1.0">
+    <adminhtml_video_index>
+        <reference name="content">
+            <block type="auguria_video/adminhtml_video" name="video_list" />
+        </reference>
+    </adminhtml_video_index>
+    <adminhtml_video_edit>
+    	<reference name="head">
+	        <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+	        <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+        </reference>
+    </adminhtml_video_edit>
+</layout>

@@ -1,0 +1,157 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @copyright  Copyright (c) 2011 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Advanced Product Options extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_CustomOptions
+ * @author     MageWorx Dev Team
+ */
+
+/* @var $this Mage_Catalog_Block_Product_View_Options_Type_Select */ 
+$_option = $this->getOption();
+$helper = Mage::helper('customoptions');
+$valuesHtml = $this->getValuesHtml(); 
+if ($valuesHtml): ?>
+<div class="popuptable">
+<div <?php if ($helper->hideDependentOption() && $_option->getIsDependent() || $_option->getViewMode()==2) { ?>style="display: none;"<?php } ?> class="option<?php if ($helper->isSpecifyingCssClassEnabled() && $_option->getDivClass()) echo ' '.$_option->getDivClass() ?>">
+<dl>
+
+
+
+<dt>
+
+<div class="warrantyleft">
+	<?php $productname = $this->htmlEscape($_option->getTitle()); 
+	
+	 if ( $productname == "EnergyBar 250" ) { 
+		 $product = Mage::getModel('catalog/product')->load(3); 
+	 } 
+	 if ( $productname == "EP-55" ) { 
+		 $product = Mage::getModel('catalog/product')->load(4); 
+	 } 
+	 
+	 if ( $productname == "DUO-Flex" ) { 
+		 $product = Mage::getModel('catalog/product')->load(2); 
+	 }
+	 
+	 if ( $productname == "SunSocket Solar Generator" ) { 
+		 $product = Mage::getModel('catalog/product')->load(1); 
+	 }
+	 
+	 if ( $productname == "DC-154 ADAPTER" ) { 
+		 $product = Mage::getModel('catalog/product')->load(6); 
+	 }
+	 
+	 if ( $productname == "EC-250" ) { 
+		 $product = Mage::getModel('catalog/product')->load(5); 
+	 }
+	 
+	  if ( $productname == "EP-60" ) { 
+		 $product = Mage::getModel('catalog/product')->load(15); 
+	 }
+	 
+	
+	$productid = $product->getId();
+	?>
+		
+	<div class="warrantyimage"><img alt="" src="<?php echo Mage::helper('catalog/image')->init($product, 'image')->resize(134,84); ?>"/></div>
+	
+
+
+<label><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getIsRequire(true)): ?><?php endif; ?></label>
+
+</div>
+
+<?php if ($_option->getDescription()): ?><p class="note"><?php echo $_option->getDescription() ?></p><?php endif; ?></dt>
+<dd>
+	<div class="popupwarranty">
+	
+	
+		<?php if ($product->getData('warrantyinfo')): ?>
+		   
+			<span>SELECT BELOW:</span>
+
+			<a id="warrantyinfopopup_<?php echo $productid; ?>" class="warrantyinfopopup" href="#warrantyinfotextpopup_<?php echo $productid; ?>"><img class="iconinfo" alt="" title="" src="<?php echo $this->getSkinUrl(); ?>images/icon_info.gif"/></a>
+							
+							
+							<script type="text/javascript">
+								jQuery(document).ready(function() {
+
+								
+								
+								jQuery("#acp-product-options #warrantyinfopopup_<?php echo $productid; ?>").fancybox({
+										'padding':'0', 'margin':'0',
+										'titlePosition'     : 'inside',
+										'transitionIn'      : 'none',
+										'transitionOut'     : 'none',
+										'overlayColor'		:	'black',
+										'overlayShow'		:	true,
+										'width':720,
+										'height':400,
+										'autoScale'     : false,
+										'autoDimensions': false
+										
+						
+									});
+								});
+							</script>
+							
+							<div style="display: none;">
+								<div style="padding:25px;width:653px;" class="warrantyinfotext" id="warrantyinfotextpopup_<?php echo $productid; ?>">
+									
+												<?php $_warrantyinfo = $product->getResource()->getAttribute('warrantyinfo')->getFrontend()->getValue($product); ?>
+												<?php echo $_warrantyinfo; ?>	
+											
+								</div> 
+							</div>
+							
+		
+		 <?php else: ?>
+	
+		 <?php endif; ?>	
+						
+	</div>						
+						
+	
+	
+    <?php echo $valuesHtml ?>
+    <?php if ($_option->getIsRequire(true)): ?>
+    <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX): ?>
+                <span id="options-<?php echo $_option->getId() ?>-container"></span>
+    <?php endif; ?>
+    <?php endif; ?>
+    <?php if ($helper->isQntyInputEnabled() && $_option->getQntyInput() && $_option->getType()!=Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX): ?>
+        <span class="qty-holder">
+            <label><?php echo $helper->getDefaultOptionQtyLabel() ?> <input type="text" class="input-text qty <?php if ($_option->getIsRequire(true)) echo 'validate-greater-than-zero'; else echo 'validate-zero-or-greater'; ?>" value="<?php echo ($_option->getOptionQty()?$_option->getOptionQty():1) ?>" maxlength="12" id="options_<?php echo $_option->getId() ?>_qty" name="options_<?php echo $_option->getId() ?>_qty" onchange="opConfig.reloadPrice(); <?php if ($_option->getOptionSetQtyProduct()) { ?>optionSetQtyProduct.setQty()<?php } ?>" onKeyPress="if(event.keyCode==13){opConfig.reloadPrice(); <?php if ($_option->getOptionSetQtyProduct()) { ?>optionSetQtyProduct.setQty()<?php } ?>}"></label>
+        </span>
+    <?php endif; ?>
+</dd></dl>
+</div>
+<div class="clear"></div>
+</div>
+<?php endif; ?>
+
+
+

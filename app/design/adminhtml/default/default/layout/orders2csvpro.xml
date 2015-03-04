@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<orders2csvpro_adminhtml_file_index>
+        <reference name="content">
+            <block type="orders2csvpro/adminhtml_file" name="filecvspro" />
+        </reference>
+    </orders2csvpro_adminhtml_file_index>
+	<orders2csvpro_adminhtml_schedule_index>
+        <reference name="content">
+            <block type="orders2csvpro/adminhtml_schedule" name="schedulecvspro" />
+        </reference>
+    </orders2csvpro_adminhtml_schedule_index>
+	<orders2csvpro_adminhtml_help_index>
+        <reference name="content">
+            <block type="orders2csvpro/adminhtml_help" name="helpcvspro" />
+        </reference>
+    </orders2csvpro_adminhtml_help_index>
+</layout>

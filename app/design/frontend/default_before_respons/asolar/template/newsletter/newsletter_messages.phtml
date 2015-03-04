@@ -1,0 +1,7 @@
+<?php if($this->getMessagesBlock()->getMessageCollection()->count()): ?>
+    <div id="inchoo_global_messages" style="display: block">
+        <?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
+    </div>
+<?php $this->getMessagesBlock()->getMessageCollection()->clear(); ?>
+
+<?php endif; ?>

@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Remove or Change Displayed States and Regions
+ *
+ * LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE_OSL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@eltrino.com so we can send you a copy immediately.
+ *
+ * @category   Eltrino
+ * @package    Eltrino_Region
+ * @copyright  Copyright (c) 2012 Eltrino LLC. (http://www.eltrino.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Eltrino_Region>
+            <version>1.0.0.0</version>
+        </Eltrino_Region>
+    </modules>
+    <global>
+        <models>
+            <eltrino_region>
+                <class>Eltrino_Region_Model</class>
+                <resourceModel>eltrino_region_mysql4</resourceModel>
+            </eltrino_region>
+            <adminhtml>
+                <rewrite>
+                    <customer_renderer_region>Eltrino_Region_Model_Adminhtml_Customer_Renderer_Region</customer_renderer_region>
+                </rewrite>
+            </adminhtml>
+            <eltrino_region_mysql4>
+                <class>Eltrino_Region_Model_Mysql4</class>
+                <entities>
+                    <entity>
+                        <table>eltrino_region_entity</table>
+                    </entity>
+                </entities>
+            </eltrino_region_mysql4>
+        </models>
+        <resources>
+            <eltrino_region_setup>
+                <setup>
+                    <module>Eltrino_Region</module>
+                </setup>
+            </eltrino_region_setup>
+        </resources>
+        <blocks>
+            <eltrino_region>
+                <class>Eltrino_Region_Block</class>
+            </eltrino_region>
+        </blocks>
+        <helpers>
+            <eltrino_region>
+                <class>Eltrino_Region_Helper</class>
+            </eltrino_region>
+            <directory>
+                <rewrite>
+                    <data>Eltrino_Region_Helper_Directory</data>
+                </rewrite>
+            </directory>
+        </helpers>
+        <common_settings>
+            <US>
+                <lower_states>
+                    <label>Lower 48 States</label>
+                    <regions_code>
+                        <AK/><AS/><AF/><AA/><AC/><AE/><AM/><AP/><DC/><FM/><GU/><HI/><MH/><MP/><PW/><PR/><VI/>
+                    </regions_code>
+                </lower_states>
+                <states_only>
+                    <label>States Only</label>
+                    <regions_code>
+                        <AS/><AF/><AA/><AC/><AE/><AM/><AP/><DC/><FM/><GU/><MH/><MP/><PW/><PR/><VI/>
+                    </regions_code>
+                </states_only>
+            </US>
+        </common_settings>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Eltrino_Region>
+                    <files>
+                        <default>Eltrino_Region.csv</default>
+                    </files>
+                </Eltrino_Region>
+            </modules>
+        </translate>
+        <events>
+            <admin_system_config_changed_section_eltrino_region>
+                <observers>
+                    <eltrino_region_observer>
+                        <class>eltrino_region/observer</class>
+                        <method>storeCountryDisabledRegions</method>
+                    </eltrino_region_observer>
+                </observers>
+            </admin_system_config_changed_section_eltrino_region>
+        </events>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <eltrino_region before="Mage_Adminhtml">Eltrino_Region_Adminhtml</eltrino_region>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

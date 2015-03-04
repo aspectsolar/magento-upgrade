@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        
+    </default>
+    <remove_ajaxcartpro>
+        <remove name="aw.ajaxcartpro.init"/>
+        <remove name="aw.ajaxcartpro.overlay"/>
+        <remove name="aw.ajaxcartpro.progress"/>
+        <remove name="aw.ajaxcartpro.confirm.addproduct"/>
+        <remove name="aw.ajaxcartpro.confirm.removeproduct"/>
+        <remove name="aw.ajaxcartpro.container"/>
+    </remove_ajaxcartpro>
+    <ajaxcartpro_ajax_confirmation>
+        <block type="core/template" template="ajaxcartpro/overlay.phtml" name="aw.ajaxcartpro.overlay" />
+        <block type="ajaxcartpro/confirmation" template="ajaxcartpro/confirm.phtml" name="aw.ajaxcartpro.confirm" />
+    </ajaxcartpro_ajax_confirmation>
+</layout>

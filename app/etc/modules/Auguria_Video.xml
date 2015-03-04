@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Video
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Auguria_Video>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Auguria_Video>
+    </modules>
+</config>

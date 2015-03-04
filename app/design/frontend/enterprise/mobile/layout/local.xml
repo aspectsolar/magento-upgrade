@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     enterprise_iphone
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+-->
+<layout version="0.1.0">
+
+    <sales_order_print translate="label">
+        <label>Sales Order Print View</label>
+        <reference name="content">
+            <action method="unsetChild">
+                <name>sales.order.print</name>
+            </action>
+            <block type="sales/order_print" name="sales.order.print" template="sales/order/print.phtml">
+                <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>../../../base/default/template/sales/order/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>../../../base/default/template/sales/order/items/renderer/default.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>bundle/sales_order_items_renderer</block><template>../../../base/default/template/bundle/sales/order/items/renderer.phtml</template></action>
+                <action method="addItemRender"><type>downloadable</type><block>downloadable/sales_order_item_renderer_downloadable</block><template>../../../base/default/template/downloadable/sales/order/items/renderer/downloadable.phtml</template></action>
+                <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/sales_order_item_renderer_noquote</block><template>../../default/template/sales/order/items/renderer/default.phtml</template></action>
+                <block type="sales/order_totals" name="order_totals" template="../../../base/default/template/sales/order/totals.phtml">
+                    <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
+                    <action method="setValueProperties"><value>class="last a-right"</value></action>
+                    <block type="tax/sales_order_tax" name="tax" template="../../../base/default/template/tax/order/tax.phtml">
+                        <action method="setIsPlaneMode"><value>1</value></action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </sales_order_print>
+
+</layout>

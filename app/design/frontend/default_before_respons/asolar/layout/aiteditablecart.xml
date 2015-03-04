@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_cart_index>
+        <reference name="head">
+            <action method="addJs"><script>varien/product.js</script></action>
+			<action method="addCss"><stylesheet>css/aiteditablecart.css</stylesheet></action>
+			<action method="addItem"><type>skin_js</type><name>js/aitoc/aiteditablecart/cart.js</name></action>
+            
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </reference>
+        <reference name="checkout.cart">
+            <block type="core/template" name="aiteditablecart.js" output="toHtml" template="aiteditablecart/js.phtml" after="checkout.cart.totals"/>
+        </reference>
+    </checkout_cart_index>    
+    <aiteditablecart_checkout_cart_totals>
+    <block type="checkout/cart" name="root" output="toHtml">
+        <action method="setCartTemplate"><value>checkout/cart.phtml</value></action>
+        <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
+        <action method="chooseTemplate"/>
+        <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
+        <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/item/default.phtml</template></action>
+        <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/item/default.phtml</template></action>
+		<action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
+        <action method="addItemRender"><type>downloadable</type><block>downloadable/checkout_cart_item_renderer</block><template>downloadable/checkout/cart/item/default.phtml</template></action>
+		<block type="core/text_list" name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" translate="label">
+            <label>Empty Shopping Cart Content Before</label>
+        </block>
+
+        <block type="core/text_list" name="checkout.cart.top_methods" as="top_methods" translate="label">
+            <label>Payment Methods Before Checkout Button</label>
+            <block type="checkout/onepage_link" name="checkout.cart.methods.onepage.top">
+                <action method="setTemplate"><template helper="aiteditablecart/aitcheckout/switchTopLink" /></action>
+            </block>
+        </block>
+
+        <block type="page/html_wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
+            <label>Shopping Cart Items Before</label>
+            <action method="setElementClass"><value>rewards</value></action>
+            <action method="setMayBeInvisible"><value>1</value></action>
+        </block>
+
+        <block type="core/text_list" name="checkout.cart.methods" as="methods" translate="label">
+            <label>Payment Methods After Checkout Button</label>
+            <block type="checkout/onepage_link" name="checkout.cart.methods.onepage.bottom" template="checkout/onepage/link.phtml"/>
+            <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="checkout/multishipping/link.phtml"/>
+        </block>
+
+        <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon">
+            <action method="setTemplate"><template helper="aiteditablecart/aitcheckout/switchCoupon" /></action>
+        </block>
+        <block type="checkout/cart_shipping" name="checkout.cart.shipping" as="shipping">
+            <action method="setTemplate"><template helper="aiteditablecart/aitcheckout/switchShipping" /></action>
+        </block>
+        <block type="core/text_list" name="checkout.cart.widget" as="checkout_cart_widget" translate="label">
+            <label>Shopping Cart Items After</label>
+        </block>
+        <block type="checkout/cart_crosssell" name="checkout.cart.crosssell" as="crosssell">
+            <action method="setTemplate"><template helper="aiteditablecart/aitcheckout/switchCrosssell" /></action>
+        </block>
+
+        <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="checkout/cart/totals.phtml" />
+        <block type="core/template" name="aiteditablecart.js" output="toHtml" template="aiteditablecart/js.phtml"/>
+    </block>
+    </aiteditablecart_checkout_cart_totals>
+</layout> 
+<!--
+/**
+ * Shopping Cart Editor
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aiteditablecart
+ * @version      2.1.2
+ * @license:     sJyHIXeWlUU1XYytqPDfVrCdIMO1jSQ6obarjJbRep
+ * @copyright:   Copyright (c) 2013 AITOC, Inc. (http://www.aitoc.com)
+ */
+-->

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+  Copyright (c) 2014 eBay Enterprise, Inc.
+
+  NOTICE OF LICENSE
+
+  This source file is subject to the eBay Enterprise
+  Magento Extensions End User License Agreement
+  that is bundled with this package in the file LICENSE.md.
+  It is also available through the world-wide-web at this URL:
+  http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.pdf
+
+  @copyright   Copyright (c) 2014 eBay Enterprise, Inc. (http://www.ebayenterprise.com/)
+  @license     http://www.ebayenterprise.com/files/pdf/Magento_Connect_Extensions_EULA_050714.pdf  eBay Enterprise Magento Extensions End User License Agreement
+
+-->
+<layout version="0.1.0">
+
+	<default translate="label">
+		<label>Default Layout</label>
+		<update handle="eems_display_beacon"/>
+	</default>
+
+	<catalog_product_view>
+		<reference name="eems_display.beacon">
+			<action method="setPageType"><type>product</type></action>
+		</reference>
+	</catalog_product_view>
+
+	<checkout_cart_index>
+		<reference name="eems_display.beacon">
+			<action method="setPageType"><type>cart</type></action>
+		</reference>
+	</checkout_cart_index>
+
+	<checkout_onepage_success>
+		<reference name="eems_display.beacon">
+			<action method="setPageType"><type>checkout_success</type></action>
+		</reference>
+	</checkout_onepage_success>
+
+	<checkout_multishipping_success>
+		<reference name="eems_display.beacon">
+			<action method="setPageType"><type>checkout_success</type></action>
+		</reference>
+	</checkout_multishipping_success>
+
+	<eems_display_beacon translate="label">
+		<reference name="before_body_end">
+			<block type="eems_display/beacon" name="eems_display.beacon" template="eems_display/beacon.phtml"/>
+		</reference>
+	</eems_display_beacon>
+
+</layout>

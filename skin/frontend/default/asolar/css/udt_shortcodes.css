@@ -1,0 +1,43 @@
+
+
+
+/*--------------------------------------------------------
+	
+	1.Content styling
+		Columns
+		Blockquotes
+		DopCaps
+		Highlights
+		Lists
+	2.Media
+	3.Ui-buttons
+	4.Ui-Accordions & Tabs
+	5.Ui-Pricing tables
+	6.Social
+	7.Maps
+	8.Misc
+	
+--------------------------------------------------------*/	
+
+
+
+/*--------------------------------------------------------
+	1.Content Styling
+--------------------------------------------------------*/
+
+	/*COLUMNS*/
+	
+	.column_one_half, .column_one_third, .column_one_fourth, .column_two_thirds, .column_three_fourths{float:left;margin-right:4%;overflow:hidden; position:relative;margin-bottom:30px;}
+	.column_one_half p, .column_one_third p, .column_one_fourth p, .column_two_thirds p, .column_three_fourths p{margin-bottom:0;}
+
+	
+		/* widths
+		-----------------------------*/	
+		.column_one_half{width:48%;}
+		.column_one_third{width:30.6666%;}
+		.column_one_fourth{width:22%;}
+		.column_two_thirds{width:65.3334%;}
+		.column_three_fourths{width:74%;}
+		.last{margin-right:0; clear:right;}
+		
+		

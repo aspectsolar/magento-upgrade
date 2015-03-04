@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE
+ *
+ * This source file a part of Kash_Orders2csv extension
+ * all rights to this modul belongs to kash.com
+ *
+ * @category    Kash
+ * @package     Kash_Orders2csv
+ * @copyright   Copyright (c) 2011 kash (http://www.kash.com)
+ */
+-->
+<config>
+    <modules>
+        <Kash_Orders2csvpro>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Sales />
+                <Kash_Shared />
+            </depends>
+		</Kash_Orders2csvpro>
+    </modules>
+</config> 

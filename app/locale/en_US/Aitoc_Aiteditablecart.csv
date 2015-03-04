@@ -1,0 +1,25 @@
+﻿"There is no defined renderer for ""%s"" option type","There is no defined renderer for ""%s"" option type"
+"Incl. Tax","Incl. Tax"
+"Choose option...","Choose option..."
+AM,AM
+PM,PM
+-,-
+"-- Please Select --","-- Please Select --"
+None,None
+"Choose an Option...","Choose an Option..."
+"No options of this product are available.","No options of this product are available."
+sample,sample
+"Aitoc Shopping Cart Editor","Aitoc Shopping Cart Editor"
+"Please specify the product required option(s)","Please specify the product required option(s)"
+"The file you uploaded is larger than %s Megabytes allowed by server","The file you uploaded is larger than %s Megabytes allowed by server"
+"File upload failed","File upload failed"
+"The file '%s' for '%s' has an invalid extension","The file '%s' for '%s' has an invalid extension"
+"Maximum allowed image size for '%s' is %sx%s px.","Maximum allowed image size for '%s' is %sx%s px."
+"The file '%s' you uploaded is larger than %s Megabytes allowed by server","The file '%s' you uploaded is larger than %s Megabytes allowed by server"
+Qty:,Qty:
+"Choose a selection...","Choose a selection..."
+"Allowed file extensions to upload","Allowed file extensions to upload"
+"Maximum image width","Maximum image width"
+px.,px.
+"Maximum image height","Maximum image height"
+"Maximum number of characters","Maximum number of characters"

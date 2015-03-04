@@ -1,0 +1,27 @@
+<?php
+/**
+ * Abandoned Carts Alerts Pro
+ *
+ * @category:    AdjustWare
+ * @package:     AdjustWare_Cartalert
+ * @version      3.3.1
+ * @license:     lMnQrjiQcxfPlbdwpFhsKslnzVPfVqO45IEZa4tVHs
+ * @copyright:   Copyright (c) 2014 AITOC, Inc. (http://www.aitoc.com)
+ */
+?>
+<div class="page-title"> 
+    <h1><?php echo $this->__('Unsubscribe') ?></h1>
+</div>
+<?php if( !$this->isCustomerMode() || $this->getConfirmed()): ?>
+    <p><?php echo $this->__('You have been successfully unsubscribed.'); ?></p>
+<?php else: ?>
+    <form action="<?php echo $this->getUrl('alerts/*/*', array('id'=>$this->getHistory()->getId(), 'code' => $this->getHistory()->getRecoverCode())) ?>" method="post" id="form-pass">
+    <input type="hidden" name="confirmed" value="1" /> 
+    <h2 class="sub-title"><?php echo $this->__('Email: %s', $this->getHistory()->getCustomerEmail()) ?></h2> 
+    
+    <div class="buttons-set">
+        <button type="submit" class="button" title="<?php echo $this->__('Confirm') ?>"><span><span><?php echo $this->__('Confirm') ?></span></span></button>
+    </div> 
+    </form>
+
+<?php endif; ?>

@@ -1,0 +1,100 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<!--start header-->
+    <div style="" class="header header-main">
+        <div class="inner">
+		
+		
+		
+			
+		<a class="mobileMenuToggle" href="#mobilemenu"></a>
+			
+		 
+			<nav id="mobilemenu">
+				<?php echo $this->getChildHtml('topMenumobile') ?>
+			</nav>
+			
+			<script type="text/javascript">
+				jQuery("#mobilemenu").mmenu({
+					 position: "left",
+				   zposition: "front"
+				}, {
+				   // configuration object
+			
+				});
+				</script>
+			
+            <div class="logo-container">
+                 <div class="logo">
+					      
+								<strong><?php echo $this->getLogoAlt() ?></strong><a title="<?php echo $this->getLogoAlt() ?>" class="navigateTo" href="<?php echo $this->getUrl(); ?>"><img src="<?php echo $this->getSkinUrl(); ?>images/logo.png" alt="Portable Solar Powered Generators, Chargers, Batteries & Panels"/></a>
+						
+                 </div>
+           </div>
+
+		   
+			<div class="toplinks">
+				<?php echo $this->getChildHtml('topLinks') ?>
+			</div>
+			
+			<?php echo $this->getChildHtml('topMenu') ?>
+			
+	
+			
+			<a class="mobileMenuToggle right" href="#mobilemenuright"></a>
+			
+			<nav id="mobilemenuright">
+				<?php echo $this->getChildHtml('topLinks') ?>
+			</nav>
+			<script type="text/javascript">
+				jQuery("#mobilemenuright").mmenu({
+				   position: "right",
+					zposition: "front"
+				   // options object
+				}, {
+				   // configuration object
+			
+				});
+				</script>
+		
+			
+			
+			<div class="clear"></div>
+			
+			<div class="promodiv">
+				<div class="f-left"><strong>DUO-FLEX NOW ONLY $99.99 + FREE SHIPPING. </strong><a class="shopnow" href="<?php echo $this->getUrl(); ?>duo-flex-solar-charger.html">Buy It Now</a></div>
+				<div class="f-right"><?php echo $this->getChildHtml('topSearch') ?></div>
+			</div>
+		</div>
+    </div>	<div style='display:none;' id='special-promo-div'>				<ul class="footermenu"><li class="first"><a href="http://www.aspectsolar.com/">home</a></li><li><a href="http://www.aspectsolar.com/products.html/">portable solar powered products</a></li><li><a href="http://www.aspectsolar.com/sunsocket-solar-generator.html">portable solar power generators</a></li><li class="last"><a href="http://www.aspectsolar.com/energybar250-power-inverter-battery.html">portable solar power packs</a></li> </ul><ul class="footermenu"><li class="first"><a href="http://www.aspectsolar.com/ep-60-portable-solar-panels.html">portable solar panels</a></li><li><a href="http://www.aspectsolar.com/solar-power-pack-plus-60.html">portable solar chargers</a></li><li><a href="http://www.aspectsolar.com/solar-power-pack-pro-60.html">portable solar power packs</a></li><li class="last"><a href="http://www.aspectsolar.com/learn/how-it-works/">how does solar power work?</a></li></ul><ul class="shopinfo"><li class="first"><a href="http://www.aspectsolar.com/privacy-policy">privacy policy</a></li><li><a href="http://www.aspectsolar.com/terms-of-service">terms of service</a></li><li><a href="http://www.aspectsolar.com/warranty">AspectCare warranty</a></li><li><a href="http://www.aspectsolar.com/shipping-and-returns">shipping & returns</a></li><li ><a href="http://www.aspectsolar.com/international-orders">international orders</a></li><li class="last"><a href="http://www.aspectsolar.com/sitemap.html">site map</a></li></ul>	</div>
+    <!--end header-->
+	
+	
+

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE
+ *
+ * This source file a part of Kash_Html2pdf extension
+ * all rights to this modul belongs to kash.com
+ *
+ * @category    Kash
+ * @package     Kash_Html2pdf
+ * @copyright   Copyright (c) 2011 kash (http://www.kash.com)
+ */
+-->
+<!--<config>
+    <tabs>
+        <kash translate="label">
+            <label>kash</label>
+            <sort_order>280</sort_order>
+        </kash>
+    </tabs>
+</config>-->

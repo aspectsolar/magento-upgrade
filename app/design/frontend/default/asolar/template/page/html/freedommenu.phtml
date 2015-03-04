@@ -1,0 +1,17 @@
+<?php 
+	$currenturl = Mage::helper('core/url')->getCurrentUrl();
+?>
+
+<div class="block block-submenu">
+<div class="block-content">
+	<ul>
+		<li class="first <?php $isactive = strpos($currenturl, "travel-safely"); if ($isactive != false) 	{echo "active";	} ?>"><a href="<?php echo $this->getUrl('freedom/travel-safely.html'); ?>">travel safely</a></li>
+		
+		
+		<li class="<?php $isactive = strpos($currenturl, "cpap"); if ($isactive != false) 	{echo "active";	} ?>"><a href="<?php echo $this->getUrl('freedom/cpap'); ?>">CPAP</a></li>
+		<li class="last <?php $isactive = strpos($currenturl, "aviation"); if ($isactive != false) 	{echo "active";	} ?>"><a href="<?php echo $this->getUrl('freedom/aviation'); ?>">aviation</a></li>
+	
+		
+	</ul>
+</div>
+</div>

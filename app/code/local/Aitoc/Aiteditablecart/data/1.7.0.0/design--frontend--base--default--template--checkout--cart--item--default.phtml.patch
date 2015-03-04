@@ -1,0 +1,558 @@
+diff -aurBb /home/httpd/htdocs/users/kalashnikov/deliverysegm1411/var/ait_patch_orig/compare66812923401054d078b89ecd4f /home/httpd/htdocs/users/kalashnikov/deliverysegm1411/var/ait_patch_modif/compare66812923401054d078b89ecd4f
+--- /home/httpd/htdocs/users/kalashnikov/deliverysegm1411/var/ait_patch_orig/compare66812923401054d078b89ecd4f	2010-12-14 17:21:46 +0200
++++ /home/httpd/htdocs/users/kalashnikov/deliverysegm1411/var/ait_patch_modif/compare66812923401054d078b89ecd4f	2010-12-14 17:21:46 +0200
+@@ -35,6 +35,13 @@
+             <?php echo $this->htmlEscape($this->getProductName()) ?>
+         <?php endif; ?>
+         </h2>
++
++
++
++
++        
++<?php /* START AITOC COMMENTING        
++        
+         <?php if ($_options = $this->getOptionList()):?>
+         <dl class="item-options">
+             <?php foreach ($_options as $_option) : ?>
+@@ -53,6 +60,539 @@
+             <?php endforeach; ?>
+         </dl>
+         <?php endif;?>
++
++
++
++
++        
++FINISH AITOC COMMENTING */ ?>
++
++<fieldset class="product-options" id="product-options-wrapper" style="border:0px; margin:0px; padding:0px; background-color:inherit; ">
++
++    <script type="text/javascript">
++    //<![CDATA[
++
++    var optionTextCounter = {
++        count : function(field,cntfield,maxlimit){
++            if (field.value.length > maxlimit){
++                field.value = field.value.substring(0, maxlimit);
++            } else {
++                cntfield.innerHTML = maxlimit - field.value.length;
++            }
++        }
++    }
++
++    Product.Options<?php echo $_item->getId() ?> = Class.create();
++    Product.Options<?php echo $_item->getId() ?>.prototype = {
++        initialize : function(config){
++            this.config = config;
++        },
++        reloadPrice : function(){
++			return '';
++        }
++    }
++    function validateOptionsCallback(elmId, result){
++        var container = $(elmId).up('ul.options-list');
++        if (result == 'failed') {
++            container.removeClassName('validation-passed');
++            container.addClassName('validation-failed');
++        } else {
++            container.removeClassName('validation-failed');
++            container.addClassName('validation-passed');
++        }
++    }
++    var opConfig<?php echo $_item->getId() ?> = new Product.Options<?php echo $_item->getId() ?>(<?php echo $this->getJsonConfig() ?>);
++    //]]>
++    
++    
++    
++/**************************** CONFIGURABLE PRODUCT **************************/
++Product.Config<?php echo $_item->getId() ?> = Class.create();
++Product.Config<?php echo $_item->getId() ?>.prototype = {
++    initialize: function(config){
++        this.config     = config;
++        this.taxConfig  = this.config.taxConfig;
++        this.settings   = $$('.super-attribute-select-<?php echo $_item->getId() ?>');
++        this.state      = new Hash();
++        this.priceTemplate = new Template(this.config.template);
++        this.prices     = config.prices;
++
++        this.settings.each(function(element){
++            Event.observe(element, 'change', this.configure.bind(this))
++        }.bind(this));
++this.aEmelentsToConfig = [];   
++this.iCounter = 0;   
++        // fill state
++        this.settings.each(function(element){
++            var attributeId = element.id.replace(/[a-z]*/, '');
++            if(attributeId && this.config.attributes[attributeId]) {
++                element.config = this.config.attributes[attributeId];
++                element.attributeId = attributeId;
++                this.state[attributeId] = false;
++            }
++        }.bind(this))
++
++        // Init settings dropdown
++        var childSettings = [];
++        for(var i=this.settings.length-1;i>=0;i--){
++            var prevSetting = this.settings[i-1] ? this.settings[i-1] : false;
++            var nextSetting = this.settings[i+1] ? this.settings[i+1] : false;
++            if(i==0){
++                this.fillSelect(this.settings[i])
++            }
++            else {
++                this.settings[i].disabled=true;
++            }
++            $(this.settings[i]).childSettings = childSettings.clone();
++            $(this.settings[i]).prevSetting   = prevSetting;
++            $(this.settings[i]).nextSetting   = nextSetting;
++            childSettings.push(this.settings[i]);
++        }
++
++        // try retireve options from url
++        var separatorIndex = window.location.href.indexOf('#');
++        if (separatorIndex!=-1) {
++            var paramsStr = window.location.href.substr(separatorIndex+1);
++            this.values = paramsStr.toQueryParams();
++            this.settings.each(function(element){
++                var attributeId = element.attributeId;
++                element.value = this.values[attributeId];
++                this.configureElement(element);
++            }.bind(this));
++        }
++        
++		if (this.aEmelentsToConfig)
++		{
++			for(var p=0; p<this.iCounter; p++)
++			{
++				this.configureElement(this.aEmelentsToConfig[p]);
++			}
++		}
++    },
++
++    configure: function(event){
++        var element = Event.element(event);
++        this.configureElement(element);
++    },
++
++    configureElement : function(element) {
++        this.reloadOptionLabels(element);
++
++		if(element.value){
++            this.state[element.config.id] = element.value;
++            if(element.nextSetting){
++                element.nextSetting.disabled = false;
++                this.fillSelect(element.nextSetting);
++                this.resetChildren(element.nextSetting);
++            }
++        }
++        else {
++            this.resetChildren(element);
++        }
++        this.reloadPrice();
++//      Calculator.updatePrice();
++    },
++
++    reloadOptionLabels: function(element){
++        var selectedPrice;
++        if(element.options[element.selectedIndex].config){
++            selectedPrice = parseFloat(element.options[element.selectedIndex].config.price)
++        }
++        else{
++            selectedPrice = 0;
++        }
++        for(var i=0;i<element.options.length;i++){
++            if(element.options[i].config){
++                element.options[i].text = this.getOptionLabel(element.options[i].config, element.options[i].config.price-selectedPrice);
++            }
++        }
++    },
++
++    resetChildren : function(element){
++        if(element.childSettings) {
++            for(var i=0;i<element.childSettings.length;i++){
++                element.childSettings[i].selectedIndex = 0;
++                element.childSettings[i].disabled = true;
++                if(element.config){
++                    this.state[element.config.id] = false;
++                }
++            }
++        }
++    },
++
++ 
++    
++    fillSelect: function(element){
++        var attributeId = element.id.replace(/[a-z]*/, '');
++        var options = this.getAttributeOptions(attributeId);
++        this.clearSelect(element);
++        element.options[0] = new Option(this.config.chooseText, '');
++
++        var prevConfig = false;
++        if(element.prevSetting){
++            prevConfig = element.prevSetting.options[element.prevSetting.selectedIndex];
++        }
++        
++var bHasSelected  =   false;      
++        if(options) {
++            var index = 1;
++bHasSelected = false;
++            for(var i=0;i<options.length;i++){
++                var allowedProducts = [];
++                if(prevConfig) {
++                    for(var j=0;j<options[i].products.length;j++){
++                        if(prevConfig.config.allowedProducts
++                            && prevConfig.config.allowedProducts.indexOf(options[i].products[j])>-1){
++                            allowedProducts.push(options[i].products[j]);
++                        }
++                    }
++                } else {
++                    allowedProducts = options[i].products.clone();
++                }
++
++                if(allowedProducts.size()>0){
++                    options[i].allowedProducts = allowedProducts;
++//                    element.options[index] = new Option(this.getOptionLabel(options[i], options[i].price), options[i].id);
++                    element.options[index] = new Option(this.getOptionLabel(options[i], options[i].price), options[i].id, options[i].attr_value); // aitoc code
++                    
++if (options[i].attr_value) {bHasSelected = true; element.options[index].selected = true;}                    
++                    
++                    element.options[index].config = options[i];
++                    index++;
++                }
++            }
++        }
++        
++if (bHasSelected)
++{
++    this.aEmelentsToConfig[this.iCounter] = element;
++    this.iCounter++;
++}
++        
++    },
++
++    
++    
++    getOptionLabel: function(option, price){
++        var price = parseFloat(price);
++        if (this.taxConfig.includeTax) {
++            var tax = price / (100 + this.taxConfig.defaultTax) * this.taxConfig.defaultTax;
++            var excl = price - tax;
++            var incl = excl*(1+(this.taxConfig.currentTax/100));
++        } else {
++            var tax = price * (this.taxConfig.currentTax / 100);
++            var excl = price;
++            var incl = excl + tax;
++        }
++
++        if (this.taxConfig.showIncludeTax || this.taxConfig.showBothPrices) {
++            price = incl;
++        } else {
++            price = excl;
++        }
++
++        var str = option.label;
++        if(price){
++            if (this.taxConfig.showBothPrices) {
++                str+= ' ' + this.formatPrice(excl, true) + ' (' + this.formatPrice(price, true) + ' ' + this.taxConfig.inclTaxTitle + ')';
++            } else {
++                str+= ' ' + this.formatPrice(price, true);
++            }
++        }
++        return str;
++    },
++
++    formatPrice: function(price, showSign){
++        var str = '';
++        price = parseFloat(price);
++        if(showSign){
++            if(price<0){
++                str+= '-';
++                price = -price;
++            }
++            else{
++                str+= '+';
++            }
++        }
++
++        var roundedPrice = (Math.round(price*100)/100).toString();
++
++        if (this.prices && this.prices[roundedPrice]) {
++            str+= this.prices[roundedPrice];
++        }
++        else {
++            str+= this.priceTemplate.evaluate({price:price.toFixed(2)});
++        }
++        return str;
++    },
++
++    clearSelect: function(element){
++        for(var i=element.options.length-1;i>=0;i--){
++            element.remove(i);
++        }
++    },
++
++    getAttributeOptions: function(attributeId){
++        if(this.config.attributes[attributeId]){
++            return this.config.attributes[attributeId].options;
++        }
++    },
++
++    reloadPrice: function(){
++return '';     
++    },
++
++    reloadOldPrice: function(){
++return '';
++    }
++}    
++    
++    </script>
++    
++
++
++<?php 
++
++    $_product    = $this->getProduct();
++    
++    switch ($_product->getTypeId()) 
++    {
++        case 'configurable':
++?>
++
++<?php
++$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
++?>
++<?php if ($_product->isSaleable() && count($_attributes)):?>
++    <dl>
++    <?php foreach($_attributes as $_attribute): ?>
++        <dt><label><?php echo $_attribute->getLabel() ?><span class="required">&nbsp;*</span></label></dt>
++        <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
++          <select name="cart[<?php echo $_item->getId() ?>][super_attribute][<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select-<?php echo $_item->getId() ?>">
++          
++            <option><?php echo $this->__('Choose an Option...') ?></option>
++          </select>
++        </dd>
++    <?php endforeach; ?>
++    </dl>
++    <script type="text/javascript">
++        var spConfig<?php echo $_item->getId() ?> = new Product.Config<?php echo $_item->getId() ?>(<?php echo $this->getJsonConfig() ?>);
++    </script>
++<?php endif;?>        
++        
++
++<?php $_options = Mage::helper('core')->decorateArray($this->getOptions()) ?>
++<?php if ($_options AND count($_options)):?>
++
++    <dl>
++    <?php foreach($_options as $_option): ?>
++        <?php echo $this->getOptionHtml($_option) ?>
++    <?php endforeach; ?>
++    </dl>
++<?php endif; ?>
++
++
++
++        <?php 
++
++        break;
++        
++        case 'bundle':
++?>
++
++<script type="text/javascript">
++
++if(typeof Product=='undefined') {
++    var Product = {};
++}
++/**************************** BUNDLE PRODUCT **************************/
++Product.Bundle<?php echo $_item->getId() ?> = Class.create();
++Product.Bundle<?php echo $_item->getId() ?>.prototype = {
++    initialize: function(config){
++        this.config = config; this.cartId = '<?php echo $_item->getId(); ?>';
++        this.reloadPrice();
++    },
++    changeSelection: function(selection){		
++        parts = selection.id.split('-');
++        if (this.config['options'][parts[2]].isMulti) {
++            selected = new Array();
++            if (selection.tagName == 'SELECT') {
++                for (var i = 0; i < selection.options.length; i++) {
++                    if (selection.options[i].selected && selection.options[i].value != '') {
++                        selected.push(selection.options[i].value);
++                    }
++                }
++            } else if (selection.tagName == 'INPUT') {                
++                selector = parts[0]+'-'+parts[1]+'-'+parts[2];
++                selections = $$('.'+selector);
++                for (var i = 0; i < selections.length; i++) {
++                    if (selections[i].checked && selections[i].value != '') {
++                        selected.push(selections[i].value);
++                    }
++                }
++            }
++            this.config.selected[parts[2]] = selected;
++        } else {
++            if (selection.value != '') {				
++                this.config.selected[parts[2]] = new Array(selection.value);
++            } else {
++                this.config.selected[parts[2]] = new Array();
++            }
++            this.populateQty(parts[2], selection.value);
++        }
++        this.reloadPrice();
++
++    },
++
++    reloadPrice: function() {
++		return '';
++    },
++
++    populateQty: function(optionId, selectionId)
++	{		
++		if ((selectionId == '') || (selectionId == 'none'))
++		{
++            this.showQtyInput(optionId, '0', false);
++            return;
++        }
++		
++		if (this.config.options[optionId].selections[selectionId].customQty == 1)
++		{
++            this.showQtyInput(optionId, this.config.options[optionId].selections[selectionId].qty, true);
++        }
++		else
++		{
++            this.showQtyInput(optionId, this.config.options[optionId].selections[selectionId].qty, false);
++        }
++    },
++	showQtyInput: function(optionId, value, canEdit) {
++        elem = $$('input[name="cart[' + this.cartId + '][bundle_option_qty][' + optionId  + ']"]').first();
++        elem.value = value;
++        elem.disabled = !canEdit;
++        if (canEdit) {
++            elem.removeClassName('qty-disabled');
++        } else {
++            elem.addClassName('qty-disabled');
++        }
++    },
++    changeOptionQty: function (element, event) {
++        var checkQty = true;
++        if (typeof(event) != 'undefined') {
++            if (event.keyCode == 8 || event.keyCode == 46) {
++                checkQty = false;
++            }
++        }
++        if (checkQty && (Number(element.value) == 0 || isNaN(Number(element.value)))) {
++            element.value = 1;
++        }
++        parts = element.id.split('-');
++        optionId = parts[2];		
++        if (!this.config['options'][optionId].isMulti) {			
++			selectionId = this.config.selected[optionId][0];
++            this.config.options[optionId].selections[selectionId].qty = element.value*1;
++            this.reloadPrice();
++        }
++    },
++    validationCallback: function (elmId, result){
++        if (typeof elmId == 'undefined') {
++            return;
++        }
++        var container = $(elmId).up('ul.options-list');
++        if (typeof container != 'undefined') {
++            if (result == 'failed') {
++                container.removeClassName('validation-passed');
++                container.addClassName('validation-failed');
++            } else {
++                container.removeClassName('validation-failed');
++                container.addClassName('validation-passed');
++            }
++        }
++    }
++}
++
++bundle<?php echo $_item->getId() ?> = new Product.Bundle<?php echo $_item->getId() ?>(<?php echo $this->getJsonConfig() ?>);
++
++
++document.observe('dom:loaded', function() {
++	$$('input[type=radio][checked=checked], select').reject(function(el) {
++			return (('SELECT' == el.tagName) && el.multiple);  // Unfortunately CSS selector select[multiple!=multple] doesn`t work as expected
++		}).each(function(el) {
++
++			var cart = el.name.match(/cart\[(\d+)\]/);
++			var matches = ('INPUT' == el.tagName) ? el.id.match(/bundle-option-(\d+)-(\d+)/) : el.id.match(/bundle-option-(\d+)/);
++
++			if (cart && matches)
++			{
++				var qtyInput = $$('input[name="cart[' + cart[1] + '][bundle_option_qty][' + matches[1]  + ']"]').first();
++
++				if ('SELECT' == el.tagName)
++				{
++					matches[2] = el.value;
++				}												
++				
++				window['bundle' + cart[1]].config.options[matches[1]].selections[matches[2]].qty = qtyInput.value;
++			}		
++		});
++	});	
++</script>
++<?php
++
++$_options = Mage::helper('core')->decorateArray($this->getBundleOptions());
++?>
++<?php if ($_product->isSaleable()):?>
++    <?php if (count($_options)): ?>
++        <dl>
++        <?php foreach ($_options as $_option): ?>
++            <?php if (!$_option->getSelections()): ?>
++                <?php continue; ?>
++            <?php endif; ?>
++            <?php echo $this->getBundleOptionHtml($_option) ?>
++        <?php endforeach; ?>
++        </dl>
++    <?php else: ?>
++        <p><?php echo $this->__('No options of this product are available.') ?></p>
++    <?php endif; ?>
++<?php endif;?>            
++
++
++<?php $_options = Mage::helper('core')->decorateArray($this->getDefaultOptions()) ?>
++<?php if ($_options AND count($_options)):?>
++
++    <dl>
++    <?php foreach($_options as $_option): ?>
++        <?php echo $this->getDefaultOptionHtml($_option) ?>
++    <?php endforeach; ?>
++    </dl>
++<?php endif; ?>
++
++
++        <?php 
++        break;   
++         
++        default:
++?>
++<?php $_options = Mage::helper('core')->decorateArray($this->getOptions()) ?>
++<?php if ($_options AND count($_options)):?>
++
++    <dl>
++    <?php foreach($_options as $_option): ?>
++        <?php echo $this->getOptionHtml($_option) ?>
++    <?php endforeach; ?>
++    </dl>
++<?php endif; ?>
++            
++        <?php 
++        break;    
++    }
++
++?>
++
++</fieldset>
++
++
++<!-- FINISH AITOC  -->
++
++
+         <?php if ($messages = $this->getMessages()): ?>
+         <?php foreach ($messages as $message): ?>
+             <p class="item-msg <?php echo $message['type'] ?>">* <?php echo $this->escapeHtml($message['text']) ?></p>
+

@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <FreeLunchLabs_ConstantContact>
+            <version>1.2.0</version>
+        </FreeLunchLabs_ConstantContact>
+    </modules>
+    <global>
+        <rewrite>
+            <freelunchlabs_constantcontact_account_edit>
+                <from><![CDATA[#^/customer/account/edit/(.*)#]]>
+                </from>
+                <to>constantcontact/account/edit</to>
+            </freelunchlabs_constantcontact_account_edit>
+            <freelunchlabs_constantcontact_account_confirm>
+                <from><![CDATA[#^/customer/account/confirm/(.*)#]]>
+                </from>
+                <to>constantcontact/account/confirm</to>
+            </freelunchlabs_constantcontact_account_confirm>
+        </rewrite>
+
+        <blocks>
+            <constantcontact>
+                <class>FreeLunchLabs_ConstantContact_Block</class>
+            </constantcontact>
+            <adminhtml>
+                <rewrite>
+                    <newsletter_subscriber>FreeLunchLabs_ConstantContact_Block_Adminhtml_Newsletter_Subscriber</newsletter_subscriber>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+
+        <models>
+            <constantcontact>
+                <class>FreeLunchLabs_ConstantContact_Model_Constantcontact</class>
+                <emailtype>FreeLunchLabs_ConstantContact_Model_Constantcontact_emailtype</emailtype>
+            </constantcontact>
+
+            <newsletter>
+                <rewrite>
+                    <subscriber>FreeLunchLabs_ConstantContact_Model_Newsletter_Subscriber</subscriber>
+                </rewrite>
+            </newsletter>
+        </models>
+
+        <helpers>
+            <ConstantContact>
+                <class>FreeLunchLabs_ConstantContact_Helper</class>
+            </ConstantContact>
+            <constantcontact>
+                <rewrite>
+                    <data>FreeLunchLabs_ConstantContact_Helper_Data</data>
+                </rewrite>
+            </constantcontact>
+        </helpers>
+
+        <resources>
+            <ConstantContact_setup>
+                <setup>
+                    <module>FreeLunchLabs_ConstantContact</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </ConstantContact_setup>
+
+            <ConstantContact_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </ConstantContact_write>
+
+            <ConstantContact_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </ConstantContact_read>
+
+        </resources>
+
+    </global>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <constantcontact translate="title" module="constantcontact">
+                                            <title>ConstantContact Section</title>
+                                            <sort_order>50</sort_order>
+                                        </constantcontact>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <admin>
+        <routers>
+            <constantcontact>
+                <use>admin</use>
+                <args>
+                    <module>FreeLunchLabs_ConstantContact</module>
+                    <frontName>constantcontact</frontName>
+                </args>
+            </constantcontact>
+        </routers>
+    </admin>
+
+    <default>
+        <constantcontact>
+            <general>
+                <active>0</active>
+                <emails>0</emails>
+                <url>https://api.constantcontact.com/ws/customers/</url>
+                <apikey>6e2bbbd8-1255-41bc-9ec0-0cc1ac55335f</apikey>
+            </general>
+            <subscribe>
+                <email_type>html</email_type>
+                <double_optin>0</double_optin>
+                <update_existing>1</update_existing>
+            </subscribe>
+            <unsubscribe>
+                <delete_member>0</delete_member>
+                <send_goodbye>0</send_goodbye>
+                <send_notify>0</send_notify>
+            </unsubscribe>
+        </constantcontact>
+    </default>
+	
+    <crontab>
+        <jobs>
+            <constantcontact_autosync>
+                <schedule>
+                    <cron_expr>0 1 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>constantcontact/constantcontact::autoSync</model>
+                </run>
+            </constantcontact_autosync>
+        </jobs>
+    </crontab>
+</config>

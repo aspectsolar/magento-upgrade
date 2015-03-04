@@ -1,0 +1,10 @@
+<?php $tooltip = trim(preg_replace('/\s+/', ' ', $this->getTooltip()));?>
+<script>
+new HelpBalloon({
+		title: '<?php echo $this->getTitle()?>',
+		button: '<?php echo $this->getSkinUrl("webforms/HelpBalloon/button.png")?>',
+		icon: '<?php echo $this->getSkinUrl("webforms/HelpBalloon/icon.gif")?>',
+		balloonPrefix: '<?php echo $this->getSkinUrl("webforms/HelpBalloon/balloon-")?>',
+		content: '<?php echo str_replace("'","\'",$tooltip)?>'
+	});
+</script>

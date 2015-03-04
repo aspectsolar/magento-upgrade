@@ -1,0 +1,168 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/AW-LICENSE.txt
+ *
+ * =================================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * =================================================================
+ * This software is designed to work with Magento community edition and
+ * its use on an edition other than specified is prohibited. aheadWorks does not
+ * provide extension support in case of incorrect edition use.
+ * =================================================================
+ *
+ * @category   AW
+ * @package    AW_Ajaxcartpro
+ * @version    3.2.0
+ * @copyright  Copyright (c) 2010-2012 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/AW-LICENSE.txt
+ */
+ 
+ 
+ 
+?>
+
+<div>
+    <?php $_product = $this->getProduct() ?>
+    <script type="text/javascript">
+        optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+        optionsPrice.productType = '<?php echo $_product->getTypeId() ?>';
+        if (typeof(Enterprise) != 'undefined' && typeof(Enterprise.Bundle) != 'undefined') {
+            (function(){
+                var oldFn = Enterprise.Bundle.swapReloadPrice;
+                Enterprise.Bundle.swapReloadPrice = function() {
+                    if (Enterprise.Bundle.isSwaped === true) {
+                        return;
+                    }
+                    oldFn();
+                    Enterprise.Bundle.isSwaped = true;
+                }
+            })();
+        }
+        if (optionsPrice.productType == "bundle") {
+            var taxCalcMethod = undefined;
+            var CACL_UNIT_BASE = undefined;
+            var CACL_ROW_BASE = undefined;
+            var CACL_TOTAL_BASE = undefined;
+        }
+    </script>
+    <form action="<?php echo Mage::helper('ajaxcartpro/catalog')->getSubmitUrl($this, $_product) ?>" method="post"
+          id="product-addtocart-form-acp"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+		  
+		 
+        <input type="hidden" value="<?php echo $_product->getId() ?>" name="product">
+        <input type="hidden" value="1" name="awacp-options-form" />
+        <div id="bundle-product-wrapper">
+		
+		
+				
+				
+            <div id="acp-product-options">
+				<a class="aw-acp-continue" title="Close window" style="background:url('<?php echo $this->getSkinUrl(); ?>images/closeicon_small.png'); z-index:9999;top:1px;right:1px;width:25px;height:25px;position:absolute;cursor:pointer;"></a>
+			 
+			
+                <div class="product-options" id="product-options-wrapper" style="margin:0">
+					<div style="height:57px;background:#f6c023">
+						<div style="padding:20px;">
+						<div style="line-height:22px;float:left;color:#000;text-transform:uppercase;font-weight:bold;font-size:22px;font-family:Century Gothic, Arial, Helvetica, sans-serif;" class="product-name"><?php echo $_product->getName() ?></div>
+						 <button style="line-height:30px;margin:0px;padding:0px;float:right" type="button" title="Continue Shopping" class="button btn-continue bottom">continue shopping ></button>
+						 </div>
+					</div>
+				
+					
+					<div style="padding:20px;">
+					
+						<div style="margin-bottom:20px;text-align:left;color:#000;font-size:18px;font-family:Century Gothic, Arial, Helvetica, sans-serif;">Please select a warranty for your products:</div>
+					
+						<ul style="display:none" class="acp-msg-block ajaxcartpro-box-hide"></ul>
+						
+						<div style="max-height:350px;overflow-x:hidden;">
+							<div id="acp-product-type-data" class="ajaxcartpro-box-hide">
+								<?php echo $this->getChildHtml('product_type_data') ?>
+							</div>
+							<?php echo str_replace('var ', '', $this->getChildHtml('product_options'));?>
+							<?php echo $this->getChildHtml('product_configurable_options');?>
+							<?php echo $this->getChildHtml('product_downloadable_options');?>
+							<?php echo $this->getChildHtml('product_bundle_options');?>
+							<?php echo $this->getChildHtml('product_price');?>
+							
+						</div>
+						
+						<div class="clear"></div>
+						
+						<?php if(!$_product->isGrouped()): ?>
+							<?php $qty = $_GET['qty']; ?>
+								<input type="hidden" name="qty" id="qty" maxlength="12" value="<?php echo $qty; ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" /> 
+							<?php endif; ?>
+						
+						
+						<div style="float:right">
+					
+							
+							<a href="#" class="aw-acp-checkout"><?php echo $this->__('checkout now')?></a><br/>
+							<button onclick="location.href='';" style="line-height:30px;margin:0px;padding:0px 60px 0px 0px;" type="button" title="Continue Shopping" class="button btn-continue bottom">continue shopping ></button>
+							
+						</div>
+						
+						<div class="clear"></div>
+						
+					</div>
+                </div>
+			</div>
+				
+		
+        </div>
+		
+		<script type="text/javascript">
+		jQuery(document).ready(function(){
+			/* jQuery("select option:first").attr("selected", "selected");
+				jQuery("select option[value='']").remove();
+			*/
+				jQuery('select').selectBox();
+		});
+		</script>
+		
+		
+        <script type="text/javascript">
+            if (typeof(Enterprise) != 'undefined' && typeof(Enterprise.Bundle) != 'undefined') {
+                $H(optionsPrice.containers).each(function(pair){
+                    if (!$(pair.value) && $(pair.value + optionsPrice.duplicateIdSuffix)) {
+                        $(pair.value + optionsPrice.duplicateIdSuffix).setAttribute('id', pair.value);
+                    }
+                });
+            }
+        </script>
+    </form>
+    <script type="text/javascript">
+        decorateGeneric($$('#product-options-wrapper dl'), ['last']);
+        var productAddToCartFormAcp = new VarienForm('product-addtocart-form-acp');
+        var validateDownloadableCallback = function (elmId, result) {
+            var container = $('downloadable-links-list');
+            if (result == 'failed') {
+                container.removeClassName('validation-passed');
+                container.addClassName('validation-failed');
+            } else {
+                container.removeClassName('validation-failed');
+                container.addClassName('validation-passed');
+            }
+        };
+
+        var validateOptionsCallback = function(elmId, result) {
+            var container = $(elmId).up('ul.options-list');
+            if (result == 'failed') {
+                container.removeClassName('validation-passed');
+                container.addClassName('validation-failed');
+            } else {
+                container.removeClassName('validation-failed');
+                container.addClassName('validation-passed');
+            }
+        };
+
+    </script>
+</div>

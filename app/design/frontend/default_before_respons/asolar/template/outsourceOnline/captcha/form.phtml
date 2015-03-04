@@ -1,0 +1,199 @@
+<?php
+/**
+ * Outsource Online Captcha Extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Outsource Online
+ * @package    OutsourceOnline_Captcha
+ * @author     Sreekanth Dayanand
+ * @copyright  Copyright (c) 2010 Outsource Online. (http://www.outsource-online.net)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+
+<div class="page-head">
+    <h3><?php echo $this->__('Write Your Own Review') ?></h3>
+</div>
+<h4><?php echo $this->__("You're reviewing: %s", $this->htmlEscape($this->getProductInfo()->getName())) ?></h4>
+<form action="<?php echo $this->getAction() ?>" method="post" id="review-form" onSubmit="return checkOSOLCaptcha(dataForm);">
+<fieldset>
+    <?php if( $this->getRatings() && $this->getRatings()->getSize()): ?>
+    <div class="product-review-box">
+    <strong><?php echo $this->__('How do you rate this product?') ?><span class="required">*</span></strong><br />
+    <span id="input-message-box"></span>
+    <table class="data-table" id="product-review-table" cellspacing="0">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th><?php echo $this->__('1 star') ?></th>
+                <th><?php echo $this->__('2 stars') ?></th>
+                <th><?php echo $this->__('3 stars') ?></th>
+                <th><?php echo $this->__('4 stars') ?></th>
+                <th><?php echo $this->__('5 stars') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php $_oddIterator = 1; ?>
+        <?php foreach ($this->getRatings() as $_rating): ?>
+            <tr class="odd<?php if($_oddIterator == $this->getRatings()->getSize()): $_oddIterator = 0; ?> last<?php endif; ?>">
+                <td class="label"><?php echo $_rating->getRatingCode() ?></td>
+            <?php $_iterator = 1; ?>
+            <?php foreach ($_rating->getOptions() as $_option): ?>
+                <!--<td <?php if($_iterator == 5): ?>class="last"<?php endif; ?> style="width:60px;"><input type="radio" <?php if($_iterator == 5): $_iterator=0; ?>class="validate-one-required-by-name"<?php endif; ?> name="ratings[<?php echo $_rating->getId() ?>]" id="<?php echo $_rating->getRatingCode() ?>_<?php echo $_option->getValue() ?>" value="<?php echo $_option->getId() ?>"/></td>-->
+                <td<?php if($_iterator == 5): ?> class="last"<?php endif; ?> style="width:60px;"><input type="radio" name="ratings[<?php echo $_rating->getId() ?>]" id="<?php echo $_rating->getRatingCode() ?>_<?php echo $_option->getValue() ?>" value="<?php echo $_option->getId() ?>" /></td>
+            <?php $_iterator++ ?>
+            <?php endforeach; ?>
+            </tr>
+        <?php $_oddIterator ++; ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <input type="hidden" name="validate_rating" class="validate-rating" value="" />
+    <script type="text/javascript">decorateTable('product-review-table')</script>
+    </div>
+    <?php endif; ?>
+        <?php // do not remove div - some problem whith validator in IE ?>
+        <div>
+        <label for="nickname_field"><?php echo $this->__('Nickname') ?><span class="required">*</span></label>
+        <input class="input-text required-entry" size="50" maxlength="50" name="nickname" id="nickname_field" style="width: 450px;" type="text" value="<?php echo $this->htmlEscape($data->getNickname()) ?>" />
+        </div>
+
+        <div>
+        <label for="summary_field"><?php echo $this->__('Summary of Your Review') ?><span class="required">*</span></label>
+        <input name="title" class="input-text required-entry" size="500" maxlength="500" id="summary_field" style="width: 450px;" type="text" value="<?php echo $this->htmlEscape($data->getTitle()) ?>" />
+        </div>
+
+        <div>
+        <label for="review_field"><?php echo $this->__('Review') ?><span class="required">*</span></label>
+        <textarea class="required-entry" name="detail" id="review_field" size="2000" maxlength="2000" cols="53" rows="10" style="width: 450px;"><?php echo $this->htmlEscape($data->getDetail()) ?></textarea>
+        </div>
+
+		<?php // captcha ----------------------- ?>
+							<?php
+							$osolCaptchaLoadFromSSL = $_SERVER['SERVER_PORT']==443?true:false;
+							?>
+							<?php /* <script src="<?php echo $this->getJsUrl() ?>mage/adminhtml/loader.js" type="text/javascript"></script> */ ?>
+							<script type="text/javascript">
+								//<![CDATA[
+								/*Please note that the URL is created in reloadurl. Also see that the response text will be echoed in div with id=output-div*/
+								function checkOSOLCaptcha(varienForm)
+								{
+									formInst = varienForm.form
+									if(!(varienForm.validator && varienForm.validator.validate()))return;
+								
+									var reloadurl = '<?php echo $this->getUrl('captcha/ajax/validateCaptcha/firstParam/sreekanth', array('_secure'=>$osolCaptchaLoadFromSSL)) ?>';
+										Element.show('loadingmask');
+										new Ajax.Request(reloadurl, {
+											method: 'post',
+											parameters: 'osolCatchaTxt='+formInst.osolCatchaTxt.value+'&lt;form_key=<?php echo Mage::getSingleton('core/session')->getFormKey();?>',//form_key is a mandatory field,without which the ajax post wont work
+											onComplete: function(transport) {
+											Element.hide('loadingmask');
+											
+											//alert(transport.responseText);
+											if( transport.responseText == 'correct')
+											{
+												formInst.submit();
+											}
+											else
+											{
+												alert('The security code you entered does not match with the one in the form. Please try again.');
+											}
+											//formInst.submit();
+										}
+									});
+									return false;
+								}
+							//]]>
+							</script>
+							<?php /*<a href="#" onclick="checkOSOLCaptcha(contactForm);return false;">123</a>
+							*/ ?><input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey();?>" />
+
+						
+										<img style="float:left;" id="captchaCode1" src="<?php echo $this->getUrl('captcha/ajax/freshcaptcha?instanceNo=1', array('_secure'=>$osolCaptchaLoadFromSSL));?>&amp;time=<?php echo time();?>" alt="Security code" /> 
+										<script type="text/javascript">
+												function reloadCapthcha(instanceNo)
+												{
+													var captchaSrc = "<?php echo $this->getUrl('captcha/ajax/freshcaptcha?instanceNo=1', array('_secure'=>$osolCaptchaLoadFromSSL));?>"+"&amp;time="+ new Date().getTime();
+													//alert(captachaSrc);
+													//alert(document.getElementById('captchaCode'+instanceNo));
+													document.getElementById('captchaCode'+instanceNo).src = captchaSrc ;
+													//alert(document.getElementById('captchaCode'+instanceNo).src);
+												}
+										</script>
+										<br/>
+										
+											<a class="reload" href="#" onclick="reloadCapthcha(1);return false;" ></a>
+									
+										<div class="clear"></div>
+										
+										<div style="margin-bottom:40px;margin-top:5px;width:300px;">
+											<div class="entercode"><span>ENTER CODE:</span></div>
+											
+											<div class="captchainput input-box">
+												<input style="width:120px" type="text" name="osolCatchaTxt" id="osolCatchaTxt1"  class="required-entry input-text" />
+											</div>
+											
+											<div class="clear"></div>
+											
+											<div id="loadingmask" style="margin-top:10px;display: none;">
+												<div class="loader" id="loading-mask-loader"><img style="margin-right:5px" src="<?php echo $this->getSkinUrl();  ?>images/loader.gif" alt="<?php echo $this->__('Loading...') ?>"/><?php echo $this->__('Loading...') ?></div>
+												<div id="loading-mask"></div>
+											</div>
+							
+										</div>
+										
+										
+										<input type="hidden" name="osolCatchaTxtInst" id="osolCatchaTxtInst"  value="1"   />
+								
+								
+							<?php // captcha end ----------------------- ?>
+
+    <div style="padding-left:0px;margin-left:0px;border:none" class="buttons-set">
+        <button style="float:left;" class="button" type="submit"><span><?php echo $this->__('Submit Review') ?></span></button>
+    </div>
+</fieldset>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm('review-form');
+
+    Validation.addAllThese(
+    [
+           ['validate-rating', '<?php echo $this->__('Please select one of each of the ratings above') ?>', function(v) {
+                var trs = $('product-review-table').getElementsBySelector('tr');
+                var inputs;
+                var error = 1;
+
+                for( var j=0; j < trs.length; j++ ) {
+                    var tr = trs[j];
+                    if( j > 0 ) {
+                        inputs = tr.getElementsBySelector('input');
+
+                        for( i in inputs ) {
+                            if( inputs[i].checked == true ) {
+                                error = 0;
+                            }
+                        }
+
+                        if( error == 1 ) {
+                            return false;
+                        } else {
+                            error = 1;
+                        }
+                    }
+                }
+                return true;
+            }]
+    ]
+    );
+//]]>
+</script>

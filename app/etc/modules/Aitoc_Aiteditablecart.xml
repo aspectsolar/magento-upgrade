@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Aitoc_Aiteditablecart>
+            <active>true</active>
+            <codePool>local</codePool>
+            <self_name>Shopping Cart Editor</self_name>
+            <priority>4000</priority>
+        </Aitoc_Aiteditablecart>
+    </modules>
+</config>
+<!--
+/**
+ * Shopping Cart Editor
+ *
+ * @category:    Aitoc
+ * @package:     Aitoc_Aiteditablecart
+ * @version      2.1.2
+ * @license:     sJyHIXeWlUU1XYytqPDfVrCdIMO1jSQ6obarjJbRep
+ * @copyright:   Copyright (c) 2013 AITOC, Inc. (http://www.aitoc.com)
+ */
+-->

@@ -1,0 +1,901 @@
+<?php
+/**
+ * Generate CSV abstract model
+ *
+ * Generel class used by all types of CSV generator - so used by both order, invoice, shipping and creditmemo
+ * The class if abstract and is extended by the different types
+ *
+ * @category   ITCura
+ * @package    Kash_Orders2csvpro
+ * @author     ITCura <info@ITCura.com>
+ */
+abstract class Kash_Orders2csvpro_Model_Csvgenerator_Abstract extends Varien_Object
+{
+	const XPATH_CONFIG_SETTINGS_IS_ACTIVE		= 'orders2csvpro/settings/is_active';
+	const XPATH_CONFIG_SETTINGS_LICENSE 		= 'orders2csvpro/settings/license_code';
+
+	abstract public function getCsv();
+
+	abstract public function isBundleItemIn($item);
+
+	public $callbackParms;
+
+	protected function _isActive() {
+		return Mage::getStoreConfig(self::XPATH_CONFIG_SETTINGS_IS_ACTIVE);
+	}
+	
+	protected function _isDevMode(){
+		return false;
+	}
+	
+	/**
+	 * Writes top row with the names provided in columns title.
+	 *
+	 * @param $fp The cvs file
+	 * @param $fileStructur The filestructur set in settings
+	 */
+	protected function writeTopRow($fileStructur, $fp = null)
+	{
+		$columns = $fileStructur->getColumns();
+	
+		$headerTitles = null;
+		foreach ($columns as $column){
+			$headerTitles[] = $column->getTitle();
+		}
+		 
+		if($fp == null){
+			return $this->generateCsv($headerTitles, $fileStructur->getDelimiter(), $fileStructur->getEnclosure());
+		}else{
+// 			fputcsv($fp, $headerTitles, $fileStructur->getDelimiter(), $fileStructur->getEnclosure());
+			fwrite($fp, $this->generateCsv($headerTitles, $fileStructur->getDelimiter(), $fileStructur->getEnclosure()));				
+		}
+	}
+
+	/**
+	 * Make variables as cvs
+	 *
+	 * @return csv string
+	 */
+	function generateCsv($fields, $delimiter = ',', $enclosure = '"', $escape = '\\')
+	{
+		$first = false;
+		$linie = "";
+		foreach ($fields as $field) {
+			if ($first){
+				if(strcmp('\t', $delimiter)==0){
+					$linie .= "\t";
+				}else{
+					$linie .= $delimiter;
+				}
+			}
+	
+			$f = str_replace($enclosure, $enclosure.$enclosure, $field);
+			if ($enclosure != $escape) {
+				$f = str_replace($escape.$enclosure, $escape, $f);
+			}
+			if (strpbrk($f, " \t\n\r".$delimiter.$enclosure.$escape) || strchr($f, "\000")) {
+				$linie .=  $enclosure.$f.$enclosure;
+			} else {
+				$linie .= $f;
+			}
+	
+			$first = true;
+		}
+		$linie .= PHP_EOL;
+		return $linie;
+	}
+	
+	/**
+	 * Make the single order lines
+	 *
+	 * @param Mage_Sales_Model_Order $order The order to write csv of
+	 * @param $fp The file handle of the csv file
+	 */
+	protected function writeLines($element, $elementItems, $order, $fileStructur, $fp = null)
+	{
+		$csvTextLinies = "";
+		$columns = $fileStructur->getColumns();
+		$rows = null;
+		$values = null;
+		$itemValues = null;
+		$hasBundleValues = false;
+		
+		$county_two = array('AA','AD','AE','AF','AG','AI','AL','AM','AN','AO','AQ','AR','AS','AT','AU','AW','AX','AZ','BA','BB','BD','BE','BF','BG','BH','BI','BJ','BL','BM','BN','BO','BR','BS','BT','BU','BV','BW','BY','BZ','CA','CC','CD','CF','CG','CH','CI','CK','CL','CM','CN','CO','CR','CS','CU','CV','CX','CY','CZ','DD','DE','DJ','DK','DM','DO','DZ','EC','EE','EG','EH','ER','ES','ET','FI','FJ','FK','FM','FO','FR','FX','GA','GB','GD','GE','GF','GG','GH','GI','GL','GM','GN','GP','GQ','GR','GS','GT','GU','GW','GY','HK','HM','HN','HR','HT','HU','ID','IE','IL','IM','IN','IO','IQ','IR','IS','IT','JE','JM','JO','JP','KE','KG','KH','KI','KM','KN','KP','KR','KW','KY','KZ','LA','LB','LC','LI','LK','LR','LS','LT','LU','LV','LY','MA','MC','MD','ME','MG','MF','MH','MK','ML','MM','MN','MO','MP','MQ','MR','MS','MT','MU','MV','MW','MX','MY','MZ','NA','NC','NE','NF','NG','NI','NL','NO','NP','NR','NT','NU','NZ','OM','PA','PE','PF','PG','PH','PK','PL','PM','PN','PR','PS','PT','PW','PY','QA','QM','QN','QO','QP','QQ','QR','QS','QT','QU','QV','QW','QX','QY','QZ','RE','RO','RS','RU','RW','SA','SB','SC','SD','SE','SG','SH','SI','SJ','SK','SL','SM','SN','SO','SR','ST','SU','SV','SY','SZ','TC','TD','TF','TG','TH','TJ','TK','TL','TM','TN','TO','TP','TR','TT','TV','TW','TZ','UA','UG','UM','US','UY','UZ','VA','VC','VE','VG','VI','VN','VU','WF','WS','XA','XB','XC','XD','XE','XF','XG','XH','XI','XJ','XK','XL','XM','XN','XO','XP','XQ','XR','XS','XT','XU','XV','XW','XX','XY','XZ','YD','YE','YT','YU','ZA','ZM','ZR','ZW','ZZ');
+		
+		$country_three = array('AAA','AND','ARE','AFG','ATG','AIA','ALB','ARM','ANT','AGO','ATA','ARG','ASM','AUT','AUS','ABW','ALA','AZE','BIH','BRB','BGD','BEL','BFA','BGR','BHR','BDI','BEN','BLM','BMU','BRN','BOL','BRA','BHS','BTN','BUR','BVT','BWA','BLR','BLZ','CAN','CCK','COD','CAF','COG','CHE','CIV','COK','CHL','CMR','CHN','COL','CRI','SCG','CUB','CPV','CXR','CYP','CZE','DDR','DEU','DJI','DNK','DMA','DOM','DZA','ECU','EST','EGY','ESH','ERI','ESP','ETH','FIN','FJI','FLK','FSM','FRO','FRA','FXX','GAB','GBR','GRD','GEO','GUF','GGY','GHA','GIB','GRL','GMB','GIN','GLP','GNQ','GRC','SGS','GTM','GUM','GNB','GUY','HKG','HMD','HND','HRV','HTI','HUN','IDN','IRL','ISR','IMN','IND','IOT','IRQ','IRN','ISL','ITA','JEY','JAM','JOR','JPN','KEN','KGZ','KHM','KIR','COM','KNA','PRK','KOR','KWT','CYM','KAZ','LAO','LBN','LCA','LIE','LKA','LBR','LSO','LTU','LUX','LVA','LBY','MAR','MCO','MDA','MNE','MDG','MAF','MHL','MKD','MLI','MMR','MNG','MAC','MNP','MTQ','MRT','MSR','MLT','MUS','MDV','MWI','MEX','MYS','MOZ','NAM','NCL','NER','NFK','NGA','NIC','NLD','NOR','NPL','NRU','NTZ','NIU','NZL','OMN','PAN','PER','PYF','PNG','PHL','PAK','POL','SPM','PCN','PRI','PSE','PRT','PLW','PRY','QAT','QMM','QNN','QOO','QPP','QQQ','QRR','QSS','QTT','QUU','QVV','QWW','QXX','QYY','QZZ','REU','ROU','SRB','RUS','RWA','SAU','SLB','SYC','SDN','SWE','SGP','SHN','SVN','SJM','SVK','SLE','SMR','SEN','SOM','SUR','STP','SUN','SLV','SYR','SWZ','TCA','TCD','ATF','TGO','THA','TJK','TKL','TLS','TKM','TUN','TON','TMP','TUR','TTO','TUV','TWN','TZA','UKR','UGA','UMI','USA','URY','UZB','VAT','VCT','VEN','VGB','VIR','VNM','VUT','WLF','WSM','XAA','XBB','XCC','XDD','XEE','XFF','XGG','XHH','XII','XJJ','XKK','XLL','XMM','XNN','XOO','XPP','XQQ','XRR','XSS','XTT','XUU','XVV','XWW','XXX','XYY','XZZ','YMD','YEM','MYT','YUG','ZAF','ZMB','ZAR','ZWE','ZZZ');
+		
+		
+		$state_name = array('Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming');
+		
+		$state_code = array('AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY');
+		
+		
+		foreach ($columns as $column){
+			$value = "";
+			if($this->hasItemValue($column->getValue())){
+				$itemValues[$column->getValue()] = "";
+				$hasBundleValues = $this->hasItemBundleValue($column->getValue());
+			}else{
+				$value = $this->convertText($order, $order, $column->getValue(), 'replaceText');
+			}
+			
+			if(in_array($value,$county_two)){
+				for($i=0;$i<count($county_two);$i++){
+					if($value == $county_two[$i]){
+						$value = $country_three[$i];
+					}	
+				}
+			}
+			
+			if(in_array($value,$state_name)){
+				for($i=0;$i<count($state_name);$i++){
+					if($value == $state_name[$i]){
+						$value = $state_code[$i];
+					}	
+				}
+			}
+			
+			$orderbynameFlag = 0;
+			
+			$billingAddress = !$order->getIsVirtual() ? $order->getBillingAddress() : null;
+			
+			
+			if($value == 'ProjectId'){
+				if(strtolower(trim($billingAddress->getName())) == strtolower(trim('QuiBids Holdings LLC'))){
+					$value = '60';
+				}else{
+					$value = '59';
+				}
+			}
+			
+			if($value == 'ShipConfirmation'){
+				
+					$value = 1;
+				
+				/*if($order->getStatusLabel() == 'Processing' || $order->getStatusLabel() == 'Complete'){
+					$value = 1;
+				}else{
+					$value = '';
+				}*/
+			}
+			
+			if($value == 'OrderConfirmation'){
+					$value = 0;
+				/*if($order->getStatusLabel() == 'Complete'){
+					$value = 1;
+				}else{
+					$value = '';
+				}*/
+			}
+		
+		
+			
+			$values[$column->getValue()] = $value;				
+		}
+		
+		if(count($itemValues)>0){
+			//$orderItems = $order->getItemsCollection();
+			foreach ($elementItems as $item){
+				$optionRows = null;
+				if(method_exists($item, 'getOrderItem')){
+					$orderItem = $item->getOrderItem();
+				}else{
+					$orderItem = $item;
+				}				
+				if ($orderItem->getParentItem()) {
+					continue;
+				}
+				
+				$itemValues = $this->drawDefaultItem($item, $itemValues, $order);
+				$values = array_merge($values, $itemValues);
+				switch ($orderItem->getProductType()){
+					case "bundle":
+						if($hasBundleValues)
+							$optionRows = $this->drawBundelOptions($item, $itemValues, $order);
+						break;
+					case "virtual":
+					case "downloadable":
+					default:
+						$optionRows = $this->drawItemOptions($item, $itemValues, $order);
+				}
+				
+				if(count($optionRows)==0){
+					$rows[] = $this->transformValues($values, $columns);
+				}else{
+					foreach ($optionRows as $optionRow){
+						$optionValues = array_merge($values, $optionRow);
+						$rows[] = $this->transformValues($optionValues, $columns);
+					}
+				}
+			}						
+		}else{
+			$rows[] = $values;
+		}
+		//print_r($rows);
+		$ptn = "/{{(.*)}}/Uis";
+		$ptnLineCount = "#{{item_order_line_count}}#";
+		$orderLineCount = 1;
+		foreach ($rows as $row){
+			$row = preg_replace($ptnLineCount, $orderLineCount, $row);
+			$row = preg_replace($ptn, "", $row);
+			if($fp == null){
+				$csvTextLinies .= $this->generateCsv($row, $fileStructur->getDelimiter(), $fileStructur->getEnclosure());
+			}else{
+				fputcsv($fp, $row, $fileStructur->getDelimiter(), $fileStructur->getEnclosure());
+			}
+			$orderLineCount++;
+		}
+		return $csvTextLinies;
+	}
+	
+	/**
+	 * Check if there is item value in string
+	 * 
+	 */
+	public function hasItemValue($value){
+		if(preg_match('#{{item_(.*?)}}#s',$value)){
+			return true;
+		}elseif(preg_match('#{{invoice_item_(.*?)}}#s',$value)){
+			return true;
+		}elseif(preg_match('#{{shipping_item_(.*?)}}#s',$value)){
+			return true;
+		}elseif(preg_match('#{{creditmemo_item_(.*?)}}#s',$value)){
+			return true;
+		}elseif(preg_match('#{{product_data_(.*?)}}#s',$value)){
+			return true;
+		}elseif(preg_match('#{{format(.*?) item_(.*?)}}#s',$value)){
+			return true;
+		}elseif(preg_match('#{{format(.*?) product_data_(.*?)}}#s',$value)){
+			return true;
+		}elseif(preg_match('#{{format(.*?) invoice_item_(.*?)}}#s',$value)){
+			return true;
+		}elseif(preg_match('#{{format(.*?) shipping_item_(.*?)}}#s',$value)){
+			return true;
+		}elseif(preg_match('#{{format(.*?) creditmemo_item_(.*?)}}#s',$value)){
+			return true;
+		}
+		return false;	
+	}
+
+	
+	/**
+	 * Check if items has bundle data value in string
+	 *
+	 */
+	public function hasItemBundleValue($value){
+		if(preg_match('#{{item_bundle_(.*?)}}#s',$value)){
+			return true;
+		}elseif(preg_match('#{{format(.*?) item_bundle_(.*?)}}#s',$value)){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Put the values in correct order and include all
+	 *
+	 */
+	public function transformValues($values, $columns){
+		$rowItems = array();
+		
+		$model = array();
+		$pieceCode = array();
+		
+		 $collection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('*');
+		 foreach ($collection as $product) {
+			 $model[] = $product->getSku();
+			 if($product->getData('export_file_sku') != ''){
+			 	$pieceCode[] = $product->getData('export_file_sku');
+			 }else{
+				$pieceCode[] = $product->getSku();
+			 }
+		 }		
+		 
+		 
+		/*$model = array(
+		'A1-A625',
+		'ENERGYBAR-250A',
+		'EP-55A',
+		'DUO-FLEX',
+		'EC-250A',
+		'DC-154A',
+		);
+		
+		$pieceCode = array(
+		'SunSocket Solar Generator',
+		'EnergyBar 250',
+		'EP-55 Solar Panel',
+		'DUO-Flex',
+		'EC-250',
+		'DC-154',
+		);*/
+		
+		$skip_sku = array('powerpackagepro','powerpackageplus','powerpackage');
+		
+		$count = 0;
+		$flag = 0;
+		foreach ($columns as $column){
+				if($count==63){
+					if(in_array($values[$column->getValue()],$model)){
+						for($i=0;$i<count($model);$i++){
+							if($values[$column->getValue()] == $model[$i]){
+								$rowItems[] = $pieceCode[$i];
+							}
+						}
+					}else{
+						if(in_array($values[$column->getValue()],$skip_sku)){
+							$rowItems[] = '';
+							$flag = 1;
+						}else{
+						$rowItems[] = $values[$column->getValue()];
+						}
+						
+					}
+				}else{
+					$rowItems[] = $values[$column->getValue()];
+				}
+		$count++;		
+		}
+		if($flag == 0){
+		return $rowItems;
+		}
+	}
+	
+	/**
+	 * Draws a single default item - this is the default method. It will generat the html for a row in the tabel
+	 */
+	public function drawDefaultItem($item, $itemValues, $order){
+		foreach ($itemValues as $itemKey => $itemValue){
+			$value = "";
+			$value = $this->convertText($item, $order, $itemKey, 'replaceItemText');
+			$value = $this->convertText($order, $order, $value, 'replaceText');
+			if(strcmp($value, $itemKey)!=0){
+				$itemValues[$itemKey] = $value;
+			}
+		}		
+		return $itemValues;
+	}
+
+	/**
+	 * Draws options of an default item - makes a new row under the relevent item
+	 */
+	public function drawItemOptions($item, $itemValues, $order){
+		$options = $this->getItemOptions($item);
+		$ptn = "/{{(.*)}}/Uis";
+		$optionRows = array();
+			
+		if ($options) {
+			foreach ($options as $option) {
+				$optionValues = array();
+				foreach ($itemValues as $itemKey => $itemValue){
+					if(strlen($itemValue)===0)
+						$itemValue = $itemKey;
+					if(preg_match($ptn, $itemValue)){
+						$value = "";
+						$value = $this->convertText($option, $order, $itemValue, 'replaceItemOptionText');
+						$optionValues[$itemKey] = $value;
+					}					
+				}
+				$optionRows[] = $optionValues;
+			}
+		}
+		return $optionRows;
+	}
+
+	/**
+	 * Draws options of an bundle item - makes a new row under the relevent item with all the product in the bundle
+	 */
+	public function drawBundelOptions($item, $itemValues, $order){
+		$options = array();
+		$ptn = "/{{(.*)}}/Uis";
+		$optionRows = array();
+		
+		if(method_exists($item, 'getOrderItem')){
+			$orderItem = $item->getOrderItem();
+		}else{
+			$orderItem = $item;
+		}
+		$children = $orderItem->getChildrenItems();
+		foreach ($children as $child){
+			$bundleAttr = $this->getItemOptions($child);
+			$optionId = $bundleAttr['option_id'];
+			if(!array_key_exists($optionId, $options)){
+				$options[$optionId] = $bundleAttr;
+			}else{
+				$options[$optionId]['price'] = $options[$optionId]['price'] + $bundleAttr['price'];
+			}
+			$options[$optionId]['value'][] = $child;
+		}
+
+		foreach ($options as $key => $optionGroup) {
+			$hasNoActiveItems = true;
+			foreach ($optionGroup['value'] as $optionItem){
+				if($this->isBundleItemIn($optionItem)){
+					$hasNoActiveItems = false;
+					continue;
+				}
+			}
+			if($hasNoActiveItems) unset($options[$key]);
+		}
+		
+		if ($options) {
+			foreach ($options as $optionGroup) {
+				foreach ($itemValues as $itemKey => $itemValue){
+					if(strlen($itemValue)===0)
+						$itemValue = $itemKey;
+					if(preg_match($ptn, $itemValue)){
+						$value = "";
+						$value = $this->convertText($optionGroup, $order, $itemValue, 'replaceBundleItemGroupText');
+						$optionValues[$itemKey] = $value;
+					}
+				}
+				foreach ($optionGroup['value'] as $optionItem){
+					if($this->isBundleItemIn($optionItem)){
+						foreach ($itemValues as $itemKey => $itemValue){
+							if(strlen($itemValue)===0)
+								$itemValue = $itemKey;
+							if(preg_match($ptn, $itemValue)){
+// 								echo " ------- ".$itemValue;
+								$value = "";
+								$value = $this->convertText($optionItem, $order, $itemValue, 'replaceBundleItemText');
+// 								echo " = ".$value;
+								$optionValues[$itemKey] = $value;
+							}
+						}
+					}
+				}
+				$optionRows[] = $optionValues;				
+			}
+		}
+		return $optionRows;
+	}
+
+	/**
+	 * generel function for replacing input text related to order with the correct value, could also be implemented in sub class
+	 */
+	public function replaceText($order, $text, $obj){
+		$replacements = array (
+    		'#{{order_data_(.*?)}}#s' => '$item->getData($matches[1])', 
+			'#{{order_shipping_data_(.*?)}}#s' => 'is_object($item->getShippingAddress())?$item->getShippingAddress()->getData($matches[1]):""', 
+			'#{{order_shipping_street_data_(.*?)}}#s' => 'is_object($item->getShippingAddress())?${1|${1}=$item->getShippingAddress()->getStreet()}[$matches[1]]:""', 
+			'#{{order_shipping_country_name}}#s' => 'is_object($item->getShippingAddress())?$item->getShippingAddress()->getCountryModel()->getName():""', 
+			'#{{order_billing_data_(.*?)}}#s' => 'is_object($item->getBillingAddress())?$item->getBillingAddress()->getData($matches[1]):""', 
+			'#{{order_billing_street_data_(.*?)}}#s' => 'is_object($item->getBillingAddress())?${1|${1}=$item->getBillingAddress()->getStreet()}[$matches[1]]:""', 
+			'#{{order_billing_country_name}}#s' => 'is_object($item->getBillingAddress())?$item->getBillingAddress()->getCountryModel()->getName():""', 
+    		'#{{order_customer_group}}#'=>'is_object($item->getCustomerGroupId())?$item->getCustomerGroupId()->getCode():""',
+			'#{{order_shipping_description}}#'=>'$item->getShippingDescription()',
+			'#{{order_payment_block}}#'=>'is_object($item->getPayment())?preg_replace("{{{pdf_row_separator}}}", "<br />",Mage::helper("payment")->getInfoBlock($item->getPayment())->setIsSecureMode(true)->toPdf()):""',
+			'#{{order_base_currency_data_(.*?)}}#s'=>'is_object($item->getBaseCurrency())?$item->getBaseCurrency()->getData($matches[1]):""',
+			'#{{order_base_total_due}}#'=>'$item->getBaseTotalDue()',
+			'#{{order_created_full}}#'=>'$item->getCreatedAtFormated("full")',
+			'#{{order_created_long}}#'=>'$item->getCreatedAtFormated("long")',
+			'#{{order_created_medium}}#'=>'$item->getCreatedAtFormated("medium")',
+			'#{{order_created_short}}#'=>'$item->getCreatedAtFormated("short")',
+			'#{{order_email_customer_note}}#'=>'$item->getEmailCustomerNote()',
+			'#{{order_is_not_virtual}}#'=>'$item->getIsNotVirtual()',
+			'#{{order_currency_data_(.*?)}}#s'=>'is_object($item->getOrderCurrency())?$item->getOrderCurrency()->getData($matches[1]):""',
+			'#{{order_payment_data_(.*?)}}#s'=>'is_object($item->getPayment())?$item->getPayment()->getData($matches[1]):""',
+			'#{{order_payment_auth_trans_data_(.*?)}}#s'=>'is_object($item->getPayment()->getAuthorizationTransaction())?$item->getPayment()->getAuthorizationTransaction()->getData($matches[1]):""',
+			'#{{order_real_id}}#'=>'$item->getRealOrderId()',
+			'#{{order_shipping_carrier_code}}#'=>'is_object($item->getShippingCarrier())?$item->getShippingCarrier()->getCarrierCode():""',
+			'#{{order_shipping_carrier_data_(.*?)}}#s'=>'is_object($item->getShippingCarrier())?$item->getShippingCarrier()->getData($matches[1]):""',
+			'#{{order_status_label}}#'=>'$item->getStatusLabel()',
+			'#{{order_store_data_(.*?)}}#s'=>'is_object($item->getStore())?$item->getStore()->getData($matches[1]):""',
+			'#{{order_store_url}}#'=>'$item->getStore()->getUrl()',
+			'#{{order_store_group_data_(.*?)}}#s'=>'is_object($item->getStore()->getGroup())?$item->getStore()->getGroup()->getData($matches[1]):""',
+			'#{{order_store_base_url}}#'=>'$item->getStore()->getBaseUrl()',
+    		'#{{order_num_invoices}}#' => '$item->hasInvoices()',
+    		'#{{order_num_shipments}}#' => '$item->hasShipments()',
+    		'#{{order_num_creditmemos}}#' => '$item->hasCreditmemos()',
+    		'#{{customer_data_(.*?)}}#s'=>"is_object(Mage::getModel('customer/customer')->load(\$item->getCustomerId()))?Mage::getModel('customer/customer')->load(\$item->getCustomerId())->getData(\$matches[1]):\"\"",
+    		'#{{customer_billing_data_(.*?)}}#s'=>"is_object(Mage::getModel('customer/customer')->load(\$item->getCustomerId())->getDefaultBillingAddress())?Mage::getModel('customer/customer')->load(\$item->getCustomerId())->getDefaultBillingAddress()->getData(\$matches[1]):\"\"",
+    		'#{{customer_shipping_data_(.*?)}}#s'=>"is_object(Mage::getModel('customer/customer')->load(\$item->getCustomerId())->getDefaultShippingAddress())?Mage::getModel('customer/customer')->load(\$item->getCustomerId())->getDefaultShippingAddress()->getData(\$matches[1]):\"\"",
+			'#{{order_gift_data_(.*?)}}#s'=>"\$item->getGiftMessageId()>0?is_object(Mage::getSingleton('giftmessage/message')->load(\$item->getGiftMessageId()))?Mage::getSingleton('giftmessage/message')->load(\$item->getGiftMessageId())->getData(\$matches[1]):\"\":\"\"",		
+		);
+		 
+		$newText = Mage::helper('cms')->getBlockTemplateProcessor()->filter($text);
+		if (!strcasecmp($text, $newText) == 0) {
+			return $newText;
+		}
+		 
+		foreach ($replacements as $key => $value) {
+			$obj->callbackParms = array($value, $order);
+			$regCount = 0;
+			$text = preg_replace_callback($key, array(&$obj, 'checkReplaceResult'), $text, -1, $regCount);
+			if($regCount>0){
+				return $text;
+			}
+		}
+		 
+		if(preg_match ('#{{order_totals_(.*?)}}#s',$text, $match) == 1){
+			list($source_field, $totalElement) = explode('_', $match[1], 2);
+			$total = Mage::helper('orders2csvpro')->getTotalForDisplaying($order, $order, $source_field);
+			$value = 'is_array($item)?$item[$matches[1]]:""';
+			if(isset($total)){
+				$obj->callbackParms = array($value, $total);
+				$regCount = 0;
+				$text = preg_replace_callback('#{{order_totals_'.$source_field.'_(.*?)}}#s', array(&$obj, 'checkReplaceResult'), $text, -1, $regCount);
+				if($regCount>0){
+					return $text;
+				}
+			}
+		}
+		 
+		return $text;
+	}
+
+	/**
+	 * generel function for replacing input text with the correct value, could also be implemented in sub class
+	 */
+	public function replaceItemText($item, $text, $obj){
+		if(method_exists($item, 'getOrderItem')){
+			$orderItem = $item->getOrderItem();
+		}else{
+			$orderItem = $item;
+		}
+
+		$newText = Mage::helper('cms')->getBlockTemplateProcessor()->filter($text);
+		if (!strcasecmp($text, $newText) == 0) {
+			return $newText;
+		}
+
+		$replacements = array (
+    		'#{{item_data_(.*?)}}#s' => '$item->getData($matches[1])', 
+    		'#{{product_data_(.*?)}}#s' => "is_object(Mage::getModel('catalog/product')->load(\$item->getData('product_id')))?Mage::getModel('catalog/product')->load(\$item->getData('product_id'))->getData(\$matches[1]):\"\"",
+    		'#{{item_status}}#' => '$item->getStatus()',
+			'#{{item_gift_data_(.*?)}}#s'=>"\$item->getGiftMessageId()>0?is_object(Mage::getSingleton('giftmessage/message')->load(\$item->getGiftMessageId()))?Mage::getSingleton('giftmessage/message')->load(\$item->getGiftMessageId())->getData(\$matches[1]):\"\":\"\"",
+		);
+		 
+		foreach ($replacements as $key => $value) {
+			$obj->callbackParms = array($value, $orderItem);
+			$regCount = 0;
+			$text = preg_replace_callback($key, array(&$obj, 'checkReplaceResult'), $text, -1, $regCount);
+			if($regCount>0){
+				return $text;
+			}
+		}
+		
+		$optionText = $this->replaceItemOptionValueText($item, $text, $obj);
+		if (!strcasecmp($text, $optionText) == 0) {
+			return $optionText;
+		}
+		
+		return $text;
+	}
+
+	/**
+	 * generel function for replacing input text with the correct value, could also be implemented in sub class
+	 */
+	public function replaceItemOptionText($option, $text, $obj){
+		$replacements = array (
+    		'#{{item_option_data_(.*?)}}#s' => '$item[$matches[1]]'
+		);
+		 
+		$newText = Mage::helper('cms')->getBlockTemplateProcessor()->filter($text);
+		if (!strcasecmp($text, $newText) == 0) {
+			return $newText;
+		}
+
+		foreach ($replacements as $key => $value) {
+			$obj->callbackParms = array($value, $option);
+			$regCount = 0;
+			$text = preg_replace_callback($key, array(&$obj, 'checkReplaceResult'), $text, -1, $regCount);
+			if($regCount>0){
+				return $text;
+			}
+		}
+		return $text;
+	}
+
+	
+	/**
+	 * function for replacing input text with the correct value, this is for option values
+	 */
+	public function replaceItemOptionValueText($item, $text, $obj){
+		$replacements = array (
+			'#{{item_option_value_(.*?)}}#s'
+		);
+		
+		$options = $this->getItemOptions($item);
+
+		foreach ($replacements as $key) {
+			if(preg_match($key, $text, $matches)==1){
+				foreach ($options as $option) {
+					$labelKey = str_replace(' ', '_', strtolower(trim($option['label'])));
+					if($labelKey==$matches[1]){
+						return $option['value'];
+					}
+				}
+				return "";
+			}
+		}
+		return $text;
+	}
+	
+	/**
+	 * generel function for replacing input text with the correct value, could also be implemented in sub class
+	 */
+	public function replaceBundleItemGroupText($optionGroup, $text, $obj){
+		$replacements = array (
+    		'#{{item_bundle_group_data_(.*?)}}#s' => '$item[$matches[1]]'
+		);
+		 
+		$newText = Mage::helper('cms')->getBlockTemplateProcessor()->filter($text);
+		if (!strcasecmp($text, $newText) == 0) {
+			return $newText;
+		}
+		 
+		foreach ($replacements as $key => $value) {
+			$obj->callbackParms = array($value, $optionGroup);
+			$regCount = 0;
+			$text = preg_replace_callback($key, array(&$obj, 'checkReplaceResult'), $text, -1, $regCount);
+			if($regCount>0){
+				return $text;
+			}
+		}
+		return $text;
+	}
+
+	/**
+	 * generel function for replacing input text with the correct value, could also be implemented in sub class
+	 */
+	public function replaceBundleItemText($optionItem, $text, $obj){
+		$replacements = array (
+    		'#{{item_bundle_data_(.*?)}}#s' => '$item->getData($matches[1])',
+			'#{{item_bundle_gift_data_(.*?)}}#s'=>"\$item->getGiftMessageId()>0?is_object(Mage::getSingleton('giftmessage/message')->load(\$item->getGiftMessageId()))?Mage::getSingleton('giftmessage/message')->load(\$item->getGiftMessageId())->getData(\$matches[1]):\"\":\"\"",
+		);
+// 		print_r($optionItem->getData());
+		$newText = Mage::helper('cms')->getBlockTemplateProcessor()->filter($text);
+		if (!strcasecmp($text, $newText) == 0) {
+			return $newText;
+		}
+		 
+		foreach ($replacements as $key => $value) {
+			$obj->callbackParms = array($value, $optionItem);
+			$regCount = 0;
+			$text = preg_replace_callback($key, array(&$obj, 'checkReplaceResult'), $text, -1, $regCount);
+			if($regCount>0){
+				return $text;
+			}
+		}
+		return $text;
+	}
+
+	/**
+	 * Get all option values from a general item
+	 *
+	 * @param invoice_item $item
+	 * @return array of options
+	 */
+	public function getItemOptions($item) {
+		$result = array();
+		if(method_exists($item, 'getOrderItem')){
+			$orderItem = $item->getOrderItem();
+		}else{
+			$orderItem = $item;
+		}
+		if ($options = $orderItem->getProductOptions()) {
+			if (isset($options['options'])) {
+				$result = array_merge($result, $options['options']);
+			}
+			if (isset($options['additional_options'])) {
+				$result = array_merge($result, $options['additional_options']);
+			}
+			if (isset($options['attributes_info'])) {
+				$result = array_merge($result, $options['attributes_info']);
+			}
+			if (isset($options['bundle_options'])) {
+				$result = array_merge($result, $options['bundle_options']);
+			}
+			if (isset($options['bundle_selection_attributes'])) {
+				$result = array_merge($result, unserialize($options['bundle_selection_attributes']));
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Do php code from input evaluation - this should be used with great care
+	 */
+	public function doEval($text){
+		$text = str_replace("##", "", $text);
+		$text = str_replace("{{", "", $text);
+		$text = str_replace("}}", "", $text);
+		if($this->_isDevMode()){
+			echo "<br />Inline code before transformation:<br><i>".$text."</i>";
+			$text = @eval('return ('.$text.');');
+			echo "<br />Inline code after transformation:<br><i>".$text."</i><br />";
+		}else{
+			ob_start();
+			$text = @eval('return ('.$text.');');
+			ob_end_clean();
+		}
+		return $text;
+			
+	}
+
+	/**
+	 * Do formating of an input text element using the build in magento functions
+	 */
+	public function getFormating($text, $prefix = ''){
+		if(preg_match("/".$prefix."format_/i",$text)){
+			$formatingRegxCodes = array(
+						'format_price_txt', 
+						'format_date_short',
+						'format_date_medium',
+						'format_date_long',
+						'format_date_full',
+						'format_time_short',
+						'format_time_medium',
+						'format_time_long',
+						'format_time_full',
+						'format_currency',
+						'format_price',
+						'format_base_price',
+						'format_convert_price',
+						'format_integer',
+						'format_number_1',
+						'format_number_2',			
+						'format_number_3',			
+						'format_number_4'			
+			);
+			foreach ($formatingRegxCodes as $formatingRegxCode) {
+				if(preg_match("/".$prefix.$formatingRegxCode." /i",$text)){
+					return array ($formatingRegxCode, preg_replace("/".$formatingRegxCode." /i", '', $text));
+				}
+			}
+		}
+		return array(false,$text);
+	}
+
+	/**
+	 * Formating all text - some char need this to be rendered correctly
+	 */
+	public function formatText($textFormat, $text, $order){
+		$search  = array('$');
+		$replace = array('&#36;');
+		if(strcasecmp($textFormat, 'format_price_txt') == 0){
+			return str_replace($search, $replace, $order->formatPriceTxt($text));
+		}else if(strcasecmp($textFormat, 'format_date_short') == 0 && strlen($text)>3){
+			return str_replace($search, $replace, Mage::helper('core')->formatDate($text, 'short'));
+		}else if(strcasecmp($textFormat, 'format_date_medium') == 0 && strlen($text)>3){
+			return str_replace($search, $replace, Mage::helper('core')->formatDate($text, 'medium'));
+		}else if(strcasecmp($textFormat, 'format_date_long') == 0 && strlen($text)>3){
+			return str_replace($search, $replace, Mage::helper('core')->formatDate($text, 'long'));
+		}else if(strcasecmp($textFormat, 'format_date_full') == 0 && strlen($text)>3){
+			return str_replace($search, $replace, Mage::helper('core')->formatDate($text, 'full'));
+		}else if(strcasecmp($textFormat, 'format_time_short') == 0 && strlen($text)>3){
+			return str_replace($search, $replace, Mage::helper('core')->formatTime($text, 'short'));
+		}else if(strcasecmp($textFormat, 'format_time_medium') == 0 && strlen($text)>3){
+			return str_replace($search, $replace, Mage::helper('core')->formatTime($text, 'medium'));
+		}else if(strcasecmp($textFormat, 'format_time_long') == 0 && strlen($text)>3){
+			return str_replace($search, $replace, Mage::helper('core')->formatTime($text, 'long'));
+		}else if(strcasecmp($textFormat, 'format_time_full') == 0 && strlen($text)>3){
+			return str_replace($search, $replace, Mage::helper('core')->formatTime($text, 'full'));
+		}else if(strcasecmp($textFormat, 'format_currency') == 0){
+			return str_replace($search, $replace, Mage::helper('core')->formatCurrency($text));
+		}else if(strcasecmp($textFormat, 'format_price') == 0){
+			return str_replace($search, $replace, $order->formatPrice($text));
+		}else if(strcasecmp($textFormat, 'format_base_price') == 0){
+			return str_replace($search, $replace, $order->formatBasePrice($text));
+		}else if(strcasecmp($textFormat, 'format_convert_price') == 0){
+			return str_replace($search, $replace, $order->getStore()->convertPrice($text));
+		}else if(strcasecmp($textFormat, 'format_integer') == 0){
+			return str_replace($search, $replace, (int)$text);
+		}else if(strcasecmp($textFormat, 'format_number_1') == 0){
+			if($text>0){
+				return str_replace($search, $replace, number_format($text, 1));
+			}else{
+				return 0;
+			}
+		}else if(strcasecmp($textFormat, 'format_number_2') == 0){
+			if($text>0){
+				return str_replace($search, $replace, number_format($text, 2));
+			}else{
+				return 0;
+			}
+		}else if(strcasecmp($textFormat, 'format_number_3') == 0){
+			if($text>0){
+				return str_replace($search, $replace, number_format($text, 3));
+			}else{
+				return 0;
+			}
+		}else if(strcasecmp($textFormat, 'format_number_4') == 0){
+			if($text>0){
+				return str_replace($search, $replace, number_format($text, 4));
+			}else{
+				return 0;
+			}
+		}
+		return $text;
+	}
+
+	/**
+	 * Do the replacement of input variable and real value
+	 */
+	public function checkReplaceResult($matches){
+		$item = $this->callbackParms[1];
+		$value = $this->callbackParms[0];
+		if($this->_isDevMode()){
+			echo "<br />Variable in template: <i>".$matches[1]."</i>";
+			echo "<br />Evaluated to: <i>".$value."</i>";
+			$evalValue = @eval("return ($value);");
+			echo "<br />Variable after transformation: <i>".$evalValue."</i><br />";
+		}else{
+			ob_start();
+			$evalValue = @eval("return ($value);");
+			ob_end_clean();
+		}
+		return $evalValue;
+	}
+
+	/**
+	 * Used as a step when computing php code in the input
+	 */
+	public function convertEvalMatches($item, $text = '', $matches, $order, $replaceFunction){
+		foreach($matches[0] as $match){
+			list ($matchTextFormat, $matchText) = $this->getFormating($match, '##');
+			$ptn = "/{{(.*)}}/Uis";
+			if(preg_match_all($ptn, $matchText, $singleMatches)>0){
+				foreach($singleMatches[0] as $singleMatch){
+					$obj = $this;
+					list ($singleMatchTextFormat, $singleMatchText) = $this->getFormating($singleMatch);
+// 					if(is_array($replaceFunction)){
+// 						foreach ($replaceFunction as $replaceFunctionSingle){
+// 							$oldMatchText = $singleMatchText;
+// 							$singleMatchText = call_user_func(array($obj,$replaceFunction), $item, $singleMatchText, $obj);
+// 							if(strcmp($oldMatchText,$singleMatchText)===0){
+// 								continue;
+// 							}													
+// 						}	
+// 					}else{
+						$singleMatchText = call_user_func(array($obj,$replaceFunction), $item, $singleMatchText, $obj);
+// 					}
+					if(is_string($singleMatchTextFormat))$singleMatchText = $this->formatText($singleMatchTextFormat, $singleMatchText, $order);
+					$matchText = str_replace($singleMatch, $singleMatchText, $matchText);
+				}
+			}
+			//			echo $matchText;
+			$matchText = $this->doEval($matchText);
+			if(is_string($matchTextFormat))$matchText = $this->formatText($matchTextFormat, $matchText, $order);
+			$text = str_replace($match, $matchText, $text);			
+		}
+		return $text;
+	}
+
+	/**
+	 * Find all elements that should be replace in the input text, based on the format that
+	 * 		##...## is a peace of php code
+	 * 		{{..}} is a value that need translated to real value
+	 */
+	public function convertText($item, $order, $text = '', $replaceFunction){
+		
+		$ptn = "/##(.*)##/Uis";
+		if(preg_match_all($ptn, $text, $matches)>0){
+			$text = $this->convertEvalMatches($item, $text, $matches, $order, $replaceFunction);
+		}
+
+		$ptn = "/{{(.*)}}/Uis";
+		if(preg_match_all($ptn, $text, $matches)>0){
+			foreach($matches[0] as $match){
+				$obj = $this;
+				list ($matchTextFormat, $matchText) = $this->getFormating($match);
+// 				if(is_array($replaceFunction)){
+// 					foreach ($replaceFunction as $replaceFunctionSingle){
+// 						$oldMatchText = $matchText;
+// 						$matchText = call_user_func(array($obj,$replaceFunction), $item, $matchText, $obj);
+// 						if(strcmp($oldMatchText,$matchText)===0){
+// 							continue;
+// 						}													
+// 					}	
+// 				}else{
+					$matchText = call_user_func(array($obj,$replaceFunction), $item, $matchText, $obj);
+// 				}
+				if(is_string($matchTextFormat))$matchText = $this->formatText($matchTextFormat, $matchText, $order);
+				$text = str_replace($match, $matchText, $text);
+			}
+		}
+		return $text;
+	}
+
+}

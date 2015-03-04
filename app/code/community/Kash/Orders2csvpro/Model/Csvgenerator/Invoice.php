@@ -1,0 +1,183 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE
+ *
+ * This source file a part of Kash_Orders2csvpro extension
+ * all rights to this modul belongs to kash.com
+ *
+ * @category    Kash
+ * @package     Kash_Orders2csvpro
+ * @copyright   Copyright (c) 2011 kash (http://www.kash.com)
+ */
+
+class Kash_Orders2csvpro_Model_Csvgenerator_Invoice extends Kash_Orders2csvpro_Model_Csvgenerator_Abstract
+{
+	public $current_invoice;
+	const XPATH_CONFIG_SETTINGS_INVOICE_FILE_ID        	= 'orders2csvpro/settings/file_invoice';
+	
+	public function getCsv($invoices = array(), $fileStructur = null, $schedule = null, $test = false)
+	{
+		if($this->_isActive() == 0 && $fileStructur == null){
+			return null;
+		}
+	
+		$cvsText = "";
+		$fp = null;
+	
+		if($fileStructur == null){
+			$fileStructur = Mage::getModel('orders2csvpro/file')->load(Mage::getStoreConfig(self::XPATH_CONFIG_SETTINGS_INVOICE_FILE_ID));
+		}
+	
+		if($schedule == null){
+			$fileName = str_replace(' ', '_', $fileStructur->getTitle());
+			$fileName .= '_'.date("Ymd_His").'.csv';
+			$fp = fopen(Mage::getBaseDir('export').'/invoice_'.$fileName, 'w');
+			$this->writeTopRow($fileStructur, $fp);
+		}elseif($schedule->getShowHeader()==1){
+			$cvsText .= $this->writeTopRow($fileStructur);
+		}
+	
+		foreach ($invoices as $invoice) {
+			if ( !$invoice instanceof Mage_Sales_Model_Order_Invoice) {
+				$invoice = Mage::getModel('sales/order_invoice')->load($invoice);
+			}
+			
+			$order = $invoice->getOrder();
+			$this->current_invoice = $invoice;
+				
+			if($schedule != null && $test === false) {
+				//put in the orders that has been processed in orders2cvs_runs
+				$run = Mage::getModel('orders2csvpro/runs');
+				$run->setOrderId($order->getId());
+				$run->setInvoiceId($invoice->getId());
+				$run->setScheduleId($schedule->getId());
+				$run->save();
+				if($schedule->getStatusAfter() != null){
+					list($type, $status) = explode(",", $schedule->getStatusAfter());
+					if(strcasecmp($type, 'order') === 0){
+						$order->setState($status, true, Mage::helper('orders2csvpro')->__('Changed by Orders2CSV schedule run'), false);
+						$order->save();
+					}elseif(strcasecmp($type, 'invoice') === 0){
+						$invoice->setState($status);
+						$invoice->addComment(Mage::helper('orders2csvpro')->__('State changed by Orders2CSV schedule run'));
+						$invoice->save();
+					}
+				}
+			}elseif($test === false){
+				if($fileStructur->getStatusAfter() != null){
+					list($type, $status) = explode(",", $fileStructur->getStatusAfter());
+					if(strcasecmp($type, 'order') === 0){
+						$order->setState($status, true, Mage::helper('orders2csvpro')->__('Changed by Orders2CSV manual run'), false);
+						$order->save();
+					}elseif(strcasecmp($type, 'invoice') === 0){
+						$invoice->setState($status);
+						$invoice->addComment(Mage::helper('orders2csvpro')->__('State changed by Orders2CSV manual run'));
+						$invoice->save();
+					}
+				}
+			}				
+			
+			$cvsText .= $this->writeLines($invoice, $invoice->getAllItems(), $order, $fileStructur, $fp);
+		}
+		//print_r($invoices);
+		//exit;
+		if($schedule == null){
+			fclose($fp);
+			return $fileName;
+		}else{
+			return $cvsText;
+		}
+	}
+	
+	public function replaceText($order, $text, $obj){
+		$replacements = array (
+    		'#{{invoice_data_(.*?)}}#s' => '$item->getData($matches[1])',
+    		'#{{invoice_shipping_data_(.*?)}}#s' => 'is_object($item->getShippingAddress())?$item->getShippingAddress()->getData($matches[1]):""',
+    		'#{{invoice_shipping_country_name}}#s' => 'is_object($item->getShippingAddress())?$item->getShippingAddress()->getCountryModel()->getName():""', 
+			'#{{invoice_billing_data_(.*?)}}#s' => 'is_object($item->getBillingAddress())?$item->getBillingAddress()->getData($matches[1]):""',
+    		'#{{invoice_billing_country_name}}#s' => 'is_object($item->getBillingAddress())?$item->getBillingAddress()->getCountryModel()->getName():""', 
+    		'#{{invoice_comments_last_data_(.*?)}}#s' => 'is_object(end($item->getCommentsCollection()->getItems()))?end($item->getCommentsCollection()->getItems())->getData($matches[1]):""',
+    		'#{{invoice_order_increment_id}}#s' => '$item->getOrderIncrementId()',
+    		'#{{invoice_state_name}}#s' => '$item->getStateName()',
+    		'#{{invoice_was_pay_called}}#s' => '$item->wasPayCalled()'
+		);
+		$currentInvoice = $obj->current_invoice;
+		 
+		foreach ($replacements as $key => $value) {
+			$obj->callbackParms = array($value, $currentInvoice);
+			$regCount = 0;
+			$text = preg_replace_callback($key, array(&$obj, 'parent::checkReplaceResult'), $text, -1, $regCount);
+			if($regCount>0){
+				return $text;
+			}
+		}
+
+		$text = parent::replaceText($order, $text, $obj);
+
+		if(preg_match ('#{{invoice_totals_(.*?)}}#s',$text, $match) == 1){
+			list($source_field, $totalElement) = explode('_', $match[1], 2);
+			$total = Mage::helper('orders2csvpro')->getTotalForDisplaying($currentInvoice, $order, $source_field);
+			$value = 'is_array($item)?$item[$matches[1]]:""';
+			if(isset($total)){
+				$obj->callbackParms = array($value, $total);
+				$regCount = 0;
+				$text = preg_replace_callback('#{{invoice_totals_'.$source_field.'_(.*?)}}#s', array(&$obj, 'checkReplaceResult'), $text, -1, $regCount);
+				if($regCount>0){
+					return $text;
+				}
+			}
+		}
+
+		return $text;
+	}
+
+
+	public function replaceItemText($item, $text, $obj){
+		$replacements = array ('#{{invoice_item_data_(.*?)}}#s' => '$item->getData($matches[1])');
+		 
+		foreach ($replacements as $key => $value) {
+			$obj->callbackParms = array($value, $item);
+			$regCount = 0;
+			$text = preg_replace_callback($key, array(&$obj, 'parent::checkReplaceResult'), $text, -1, $regCount);
+			if($regCount>0){
+				return $text;
+			}
+		}
+		$text = parent::replaceItemText($item, $text, $obj);
+		return $text;
+	}
+
+	public function replaceBundleItemText($item, $text, $obj){
+		$replacements = array ('#{{invoice_item_data_(.*?)}}#s' => '$item->getData($matches[1])');
+		 
+		$itemInvoice = null;
+		foreach ($obj->current_invoice->getItemsCollection() as $iitem) {
+			if($iitem->getData('order_item_id') == $item->getId()){
+				$itemInvoice = $iitem;
+				continue;
+			}
+		}
+
+		foreach ($replacements as $key => $value) {
+			$obj->callbackParms = array($value, $itemInvoice);
+			$regCount = 0;
+			$text = preg_replace_callback($key, array(&$obj, 'parent::checkReplaceResult'), $text, -1, $regCount);
+			if($regCount>0){
+				return $text;
+			}
+		}
+		$text = parent::replaceBundleItemText($item, $text, $obj);
+		return $text;
+	}
+
+	public function isBundleItemIn($item){
+		foreach ($this->current_invoice->getItemsCollection() as $iitem) {
+			if($iitem->getData('order_item_id') == $item->getId()){
+				return true;
+			}
+		}
+		return false;
+	}
+}

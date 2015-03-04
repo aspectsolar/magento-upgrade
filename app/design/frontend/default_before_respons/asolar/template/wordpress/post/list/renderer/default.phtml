@@ -1,0 +1,79 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $post = $this->getPost() ?>
+
+
+	
+<div class="post-list-item">
+	
+	<div class="recenttop"></div>
+	
+	<div class="recentcontent">
+		
+		
+		<?php echo $this->getBeforePostContentHtml() ?>
+		
+		<div class="post-entry entry<?php if ($post->getFeaturedImage): ?> post-entry-with-image<?php endif; ?>">
+			<?php if ($post->isViewableForVisitor()): ?>
+				<div class="featured-image">
+				<?php if ($featuredImage = $post->getFeaturedImage()): ?>
+					
+						<a href="<?php echo $post->getPermalink() ?>" title="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"><img src="<?php echo $featuredImage->getAvailableImage() ?>" alt="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"/></a>
+					
+				<?php endif; ?>
+				</div>
+				
+				<div class="cntn">
+				
+				
+				<?php $posttitle = $this->escapeHtml($post->getPostTitle()); ?>
+					<?php if (strlen((string)$posttitle) > 40) { ?>
+						<?php $stringCutprev = substr($posttitle, 0, 40); ?>
+						<?php $stringtitle = substr($stringCutprev, 0, strrpos($stringCutprev, ' ')).'...';?>
+						
+						
+					<?php } else { ?>
+						<?php $stringtitle = $this->escapeHtml($post->getPostTitle());
+					} ?>
+				
+				<h2><a href="<?php echo $post->getPermalink() ?>" title="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"><?php echo $stringtitle; ?></a></h2>
+				
+				
+				
+				
+				
+				<?php if ($this->displayExcerptInFeed() || $post->hasMoreTag()): ?>
+					<?php echo $post->getPostExcerpt() ?>
+				<?php else: ?>
+					<?php // echo $post->getPostContent() ?>
+					
+					<?php $postcontent = $post->getPostContent(); ?>
+					<?php if (strlen((string)$postcontent) > 130) { ?>
+						<?php $stringCutprev = substr($postcontent, 0, 130); ?>
+						<?php $string = substr($stringCutprev, 0, strrpos($stringCutprev, ' ')).'...';?>
+						<?php echo '<div class="smallcontent">'.$string.'</div>'; ?>
+						
+					<?php } else { ?>
+						<?php echo '<div class="smallcontent">'.$post->getPostContent().'</div>'; 
+					
+						} ?>
+						
+						<button onclick="setLocation('<?php echo $post->getPermalink() ?>')" class="blogcontinue">continue reading</button>
+
+				<?php endif; ?>
+			<?php else: ?>
+				<?php echo $this->getPasswordProtectHtml($post) ?>
+			<?php endif; ?>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<?php echo $this->getAfterPostContentHtml() ?>
+	</div>
+	<div class="recentbottom"></div>
+</div>
